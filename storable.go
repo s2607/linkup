@@ -4,19 +4,36 @@ import (
 //	"reflect"
 	"database/sql"
 //	"strconv"
+	"fmt"
+//	"time"
 	_ "github.com/mattn/go-sqlite3"
 )
 type storable interface {
-	Store() error
-	Init() error
-	Getcomposed() error
-	Get() error
+	Sstore() error
+	Store(*sql.DB) error
+	Init(*sql.DB) error
+	Getcomposed(*sql.DB) error
+	Get(*sql.DB) error
 	PKey() int64
-	Notify() error
-	Wait() error
+	Notify()
+	Wait()
 }
 
-
+var Wrchan =make(chan storable,1)
+func Dbwriter(Db *sql.DB) {
+	for {
+		//select{//XXX XXX ;(
+		//case ob := <-Wrchan :
+			ob := <-Wrchan 
+			fmt.Print("got:")
+			fmt.Println(ob)
+			ob.Store(Db)
+			ob.Notify()
+	//	default:
+	//		time.Sleep(1000)
+	//	}
+	}
+}
 /*func Getallmatch(name string, o *storable, cols map[string] string )[]*storable {
 	//WARNING: the side affect of this is that all data in the reciver is overwritten with the last matching row
 	//TODO: sanatize? there's probably a better way...

@@ -1,28 +1,24 @@
 package main
 
 import (
-    "fmt"
-    "net/http"
-//    "database/sql"
-    _ "github.com/mattn/go-sqlite3"
+	"math/rand"
+	"net/http"
+	//"database/sql"
+	_ "github.com/mattn/go-sqlite3"
+	"fmt"
 )
-
+func Statichandler(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "./"+r.URL.Path)
+	fmt.Print(r.URL.Path)
+}
 
 func main() {
-	http.HandleFunc("/", handler)
-	http.HandleFunc("/insert", ih)
-	http.HandleFunc("/view", vh)
-	http.HandleFunc("/useradd", uah)
+	http.HandleFunc("/auth", Authhandler)
+	http.HandleFunc("/", Statichandler)
+	http.HandleFunc("/index.html", Statichandler)
+	rand.Seed(4)//a random number
 	Db = initdb()
 	defer Db.Close()
-	http.ListenAndServe(":8080", nil)
-}
-func updateanswer(key string, val string, user string) {
-	stmt, err := Db.Prepare("update answers set ?=? where id=?")
-	checkErr(err)
-	res, err := stmt.Exec(key,val,user)
-	checkErr(err)
-	affect, err := res.RowsAffected()
-	checkErr(err)
-	fmt.Println(affect)
+	err := http.ListenAndServe(":8080", nil)
+	fmt.Println(err)
 }

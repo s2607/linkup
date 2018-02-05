@@ -4,6 +4,7 @@ import (
     "fmt"
     "net/http"
     "database/sql"
+    //"math/rand"
     _ "github.com/mattn/go-sqlite3"
 )
 
@@ -103,33 +104,32 @@ func initdb () *sql.DB {
 		"iqkey":"int",
 		"ickey":"int",
 	})
+//	go Dbwriter(d)
 	//o.Init(d)
 	o.key=8
 	//o.uname = "swiley"
 	err = o.Get(d)
 	//err = o.Store(d)
 	checkErr(err)
+	o.uname = "swiley2"
+//	o.Sstore()
 	fmt.Println(o)
 	return d
 }
+func Authhandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "handling auth", r.URL.Path[1:])
+	var o operator
+	if o.Getbyname(Db,r.FormValue("id")) != nil {
 
-func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
-}
-func ih(w http.ResponseWriter, r *http.Request) {
-	updateanswer(r.FormValue("key"), r.FormValue("val"), r.FormValue("user"))
-}
-func vh(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "insert %s", r.URL.Path[1:])
-}
-func uah(w http.ResponseWriter, r *http.Request) {
-	stmt, err := Db.Prepare("insert into answers(id, name, addr) values(?,NULL,NULL)")
-	checkErr(err)
-	res, err := stmt.Exec(r.FormValue("id"))
-	checkErr(err)
-	affect, err := res.RowsAffected()
-	checkErr(err)
-	fmt.Println(affect)
+	}
+	if o.Auth(r.FormValue("id")) {
+		w.Header().Set("Content-Type", "text/html")
+		w.Write([]byte("<body>Auth successfull.</body>.\n"))
+	}else {
+		w.Header().Set("Content-Type", "text/html")
+		w.Write([]byte("<body>Auth failed.</body>.\n"))
+	}
+
 }
 
 
