@@ -20,18 +20,26 @@ type storable interface {
 }
 
 var Wrchan =make(chan storable,1)
-func Dbwriter(Db *sql.DB) {
+var Rrchan =make(chan * storable,1)
+var DBchan =make(chan  func(*sql.DB) func())
+func Dbwriter() {
+	Db := initdb()
+	fmt.Println(Db)
 	for {
-		//select{//XXX XXX ;(
-		//case ob := <-Wrchan :
-			ob := <-Wrchan 
+		select{
+		/*case wob := <-Wrchan :
 			fmt.Print("got:")
-			fmt.Println(ob)
-			ob.Store(Db)
-			ob.Notify()
-	//	default:
-	//		time.Sleep(1000)
-	//	}
+			fmt.Println(wob)
+			(&wob).Store(Db)
+			(&wob).Notify()
+		case rob := <-Rrchan :
+			fmt.Print("got:")
+			fmt.Println(rob)
+			(&rob).Get(Db)
+			(&rob).Notify() */
+		case f := <-DBchan:
+			f(Db)()
+		}
 	}
 }
 /*func Getallmatch(name string, o *storable, cols map[string] string )[]*storable {

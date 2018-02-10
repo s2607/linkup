@@ -17,8 +17,11 @@ func main() {
 	http.HandleFunc("/", Statichandler)
 	http.HandleFunc("/index.html", Statichandler)
 	rand.Seed(4)//a random number
-	Db = initdb()
-	defer Db.Close()
+	fmt.Println("start")
+	go Dbwriter()
+	//Db = initdb()
+	//defer Db.Close()
+	fmt.Println("starting web server")
 	err := http.ListenAndServe(":8080", nil)
 	fmt.Println(err)
 }

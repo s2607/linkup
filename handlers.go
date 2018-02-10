@@ -9,7 +9,7 @@ import (
 )
 
 
-var Db *sql.DB
+//var Db *sql.DB
 
 
 func mktab (d *sql.DB, name string, cols map[string]string) {
@@ -36,10 +36,13 @@ func mktab (d *sql.DB, name string, cols map[string]string) {
 	fmt.Println(affect)
 	checkErr(err)
 }
-func initdb () *sql.DB {
+func Getdb() *sql.DB {
 	d, err := sql.Open("sqlite3","./wdb.db")
 	checkErr(err)
-	o := new(operator)
+	return d
+}
+func initdb () *sql.DB{
+	d := Getdb()
 	mktab(d,"service",map[string]string{
 		"key":"int",
 		"name":"string",
@@ -104,22 +107,12 @@ func initdb () *sql.DB {
 		"iqkey":"int",
 		"ickey":"int",
 	})
-//	go Dbwriter(d)
-	//o.Init(d)
-	o.key=8
-	//o.uname = "swiley"
-	err = o.Get(d)
-	//err = o.Store(d)
-	checkErr(err)
-	o.uname = "swiley2"
-//	o.Sstore()
-	fmt.Println(o)
 	return d
 }
 func Authhandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "handling auth", r.URL.Path[1:])
 	var o operator
-	if o.Getbyname(Db,r.FormValue("id")) != nil {
+	if o.Getbyname(r.FormValue("id")) != nil {
 
 	}
 	if o.Auth(r.FormValue("id")) {

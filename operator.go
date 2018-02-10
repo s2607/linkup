@@ -25,32 +25,46 @@ func (o *operator) Auth(pw string) bool{
 func (o *operator) Checksesh(sesh int) bool{
 	return false
 }
-func (o *operator) Getbyname(Db *sql.DB, name string) error{
-	var b int
-	//var pwhash string
-	return  Db.QueryRow("select key, uname, cursessionid from operator where uname = ?", name).Scan(&o.key,  &o.uname, &b)
+func (o *operator) Getbyname(name string) error{
+	o.nchan = make(chan bool)
+	o.key = 0
+	o.uname = name
+	DBchan <- func (Db *sql.DB)func() {
+		o.Get(Db)
+		return o.Notify
+	}
+	o.Wait()
+	return nil
 }
 
 //DB stuff
 
 func (o *operator) Store(Db *sql.DB) error{
-	stmt, err := Db.Prepare("insert into operator(key, pwhash, uname, cursessionid) values(?,?,?,?)")
-        checkErr(err)
-        res, err := stmt.Exec(o.key,o.pwhash,o.uname,o.cursessionid)
-        checkErr(err)
-	if res == nil {//XXX
-		panic(err)//never happens?
+	if o.key == 0 { //init
+		stmt, err := Db.Prepare("insert into operator(key) values(NULL)")
+		checkErr(err)
+		res, err := stmt.Exec()
+		checkErr(err)
+		o.key, err = res.LastInsertId()
+		checkErr(err)
+	} else  { //store
+		stmt, err := Db.Prepare("insert into operator(key, pwhash, uname, cursessionid) values(?,?,?,?)")
+		checkErr(err)
+		res, err := stmt.Exec(o.key,o.pwhash,o.uname,o.cursessionid)
+		checkErr(err)
+		if res == nil {//XXX
+			panic(err)//never happens?
+		}
 	}
 	return nil
 }
+
 func (o *operator) Init(Db *sql.DB) error {
-	stmt, err := Db.Prepare("insert into operator(key) values(NULL)")
-        checkErr(err)
-        res, err := stmt.Exec()
-        checkErr(err)
-	o.key, err = res.LastInsertId()
-        checkErr(err)
-	return err
+	o.key = 0
+	o.nchan = make(chan bool)
+	Wrchan <-o
+	o.Wait()
+	return nil
 }
 func (o *operator) Getcomposed(Db *sql.DB) error{
 	//Operator has no composed collections
@@ -59,7 +73,19 @@ func (o *operator) Getcomposed(Db *sql.DB) error{
 func (o *operator) Get(Db *sql.DB) error{
 	var b int
 	//var pwhash string
-	return  Db.QueryRow("select key, uname, cursessionid from operator where key = ?", o.key).Scan(&o.key,  &o.uname, &b)
+	if o.key == 0 {
+		return  Db.QueryRow("select key, uname, cursessionid from operator where uname = ?", o.uname).Scan(&o.key,  &o.uname, &b)
+	} else {
+		return  Db.QueryRow("select key, uname, cursessionid from operator where key = ?", o.key).Scan(&o.key,  &o.uname, &b)
+	}
+}
+func (o *operator) Sget() error {
+	DBchan <- func (Db *sql.DB)func() {
+		o.Get(Db)
+		return o.Notify
+	}
+	o.Wait()
+	return nil
 }
 
 func (o *operator) PKey() int64{
@@ -68,7 +94,11 @@ func (o *operator) PKey() int64{
 //DB Sync stuff
 func (o *operator) Sstore() error{
 	o.nchan = make(chan bool)
-	Wrchan <-o
+	//Wrchan <-o
+	DBchan <- func (Db *sql.DB)func() {
+		o.Store(Db)
+		return o.Notify
+	}
 	o.Wait()
 	return nil
 }
