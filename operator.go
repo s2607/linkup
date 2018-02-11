@@ -4,18 +4,27 @@ import (
 	"database/sql"
 	"math/rand"
 	"fmt"
+	"encoding/hex"
+	"crypto/md5"
 )
 
 type operator struct {
 	key int64
-	pwhash []byte
+	pwhash [16]byte
 	uname string
 	cursessionid int
 	nchan chan bool
 }
+func (o *operator) setpss(pw string) error {
+	o.pwhash=md5.Sum([]byte(pw))
+	return o.Sstore()
+}
 
 func (o *operator) Auth(pw string) bool{
 	//TODO: pss auth
+	if md5.Sum([]byte(pw)) != o.pwhash {
+		return false
+	}
 	o.cursessionid=rand.Int()
 	if o.Sstore() != nil {
 		return false
@@ -50,7 +59,7 @@ func (o *operator) Store(Db *sql.DB) error{
 	} else  { //store
 		stmt, err := Db.Prepare("update operator set(pwhash, uname, cursessionid) = (?,?,?) where key = ?")
 		checkErr(err)
-		res, err := stmt.Exec(o.pwhash,o.uname,o.cursessionid,o.key)
+		res, err := stmt.Exec(hex.EncodeToString(o.pwhash[:]),o.uname,o.cursessionid,o.key)
 		checkErr(err)
 		if res == nil {//XXX
 			panic(err)//never happens?
@@ -68,13 +77,18 @@ func (o *operator) Getcomposed(Db *sql.DB) error{
 	return nil
 }
 func (o *operator) Get(Db *sql.DB) error{
-	var b int
 	//var pwhash string
+	var phh string
 	if o.key == 0 {
-		return  Db.QueryRow("select key, uname, cursessionid from operator where uname = ?", o.uname).Scan(&o.key,  &o.uname, &b)
+		err :=  Db.QueryRow("select key, uname, cursessionid, pwhash from operator where uname = ?", o.uname).Scan(&o.key,  &o.uname, &o.cursessionid, &phh)
+		if err !=nil {return err}
 	} else {
-		return  Db.QueryRow("select key, uname, cursessionid from operator where key = ?", o.key).Scan(&o.key,  &o.uname, &b)
+		err := Db.QueryRow("select key, uname, cursessionid, pwhash from operator where key = ?", o.key).Scan(&o.key,  &o.uname, &o.cursessionid, &phh)
+		if err !=nil {return err}
 	}
+	ph, err := hex.DecodeString(phh)
+	copy(o.pwhash[:],ph)
+	return err
 }
 func (o *operator) Sget() error {
 	o.nchan = make(chan bool)

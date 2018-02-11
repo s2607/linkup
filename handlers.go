@@ -4,6 +4,7 @@ import (
     "fmt"
     "net/http"
     "database/sql"
+    "strconv"
     //"math/rand"
     _ "github.com/mattn/go-sqlite3"
 )
@@ -110,17 +111,21 @@ func initdb () *sql.DB{
 	return d
 }
 func Authhandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "handling auth", r.URL.Path[1:])
+//	fmt.Fprintf(w, "handling auth", r.URL.Path[1:])
 	var o operator
-	if o.Getbyname(r.FormValue("id")) != nil {
-
-	}
-	if o.Auth(r.FormValue("id")) {
+	fmt.Println("got:"+r.FormValue("uname")+" "+r.FormValue("pw"))
+	if o.Getbyname(r.FormValue("uname")) == nil && o.key != 0 {
+		if o.Auth(r.FormValue("pw")) {
+			w.Header().Set("Content-Type", "text/html")
+			w.Write([]byte("<body>Auth successfull!</body>.\n"))
+		}else {
+			w.Header().Set("Content-Type", "text/html")
+			w.Write([]byte("<body>Auth failed!</body>.\n"))
+		}
+	} else {
+		fmt.Println("key:"+strconv.FormatInt(o.key,10))
 		w.Header().Set("Content-Type", "text/html")
-		w.Write([]byte("<body>Auth successfull.</body>.\n"))
-	}else {
-		w.Header().Set("Content-Type", "text/html")
-		w.Write([]byte("<body>Auth failed.</body>.\n"))
+		w.Write([]byte("<body>No identity to auth!</body>.\n"))
 	}
 
 }
@@ -128,6 +133,7 @@ func Authhandler(w http.ResponseWriter, r *http.Request) {
 
 func checkErr(err error) {
 	if err != nil {
+		fmt.Println("The application has encounterd an unrecoverable error")
 		panic(err)
 	}
 }
