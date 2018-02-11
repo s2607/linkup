@@ -1,5 +1,31 @@
-<body><form action="/auth" method="post"> 
-		name:<input id="uname"></input><br>
-		pss:<input id="pw"></input><br>
-		<input type=submit></input>
-</form></body>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>LinkUp</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<meta charset="UTF-8">
+	<meta name="description" content="LinkUp">
+	<meta name="keywords" content="LinkUp">
+
+	<!-- CSS Stylesheets -->
+	<link href="css/stylesheet.css" rel="stylesheet" />
+
+	<!-- Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Anton|Raleway|Roboto+Condensed" rel="stylesheet">
+</head>
+<body>
+	<div id="container">
+		<h1>Login To Account</h1>
+		
+		<form id="login" action="/auth" method="post"> 
+			Username<br>
+			<input id="uname" value="">
+			<br>
+			Password<br>
+			<input id="pw" value="">
+			<br>
+			<input id="submit_button" type=submit>
+		</form>
+	</div>
+</body>
+</html>
