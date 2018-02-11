@@ -26,14 +26,14 @@ func mktab (d *sql.DB, name string, cols map[string]string) {
 		}
 	}
 	s += ")"
-	fmt.Println(s)
+//	fmt.Println(s)
 	stmt, err := d.Prepare(s)
 	checkErr(err)
-	res, err := stmt.Exec()
+	_, err = stmt.Exec()
 	checkErr(err)
-	affect, err := res.RowsAffected()
-	checkErr(err)
-	fmt.Println(affect)
+//	affect, err := res.RowsAffected()
+//	checkErr(err)
+//	fmt.Println(affect)
 	checkErr(err)
 }
 func Getdb() *sql.DB {

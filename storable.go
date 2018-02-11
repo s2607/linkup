@@ -19,12 +19,11 @@ type storable interface {
 	Wait()
 }
 
-var Wrchan =make(chan storable,1)
-var Rrchan =make(chan * storable,1)
 var DBchan =make(chan  func(*sql.DB) func())
+var Killchan =make(chan bool)//for automated tests
 func Dbwriter() {
 	Db := initdb()
-	fmt.Println(Db)
+	defer Db.Close()
 	for {
 		select{
 		/*case wob := <-Wrchan :
@@ -39,6 +38,9 @@ func Dbwriter() {
 			(&rob).Notify() */
 		case f := <-DBchan:
 			f(Db)()
+		case <-Killchan:
+			fmt.Println("ending db thread")
+			return
 		}
 	}
 }

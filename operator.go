@@ -48,9 +48,9 @@ func (o *operator) Store(Db *sql.DB) error{
 		o.key, err = res.LastInsertId()
 		checkErr(err)
 	} else  { //store
-		stmt, err := Db.Prepare("insert into operator(key, pwhash, uname, cursessionid) values(?,?,?,?)")
+		stmt, err := Db.Prepare("update operator set(pwhash, uname, cursessionid) = (?,?,?) where key = ?")
 		checkErr(err)
-		res, err := stmt.Exec(o.key,o.pwhash,o.uname,o.cursessionid)
+		res, err := stmt.Exec(o.pwhash,o.uname,o.cursessionid,o.key)
 		checkErr(err)
 		if res == nil {//XXX
 			panic(err)//never happens?
@@ -59,12 +59,9 @@ func (o *operator) Store(Db *sql.DB) error{
 	return nil
 }
 
-func (o *operator) Init(Db *sql.DB) error {
+func (o *operator) Init() error {
 	o.key = 0
-	o.nchan = make(chan bool)
-	Wrchan <-o
-	o.Wait()
-	return nil
+	return o.Sstore()
 }
 func (o *operator) Getcomposed(Db *sql.DB) error{
 	//Operator has no composed collections
@@ -80,6 +77,7 @@ func (o *operator) Get(Db *sql.DB) error{
 	}
 }
 func (o *operator) Sget() error {
+	o.nchan = make(chan bool)
 	DBchan <- func (Db *sql.DB)func() {
 		o.Get(Db)
 		return o.Notify
