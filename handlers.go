@@ -55,6 +55,7 @@ func initdb () *sql.DB{
 		"uname":"string",
 		"pwhash":"string",
 		"cursessionid":"int",
+		"cresp":"int",
 	})
 	mktab(d,"responder",map[string]string{
 		"key":"int",
@@ -110,26 +111,68 @@ func initdb () *sql.DB{
 	})
 	return d
 }
+func webmessage (w http.ResponseWriter,m string) {
+	w.Header().Set("Content-Type", "text/html")
+	w.Write([]byte("<body>"+m+"</body>.\n"))
+}
 func Authhandler(w http.ResponseWriter, r *http.Request) {
-//	fmt.Fprintf(w, "handling auth", r.URL.Path[1:])
+//TODO: rename to sessionhandler
 	var o operator
 	fmt.Println("got:"+r.FormValue("uname")+" "+r.FormValue("pw"))
 	if o.Getbyname(r.FormValue("uname")) == nil && o.key != 0 {
 		if o.Auth(r.FormValue("pw")) {
+		//we set two session cookies: one has the sessionid and the
+		//other has the username
+			uc := http.Cookie{
+				Name: "uname",
+			}
+			uc.Value = o.uname
+			sc := http.Cookie{
+				Name: "sessionid",
+			}
+			sc.Value= strconv.Itoa(o.cursessionid)
+			http.SetCookie(w, &uc)
+			http.SetCookie(w, &sc)
+
 			w.Header().Set("Content-Type", "text/html")
-			w.Write([]byte("<body>Auth successfull!</body>.\n"))
+			w.Write([]byte("<body>Auth successfull!<br><a href=\"/addresponder.html\">add a responder</a></body>\n"))
 		}else {
-			w.Header().Set("Content-Type", "text/html")
-			w.Write([]byte("<body>Auth failed!</body>.\n"))
+			webmessage(w,"Bad secret!")
 		}
 	} else {
 		fmt.Println("key:"+strconv.FormatInt(o.key,10))
-		w.Header().Set("Content-Type", "text/html")
-		w.Write([]byte("<body>No identity to auth!</body>.\n"))
+		webmessage(w,"No identity to auth!\n")
 	}
 
 }
+func curop(r *http.Request) *operator {
+	uc, err := r.Cookie("uname")
+	if err != nil {
+		return nil
+	}
+	o := new (operator)
+	o.Getbyname(uc.Name)
+	if o.key == 0 {
+		return nil
+	}
+	sc, err := r.Cookie("sessionid")
+	if err != nil {
+		return nil
+	}
+	s,_:=strconv.Atoi(sc.Value)
+	if o.Checksesh(s) {
+		return o
+	}
+	return nil
 
+}
+func ursession_handler(w http.ResponseWriter, r *http.Request) {
+	o := curop(r)
+	if o == nil {
+		webmessage(w,"Bad Session")
+	}
+
+}
 
 func checkErr(err error) {
 	if err != nil {

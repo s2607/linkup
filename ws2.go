@@ -22,13 +22,16 @@ func main() {//main always feels ugly and hacky
 	go Dbwriter()
 	defer func(){Killchan <-true}()//lol
 	o := new(operator)
+	var op storable
 	o.Getbyname("swiley")//hehhhhhh
 	if o.key == 0 {
-		o.Init()
+		Init(o)
 		o.uname = "swiley"
 		o.setpss("abc123")
-		o.Sstore()
+		Sstore(o)
 	}
+	op = o
+	fmt.Println(op)
 	//Db = initdb()
 	//defer Db.Close()
 	fmt.Println("starting web server")

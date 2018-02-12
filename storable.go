@@ -9,12 +9,11 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 type storable interface {
-	Sstore() error
 	Store(*sql.DB) error
-	Init(*sql.DB) error
-	Getcomposed(*sql.DB) error
 	Get(*sql.DB) error
-	PKey() int64
+	Pkey() int64
+	Zkey()
+	Readynchan()
 	Notify()
 	Wait()
 }
@@ -74,3 +73,29 @@ func Dbwriter() {
 	return *rsp
 }*/
 
+
+func Init(o storable) error {
+	o.Zkey()
+	return Sstore(o)
+}
+//DB Sync stuff
+func  Sstore(o storable) error{
+	o.Readynchan()
+	//Wrchan <-o
+	DBchan <- func (Db *sql.DB)func() {
+		o.Store(Db)
+		return o.Notify
+	}
+	o.Wait()
+	return nil
+}
+
+func  Sget(o storable) error {
+	o.Readynchan()
+	DBchan <- func (Db *sql.DB)func() {
+		o.Get(Db)
+		return o.Notify
+	}
+	o.Wait()
+	return nil
+}
