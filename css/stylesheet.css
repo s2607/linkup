@@ -1,70 +1,127 @@
 body
 {
-	background: #f2f2f2;
-	color: #444;
-	font-family: 'Roboto Condensed', sans-serif;
-	line-height: 1.8;
-	text-shadow: 0 1px 0 #888;
+    background: #f2f2f2;
+    color: #444444;
+    font-family: 'Roboto Condensed', sans-serif;
+    line-height: 1.8; 
+    text-shadow: 0 1px 0 #888;
 }
 
 #container
 {
-	width: 400px;
-	height: auto;
-	margin-left: auto;
-	margin-right: auto;
+    width: 400px;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
 }
 
-h1
+#title
 {
-	margin-top: 20%;
-	margin-bottom: 20%;
-	font-weight: bold;
-	font-style: italic;
-	font-size: 3em;
-	letter-spacing: 1px;
-	color: #B7950B;
-	text-align: center;
+    margin-top: 20%;
+    margin-bottom: 20%;
+    font-weight: bold;
+    font-style: italic; 
+    letter-spacing: 1px;
+    color: #B7950B;
+    font-size: 3em;
+    visibility: hidden;
 }
 
 #login
 {
-	margin-left: auto;
-	margin-right: auto;
-	width: 175px;
-	font-size: 1.5em;
+    margin-left: auto;
+    margin-right: auto;
+    width: 175px;
+    font-size: 1.5em;
+}
+
+#uname
+{
+    visibility: hidden;
+}
+
+#pw
+{
+    visibility: hidden;
+}
+
+p
+{
+    margin: 0;
+    font-size: 18px;
+    visibility: hidden;
 }
 
 input
 {
-	margin-bottom: 20%;
-	background-color: #DDD;
-	border-radius: 5px;
-	height: 20px;
+    margin-bottom: 20%;
+    background-color: #BBB;
+    border-radius: 10px;
+    border: none;
+    height: 25px;
 }
+
 
 #submit_button
 {
-	height: 35px;
-	width: 75px;
-	background: #B7950B;
-	border-radius: 5px;
-	color: white;
-	font-family: 'Roboto Condensed', sans-serif;
-	font-style: italic;
-	font-size: 15px;
+    height: 35px;
+    width: 90px;
+    background: #B7950B;
+    border-radius: 12px;
+    border: none;
+    color: white;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-style: italic;
+    font-size: 15px;
+    visibility: hidden;
+}
+
+/** ANIMATIONS **/
+
+@keyframes fade_and_slide_in
+{
+    from
+    {
+        opacity: 0;
+        margin-left: -20%;
+    }
+    
+    to
+    {
+        opacity: 1;
+        margin-left: 0;
+    }
+    
+}
+
+.start_fade_and_slide_in
+{
+    animation: fade_and_slide_in;
+    animation-duration: .5s;
+    animation-timing-function: ease-in-out;
 }
 
 
+
+
+
+
+
+
+
+
 /*FONTS
- * font-family: 'Roboto Condensed', sans-serif;
- * font-family: 'Raleway', sans-serif;
- * font-family: 'Anton', sans-serif;
- *
- * COLORS
- * #f2f2f2
- * #444
- * #B7950B
- * #DDD
- *
- * */
+font-family: 'Roboto Condensed', sans-serif;
+font-family: 'Raleway', sans-serif;
+font-family: 'Anton', sans-serif;
+
+
+COLORS
+#f2f2f2
+#444444
+#B7950B
+#DDD
+
+
+*/
