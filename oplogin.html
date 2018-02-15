@@ -1,31 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>LinkUp</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-	<meta charset="UTF-8">
-	<meta name="description" content="LinkUp">
-	<meta name="keywords" content="LinkUp">
+    <title>LinkUp</title>
+    <link rel="icon" href="imgs/chevron.png" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8">
+    <meta name="description" content="LinkUp">
+    <meta name="keywords" content="LinkUp">
+    
+    <!-- CSS Stylesheets -->
+    <link href="css/stylesheet.css" rel="stylesheet" />
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
 
-	<!-- CSS Stylesheets -->
-	<link href="css/stylesheet.css" rel="stylesheet" />
-
-	<!-- Fonts -->
-	<link href="https://fonts.googleapis.com/css?family=Anton|Raleway|Roboto+Condensed" rel="stylesheet">
+    
 </head>
 <body>
-	<div id="container">
-		<h1>Login To Account</h1>
-		
-		<form id="login" action="/auth" method="post"> 
-			Username<br>
-			<input id="username" name="uname" value="">
-			<br>
-			Password<br>
-			<input id="password" name="pw" value="">
-			<br>
-			<input id="submit_button" name="submit" type=submit>
-		</form>
-	</div>
+    
+    <div id="container">
+        <h1 id="title">Login to Account</h1>
+
+        <form id="login" action="/auth" method="post">
+            <p id="text_username">Username</p>
+            <input id="uname" value="">
+            <p id="text_password">Password</p>
+            <input id="pw" value="">
+            <input id="submit_button" type="submit">
+        </form>
+    </div>
+    
+    <script src="js/javascript.js" type="text/javascript"></script>
+    
 </body>
 </html>
+
