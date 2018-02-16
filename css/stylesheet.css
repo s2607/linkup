@@ -22,7 +22,7 @@ body
     margin-bottom: 10%;
     font-weight: bold; 
     letter-spacing: 1px;
-    color: #19396d;
+    color: #19396D;
     font-size: 2.5em;
     visibility: hidden;
 }
@@ -66,7 +66,7 @@ input
 {
     height: 35px;
     width: 90px;
-    background: #19396d;
+    background: #19396D;
     border-radius: 12px;
     border: none;
     color: white;
@@ -114,10 +114,11 @@ font-family: 'Nunito Sans', sans-serif;
 
 
 COLORS
-#f2f2f2
-#444444
-#B7950B
-#BBB
+#19396D
+#AAA
+#DDD
+#333
+
 
 
 */
