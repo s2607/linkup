@@ -23,6 +23,7 @@ body
     width: 50vw;
     height: inherit;
     background: #333;
+    visibility: hidden;
 }
 
 #logo_container
@@ -152,22 +153,22 @@ input
     animation-timing-function: ease-in-out;
 }
 
-@keyframes fade_in
+@keyframes slide_in
 {
     from
     {
-        opacity: 0;
+        margin-left: -100vh;
     }
 
     to
     {
-        opacity: 1;
+        margin-left: 0vh;
     }
 }
 
-.start_fade_in
+.start_slide_in
 {
-    animation: fade_in;
+    animation: slide_in;
     animation-duration: 1s;
     animation-timing-function: ease-in-out;
 }

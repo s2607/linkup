@@ -37,8 +37,8 @@ function fadeAnimation()
 
 window.onload = function() {
     
-    elem = document.getElementById('logo_container');
-    elem.classList.add("start_fade_in");
+    elem = document.getElementById('left_container');
+    elem.classList.add("start_slide_in");
     elem.style.visibility = 'visible';
 
     for(var i = 1; i < NUM_ANIM_ITEMS; i++)
