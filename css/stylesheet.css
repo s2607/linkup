@@ -3,11 +3,29 @@ body
     background: #AAA;
     color: #333;
     font-family: 'Nunito Sans', sans-serif;
-    line-height: 1.8; 
+    line-height: 1.8;
+    margin: 0;
+    padding: 0;
     
 }
 
 #container
+{
+    width: 100vw;
+    height: 100vh;
+    padding: 0;
+}
+
+#left_container
+{
+    margin: 0;
+    float: left;
+    width: 50vw;
+    height: inherit;
+    background: #333;
+}
+
+#logo_container
 {
     width: 450px;
     height: auto;
@@ -16,9 +34,41 @@ body
     text-align: center;
 }
 
+#logo
+{
+    width: 450px;
+    margin-top: 5vh;
+}
+
+#slogan
+{
+    margin-top: -20%;
+    padding: 5px;
+    color: #AAA;
+    font-size: 35px;
+    font-style: italic;
+    border: 2px #AAA solid;
+}
+
+#right_container
+{
+    float: left;
+    width: 50vw;
+}
+
+#login_container
+{
+    width: 450px;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    visibility: hidden;
+}
+
 #title
 {
-    margin-top: 35%;
+    margin-top: 28vh;
     margin-bottom: 10%;
     font-weight: bold; 
     letter-spacing: 1px;
@@ -68,6 +118,7 @@ input
 {
     height: 35px;
     width: 90px;
+    margin-top: 20%;
     background: #19396D;
     border-radius: 12px;
     border: none;
@@ -98,6 +149,26 @@ input
 {
     animation: fade_and_slide_in;
     animation-duration: .5s;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes fade_in
+{
+    from
+    {
+        opacity: 0;
+    }
+
+    to
+    {
+        opacity: 1;
+    }
+}
+
+.start_fade_in
+{
+    animation: fade_in;
+    animation-duration: 1s;
     animation-timing-function: ease-in-out;
 }
 

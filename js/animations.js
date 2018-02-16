@@ -1,5 +1,5 @@
-const NUM_ANIM_ITEMS = 6;
-var timeout = 0;
+const NUM_ANIM_ITEMS = 7;
+var timeout = 1000;
 var animCount = 1;
 var elem;
 
@@ -37,7 +37,11 @@ function fadeAnimation()
 
 window.onload = function() {
     
-    for(var i = 0; i < NUM_ANIM_ITEMS; i++)
+    elem = document.getElementById('logo_container');
+    elem.classList.add("start_fade_in");
+    elem.style.visibility = 'visible';
+
+    for(var i = 1; i < NUM_ANIM_ITEMS; i++)
     {
         setTimeout(fadeAnimation, timeout);
         timeout = timeout + 100;
