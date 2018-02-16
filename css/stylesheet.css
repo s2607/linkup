@@ -46,8 +46,9 @@ body
     margin-top: -20%;
     padding: 5px;
     color: #AAA;
-    font-size: 35px;
+    font-size: 45px;
     font-style: italic;
+    line-height: 1.5;
     border: 2px #AAA solid;
 }
 
