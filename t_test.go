@@ -4,10 +4,6 @@ import (
 	"testing"
 	"database/sql"
 	"strconv"
-)
-func TestDummy1(t *testing.T) {//XXX
-	fmt.Println("yay")
-}
 
 func TestNewop(t *testing.T) {
 	go Dbwriter()
