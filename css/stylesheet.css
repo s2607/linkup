@@ -1,7 +1,7 @@
 body
 {
-    background: #f2f2f2;
-    color: #444444;
+    background: #AAA;
+    color: #333;
     font-family: 'Nunito Sans', sans-serif;
     line-height: 1.8; 
     
@@ -18,11 +18,11 @@ body
 
 #title
 {
-    margin-top: 25%;
-    margin-bottom: 20%;
+    margin-top: 35%;
+    margin-bottom: 10%;
     font-weight: bold; 
     letter-spacing: 1px;
-    color: #B7950B;
+    color: #19396d;
     font-size: 2.5em;
     visibility: hidden;
 }
@@ -55,7 +55,7 @@ p
 input
 {
     margin-bottom: 20%;
-    background-color: #BBB;
+    background-color: #DDD;
     border-radius: 10px;
     border: none;
     height: 25px;
@@ -66,7 +66,7 @@ input
 {
     height: 35px;
     width: 90px;
-    background: #B7950B;
+    background: #19396d;
     border-radius: 12px;
     border: none;
     color: white;
