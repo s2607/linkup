@@ -157,12 +157,12 @@ input
 {
     from
     {
-        margin-left: -100vh;
+        margin-left: -50vw;
     }
 
     to
     {
-        margin-left: 0vh;
+        margin-left: 0vw;
     }
 }
 
