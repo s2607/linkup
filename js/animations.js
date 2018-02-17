@@ -1,7 +1,9 @@
 const NUM_ANIM_ITEMS = 7;
+const mediaQuery = window.matchMedia( "(min-width: 900px)" );
 var timeout = 1000;
 var animCount = 1;
 var elem;
+var scrolledToBottom = false;
 
 
 function fadeAnimation()
@@ -34,18 +36,65 @@ function fadeAnimation()
     animCount++;
 }
 
+window.onbeforeunload = function () {
+    document.getElementById('left_container').style.visibility = 'hidden';
+    window.scrollTo(0, 0);
+}
 
 window.onload = function() {
     
     elem = document.getElementById('left_container');
-    elem.classList.add("start_slide_in");
-    elem.style.visibility = 'visible';
 
-    for(var i = 1; i < NUM_ANIM_ITEMS; i++)
+    if(mediaQuery.matches)
     {
-        setTimeout(fadeAnimation, timeout);
-        timeout = timeout + 100;
+        //If bigger than 900px
+
+        //begin initial animation
+        elem.classList.add("start_slide_in");
+        elem.style.visibility = 'visible';
+
     }
+    else
+    {
+        //If smaller than 900px
+
+        //begin initial animation
+        elem.classList.add("start_slide_in_small_screen");
+        elem.style.visibility = 'visible';
         
+        //set timeout to allow time for auto scroll down;
+        timeout = 2000;
+
+        //automatically scroll the page
+        setTimeout(pageScroll, 1800);
+
+    }
     
+    //animate login items
+    for(var i = 1; i < NUM_ANIM_ITEMS; i++)
+        {
+            setTimeout(fadeAnimation, timeout);
+            timeout = timeout + 100;
+        }
+
+}
+
+
+function pageScroll() {
+        //scroll the page down
+        window.scrollBy(0,5);
+
+        //checks if the scroll bar has hit the bottom
+        window.onscroll = function(ev) {
+        if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight - 2) {
+               scrolledToBottom = true;
+            }
+        };
+
+        //stop scrolling if it has reached the bottom
+        if(!scrolledToBottom)
+        {
+           scrolldelay = setTimeout(pageScroll,5);
+        }
+
 }
