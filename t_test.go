@@ -221,3 +221,40 @@ func TestNewservice(t *testing.T) {
 	}
 	Killchan<-true
 }
+func Testcompresponder(t *testing.T) {
+	go Dbwriter()
+	o := new(responder)
+	p := new(responder)
+	q := new(response)
+	Init(o)
+	if o.key ==0 {
+		fmt.Println("key of zero")
+		t.Fail()
+	}
+	Init(q)
+	if q.key ==0 {
+		fmt.Println("composed key of zero")
+		t.Fail()
+	}
+	Sstore(o)
+	p.key=o.key
+	Sget(p)
+	if p.responses[0].key!= o.responses[0].key {
+		fmt.Println("Could not retrieve responses")
+		t.Fail()
+	}
+	DBchan <- func (Db *sql.DB)func() {
+		stmt, err := Db.Prepare("delete from responses where key = ?")
+		if err != nil {
+			fmt.Println(err)
+			t.Fail()
+		}
+		stmt.Exec(o.key)
+		if err != nil {
+			fmt.Println(err)
+			t.Fail()
+		}
+		return func(){}//Killchan provides needed syncronisation
+	}
+	Killchan<-true
+}
