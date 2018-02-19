@@ -7,7 +7,7 @@ import (
 
 type responder struct {
 	key int64
-	responses []response
+	responses []*response
 	fname string
 	lname string
 	dob int//TODO: time
@@ -41,7 +41,7 @@ func (o *responder) Store(Db *sql.DB) error{
 		if res == nil {//XXX
 			panic(err)//never happens?
 		}
-		//TODO: composed collections
+		return o.sresponces(Db)
 	}
 	return nil
 }
@@ -51,13 +51,30 @@ func (o *responder) sresponces(Db *sql.DB) error {
 		if err != nil {
 			return err
 		}
-		stmt, err := Db.Prepare("replace respondersresponses(okey,ikey) values(?,?)")
+		stmt, err := Db.Prepare("replace respondersresponse(okey,ikey) values(?,?)")
 		checkErr(err)
 		res, err := stmt.Exec(o.key,r.key)
 		checkErr(err)
 		if res == nil {
 			return nil //happens if relation already stored
 		}
+	}
+	return nil
+}
+func (o *responder) getresponses(Db *sql.DB) error {
+	rows, err := Db.Query("select ikey from respondersresponse where okey = ?", o.key)
+	checkErr(err)
+	defer rows.Close()
+	i :=0
+	for rows.Next() {
+		var k int64
+		err := rows.Scan(&k)
+		checkErr(err)
+		o.responses[i] = new(response)
+		o.responses[i].key = k
+		err = o.responses[i].Get(Db)
+		checkErr(err)
+		i=i+1
 	}
 	return nil
 }
@@ -70,7 +87,7 @@ func (o *responder) Get(Db *sql.DB) error{
 		err := Db.QueryRow("select key,fname,lname,dob,zip from responder where key = ?", o.key).Scan(&o.key,  &o.fname, &o.lname, &o.dob, &o.zip)
 		if err !=nil {o.key = 0; return err}
 	}
-	return nil
+	return o.getresponses(Db)
 }
 
 func (o *responder) Pkey() int64{
