@@ -45,6 +45,22 @@ func (o *responder) Store(Db *sql.DB) error{
 	}
 	return nil
 }
+func (o *responder) sresponces(Db *sql.DB) error {
+	for _,r := range o.responses {
+		err :=r.Store(Db)
+		if err != nil {
+			return err
+		}
+		stmt, err := Db.Prepare("replace respondersresponses(okey,ikey) values(?,?)")
+		checkErr(err)
+		res, err := stmt.Exec(o.key,r.key)
+		checkErr(err)
+		if res == nil {
+			return nil //happens if relation already stored
+		}
+	}
+	return nil
+}
 func (o *responder) Get(Db *sql.DB) error{
 	//var pwhash string
 	if o.key == 0 {

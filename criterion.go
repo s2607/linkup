@@ -3,6 +3,7 @@ package main
 import (
     "fmt"
     "database/sql"
+    "errors"
 )
 
 type criterion struct {
@@ -39,10 +40,10 @@ func (o *criterion) Store(Db *sql.DB) error{
 		o.key, err = res.LastInsertId()
 		checkErr(err)
 	} else  { //store
-		stmt, err := Db.Prepare("update criterion set(key , aval, bval, regex, lval, isnl, inv, conj) = (?,?,?,?,?,?,?,?,?) where key = ?")
+		stmt, err := Db.Prepare("update criterion set(key , aval, bval, regex, lval, isnil, inv, conj) = (?,?,?,?,?,?,?,?) where key = ?")
 
 		checkErr(err)
-		res, err := stmt.Exec(o.key ,o.aval,o.bval,o.regex,o.lval,o.isnl,o.inv,o.conj)
+		res, err := stmt.Exec(o.key ,o.aval,o.bval,o.regex,o.lval,o.isnl,o.inv,o.conj,o.key)
 		checkErr(err)
 		if res == nil {//XXX
 			panic(err)//never happens?
@@ -55,8 +56,9 @@ func (o *criterion) Get(Db *sql.DB) error{
 	if o.key == 0 {
 		//err :=  Db.QueryRow("select key, uname, cursessionid, pwhash, cresp from operator where uname = ?", o.uname).Scan(&o.key,  &o.uname, &o.cursessionid, &phh,&rkey)//TODO
 		//if err !=nil {return err}
+		return errors.New("not implemented")
 	} else {
-		err := Db.QueryRow("select key , aval, bval, regex, lval, isnl, inv, conj from criterion where key = ?", o.key).Scan(&o.key,&o.aval,&o.bval,&o.regex,&o.lval,&o.isnl,&o.inv,&o.conj)
+		err := Db.QueryRow("select key , aval, bval, regex, lval, isnil, inv, conj from criterion where key = ?", o.key).Scan(&o.key,&o.aval,&o.bval,&o.regex,&o.lval,&o.isnl,&o.inv,&o.conj)
 
 		if err !=nil {o.key = 0; return err}
 	}

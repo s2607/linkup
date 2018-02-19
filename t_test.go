@@ -187,3 +187,37 @@ func TestNewcriterion(t *testing.T) {
 	}
 	Killchan<-true
 }
+func TestNewservice(t *testing.T) {
+	go Dbwriter()
+	o := new(service)
+	p := new(service)
+	Init(o)
+	if o.key ==0 {
+		fmt.Println("key of zero")
+		t.Fail()
+	}
+	fmt.Println("key:"+strconv.FormatInt(o.key,10))
+	o.name="swiley-test"
+	Sstore(o)
+	p.key=o.key
+	Sget(p)
+	fmt.Println(p.key)
+	if p.name!= o.name{
+		fmt.Println("Could not retrieve service")
+		t.Fail()
+	}
+	DBchan <- func (Db *sql.DB)func() {
+		stmt, err := Db.Prepare("delete from question where key = ?")
+		if err != nil {
+			fmt.Println(err)
+			t.Fail()
+		}
+		stmt.Exec(o.key)
+		if err != nil {
+			fmt.Println(err)
+			t.Fail()
+		}
+		return func(){}//Killchan provides needed syncronisation
+	}
+	Killchan<-true
+}

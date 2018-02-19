@@ -89,22 +89,18 @@ func initdb () *sql.DB{
 	})
 	//relation tables
 	mktab(d,"respondersresponse",map[string]string{
-		"key":"int",
 		"okey":"int",
 		"ikey":"int",
 	})
 	mktab(d,"respondersservice",map[string]string{
-		"key":"int",
 		"okey":"int",
 		"ikey":"int",
 	})
 	mktab(d,"questionscriterion",map[string]string{
-		"key":"int",
 		"okey":"int",
 		"ikey":"int",
 	})
 	mktab(d,"servicesquestioncriterion",map[string]string{
-		"key":"int",
 		"okey":"int",
 		"iqkey":"int",
 		"ickey":"int",
