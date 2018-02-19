@@ -39,9 +39,12 @@ func (o *operator) Getbyname(name string) error{
 	o.uname = name
 	DBchan <- func (Db *sql.DB)func() {
 		o.Get(Db)
+		fmt.Print("Got an:")
+		fmt.Println(o.key)
 		return o.Notify
 	}
 	o.Wait()
+	fmt.Println("Got get:"+o.uname)
 	return nil
 }
 
@@ -58,12 +61,22 @@ func (o *operator) Store(Db *sql.DB) error{
 	} else  { //store
 		stmt, err := Db.Prepare("update operator set(pwhash, uname, cursessionid, cresp) = (?,?,?,?) where key = ?")
 		checkErr(err)
-		res, err := stmt.Exec(hex.EncodeToString(o.pwhash[:]),o.uname,o.cursessionid,o.cresp.key,o.key)
+		var rk int64
+		if(o.cresp != nil) {
+			rk = o.cresp.key
+		}else {
+			rk = 0
+		}
+		res, err := stmt.Exec(hex.EncodeToString(o.pwhash[:]),o.uname,o.cursessionid,rk,o.key)
 		checkErr(err)
 		if res == nil {//XXX
 			panic(err)//never happens?
 		}
-		return o.cresp.Store(Db)
+		if o.cresp != nil {
+			return o.cresp.Store(Db)
+		}else {
+			return nil
+		}
 	}
 	return nil
 }
@@ -72,7 +85,10 @@ func (o *operator) Get(Db *sql.DB) error{
 	var rkey int64
 	var phh string
 	if o.key == 0 {
+		fmt.Println("Getting "+o.uname)
 		err :=  Db.QueryRow("select key, uname, cursessionid, pwhash, cresp from operator where uname = ?", o.uname).Scan(&o.key,  &o.uname, &o.cursessionid, &phh,&rkey)
+		fmt.Print("Got key: ")
+		fmt.Println(o.key)
 		if err !=nil {return err}
 	} else {
 		err := Db.QueryRow("select key, uname, cursessionid, pwhash, cresp from operator where key = ?", o.key).Scan(&o.key,  &o.uname, &o.cursessionid, &phh, &rkey)

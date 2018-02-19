@@ -25,6 +25,7 @@ func main() {//main always feels ugly and hacky
 	var op storable
 	o.Getbyname("swiley")//hehhhhhh
 	if o.key == 0 {
+		fmt.Println("Creating default user")
 		Init(o)
 		o.uname = "swiley"
 		o.setpss("abc123")

@@ -57,10 +57,10 @@ func (o *responder) Get(Db *sql.DB) error{
 	return nil
 }
 
-func (o *responder) PKey() int64{
+func (o *responder) Pkey() int64{
 	return o.key
 }
-func (o *responder) ZKey(){
+func (o *responder) Zkey(){
 	o.key=0
 }
 //DB Sync stuff
