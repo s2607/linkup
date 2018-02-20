@@ -1,0 +1,31 @@
+/* Make everything visible if browser does not support javascript */
+
+#left_container
+{
+    visibility: visible;
+}
+
+#title
+{
+    visibility: visible;
+}
+
+#uname
+{
+    visibility: visible;
+}
+
+#pw
+{
+    visibility: visible;
+}
+
+p
+{
+    visibility: visible;
+}
+
+#submit_button
+{
+    visibility: visible;
+}
