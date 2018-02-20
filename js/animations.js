@@ -1,5 +1,5 @@
 const NUM_ANIM_ITEMS = 7;
-const mediaQuery = window.matchMedia( "(min-width: 900px)" );
+const MEDIAQUERY = window.matchMedia( "(min-width: 900px)" );
 var timeout = 1000;
 var animCount = 1;
 var elem;
@@ -45,7 +45,7 @@ window.onload = function() {
     
     elem = document.getElementById('left_container');
 
-    if(mediaQuery.matches)
+    if(MEDIAQUERY.matches)
     {
         //If bigger than 900px
 
