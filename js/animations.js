@@ -71,7 +71,7 @@ window.onload = function() {
     }
     
     //animate login items
-    for(var i = 1; i < NUM_ANIM_ITEMS; i++)
+    for(var i = 1; i < NUM_ANIM_ITEMS; i++) //start at 1 because 1 animation already played.
         {
             setTimeout(fadeAnimation, timeout);
             timeout = timeout + 100;
