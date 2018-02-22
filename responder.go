@@ -23,6 +23,37 @@ func (r responder) update_suggestions() error {
 }
 
 //DB stuff
+func Getallmatch (fname string,lname string,dob int,zip string) (error, []responder){
+	nchan := make(chan error)
+	r := make([]responder,0,0)
+	DBchan <- func() {
+		rows, err := Db.Query("select key from responder where fname = ? and lname = ? and dob = ? and zip = ?", fname,lname,dob,zip)
+		checkErr(err)
+		defer rows.Close()
+		i :=0
+		for rows.Next() {
+			var k int64
+			err := rows.Scan(&k)
+			if err != nil {
+				nchan <- err
+			}
+			r[i] = new(response)
+			r[i].key = k
+			err =r[i].Get(Db)
+			if err != nil {
+				nchan <- err
+			}
+			i=i+1
+		}
+		return func() {
+			nchan <-err
+		}
+	}
+	return <-nchan,r
+}
+func (o *responder) Tohtml() string {
+	return "<div id=responder>"+o.fname+" ID:"+strconv.itoa(o.key)+"<form method=\"post\"> <input type=\"hidden\" name=\"rkey\" value=\""+strconv.itoa(o.key)+"\"><input type=submit></form>"+ "</div>"
+}
 
 
 func (o *responder) Store(Db *sql.DB) error{
