@@ -113,7 +113,7 @@ func webmessage (w http.ResponseWriter,m string) {
 }
 func Authhandler(w http.ResponseWriter, r *http.Request) {
 //TODO: rename to sessionhandler
-	var o operator
+	o := new(operator)
 	fmt.Println("")
 	fmt.Println("got:"+r.FormValue("uname")+" "+r.FormValue("pw"))
 	if o.Getbyname(r.FormValue("uname")) == nil && o.key != 0 {
@@ -133,6 +133,7 @@ func Authhandler(w http.ResponseWriter, r *http.Request) {
 
 			w.Header().Set("Content-Type", "text/html")
 			w.Write([]byte("<body>Auth successfull!<br><a href=\"/addresponder.html\">add a responder</a></body>\n"))
+			Sstore(o)
 		}else {
 			webmessage(w,"Bad secret!")
 		}
@@ -144,12 +145,14 @@ func Authhandler(w http.ResponseWriter, r *http.Request) {
 }
 func curop(r *http.Request) *operator {
 	uc, err := r.Cookie("uname")
+	fmt.Println("logged in as"+uc.Value)
 	if err != nil {
 		return nil
 	}
 	o := new (operator)
-	o.Getbyname(uc.Name)
+	o.Getbyname(uc.Value)
 	if o.key == 0 {
+		fmt.Println("nil op")
 		return nil
 	}
 	sc, err := r.Cookie("sessionid")
@@ -158,8 +161,10 @@ func curop(r *http.Request) *operator {
 	}
 	s,_:=strconv.Atoi(sc.Value)
 	if o.Checksesh(s) {
+		fmt.Println("session good")
 		return o
 	}
+	fmt.Println("session bad")
 	return nil
 
 }
@@ -167,40 +172,42 @@ func Ursession_handler(w http.ResponseWriter, r *http.Request) {
 	o := curop(r)
 	if o == nil {
 		webmessage(w,"Bad Session")
-	}
-	if r.FormValue("rkey") =="" {
-		fmt.Println("got:"+r.FormValue("fname")+" "+r.FormValue("lname")+" "+r.FormValue("dob")+" "+r.FormValue("zip"))
-		_,dob:=strconv.Atoi(r.FormValue("dob"))
-		err,rs :=Getallmatch(r.FormValue("fname"),r.FormValue("lname"),dob,r.FormValue("zip"))
-		CheckError(err)
-
-		w.Header().Set("Content-Type", "text/html")
-		w.Write([]byte("<body>Select a responder\n"))
-		for _,r := range rs {
-			w.Write([]byte(r.Tohtml()+"<br>\n"))
-		}
-		s:="<br> Or create a fresh one:<form method=\"post\">"
-		s+="<input type=\"hidden\" name=\"fname\" value=\"" +r.FormValue("fname")+"\">"
-		s+="<input type=\"hidden\" name=\"lname\" value=\"" +r.FormValue("lname")+"\""
-		s+="<input type=\"hidden\" name=\"dob\" value=\"" +r.FormValue("dob")+"\""
-		s+="<input type=\"hidden\" name=\"zip\" value=\"" +r.FormValue("zip")+"\""
-		s+="<input type=\"hidden\" name=\"rkey\" value=\"0\""
-		s+="<input type=submit></form>"
-		w.Write([]byte(s))
 	} else {
-		if r.FormValue("rkey") == "0" {
-			o.cresp.Init()
-			o.cresp.fname=r.FormValue("fname")
-			o.cresp.lname=r.FormValue("lname")
-			o.cresp.dob=r.FormValue("dob")
-			o.cresp.zip=r.FormValue("zip")
-			o.Sstore()
+		if r.FormValue("rkey") =="" {
+			fmt.Println("got:"+r.FormValue("fname")+" "+r.FormValue("lname")+" "+r.FormValue("dob")+" "+r.FormValue("zip"))
+			dob,_:=strconv.Atoi(r.FormValue("dob"))
+			err,rs :=Getallmatch(r.FormValue("fname"),r.FormValue("lname"),dob,r.FormValue("zip"))
+			checkErr(err)
+
 			w.Header().Set("Content-Type", "text/html")
-			w.Write([]byte("<body>New responder created!</body>\n"))
-		}else {
-			o.cresp.Key = r.FormValue("rkey")
-			o.cresp.Sget()
-			o.Sstore()//TODO:check errors
+			w.Write([]byte("<body>Select a responder\n"))
+			for _,r := range rs {
+				w.Write([]byte(r.Tohtml()+"<br>\n"))
+			}
+			s:="<br> Or create a fresh one:<form method=\"post\">"
+			s+="<input type=\"hidden\" name=\"fname\" value=\"" +r.FormValue("fname")+"\">"
+			s+="<input type=\"hidden\" name=\"lname\" value=\"" +r.FormValue("lname")+"\""
+			s+="<input type=\"hidden\" name=\"dob\" value=\"" +r.FormValue("dob")+"\""
+			s+="<input type=\"hidden\" name=\"zip\" value=\"" +r.FormValue("zip")+"\""
+			s+="<input type=\"hidden\" name=\"rkey\" value=\"0\""
+			s+="<input type=submit></form>"
+			w.Write([]byte(s))
+		} else {
+			if r.FormValue("rkey") == "0" {
+				o.cresp = new(responder)
+				Init(o.cresp)
+				o.cresp.fname=r.FormValue("fname")
+				o.cresp.lname=r.FormValue("lname")
+				o.cresp.dob,_=strconv.Atoi(r.FormValue("dob"))
+				o.cresp.zip=r.FormValue("zip")
+				Sstore(o)
+				w.Header().Set("Content-Type", "text/html")
+				w.Write([]byte("<body>New responder created!</body>\n"))
+			}else {
+				o.cresp.key,_ = strconv.ParseInt(r.FormValue("rkey"),10,64)
+				Sget(o.cresp)
+				Sstore(o)//TODO:check errors
+			}
 		}
 	}
 }

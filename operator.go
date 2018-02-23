@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"encoding/hex"
 	"crypto/md5"
+	"strconv"
+	"errors"
 )
 
 type operator struct {
@@ -30,10 +32,14 @@ func (o *operator) Auth(pw string) bool{
 	return true
 }
 func (o *operator) Checksesh(sesh int) bool{
+	fmt.Println("Checking "+strconv.Itoa(sesh)+" against "+strconv.Itoa(o.cursessionid))
 	if o.cursessionid == sesh { return true}
 	return false
 }
 func (o *operator) Getbyname(name string) error{
+	if o == nil {
+		return errors.New("nil rec")
+	}
 	o.Readynchan()
 	o.key = 0
 	o.uname = name
