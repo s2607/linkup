@@ -3,7 +3,7 @@ package main
 import (
 //	"reflect"
 	"database/sql"
-//	"strconv"
+	"strconv"
 	"fmt"
 //	"time"
 	_ "github.com/mattn/go-sqlite3"
@@ -43,6 +43,73 @@ func Dbwriter() {
 		}
 	}
 }
+
+
+func Storedata(d map[string]interface{}, table string, k int64, DB *sql.DB) error {
+	prepareString := "update " + table + " set("
+
+    for key, value := range d{
+		stmt, err := Db.Prepare("update ? set(?) = (?) where key = ?")
+		if err != nil {
+			return err
+		}
+		res, err := stmt.Exec(table, key, value, k)
+		if err != nil {
+			return err
+		}
+		if res == nil {
+			panic(err)//lol
+		}
+	}
+    return nil
+}
+
+func Getdata(
+func Gimmeastring(data interface{}) string {
+	switch data.(type) {
+
+	// INT
+	case int:
+		return strconv.FormatInt(int64(data.(int)), 10)
+	case int8:
+		return strconv.FormatInt(int64(data.(int8)), 10)
+	case int16:
+		return strconv.FormatInt(int64(data.(int16)), 10)
+	case int32:
+		return strconv.FormatInt(int64(data.(int32)), 10)
+	case int64:
+		return strconv.FormatInt(data.(int64), 10)
+
+	// Uint
+	case uint:
+		return strconv.FormatInt(uint64(data.(uint)), 10)
+	case uint8:
+		return strconv.FormatInt(uint64(data.(uint8)), 10)
+	case uint16:
+		return strconv.FormatInt(uint64(data.(uint16)), 10)
+	case uint32:
+		return strconv.FormatInt(uint64(data.(uint32)), 10)
+	case uint64:
+		return strconv.FormatInt(data.(uint64), 10)
+
+	// Float
+	case float32:
+		return strconv.FormatFloat(float64(data.(float32)), 'E', -1, 64)
+	case float64:
+		return strconv.FormatFloat(data.(float64), 'E', -1, 64)
+
+	// Others
+	case bool:
+		return strconv.FormatBool(data.(bool))
+	case string:
+		return data.(string) //idiot
+
+	// Else
+	default:
+		return errors.New("Data type is not known")
+	}
+}
+
 /*func Getallmatch(name string, o *storable, cols map[string] string )[]*storable {
 	//WARNING: the side affect of this is that all data in the reciver is overwritten with the last matching row
 	//TODO: sanatize? there's probably a better way...

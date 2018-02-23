@@ -3,7 +3,12 @@ import (
 	"fmt"
 	"testing"
 	"database/sql"
-	"strconv"
+    //"strconv"
+)
+/*
+func TestDummy1(t *testing.T) {//XXX
+	fmt.Println("yay")
+}
 
 func TestNewop(t *testing.T) {
 	go Dbwriter()
@@ -251,6 +256,20 @@ func Testcompresponder(t *testing.T) {
 			t.Fail()
 		}
 		return func(){}//Killchan provides needed syncronisation
+	}
+	Killchan<-true
+}*/
+func TestStoredatdata(t *testing.T) {
+	fmt.Printf("maybe here?")
+    go Dbwriter()
+	DBchan <- func (Db *sql.DB)func() {
+		fmt.Println(Storedata(map[string]interface{}{
+			"uname":"tyler holston",
+			"pwhash":"1234asde",
+			"cursessionid":123456,
+			"cresp":9876543210,
+		}, "operator", 0, Db))
+		return func(){}
 	}
 	Killchan<-true
 }
