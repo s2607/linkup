@@ -1,11 +1,3 @@
-<!-- Not sure what to do with this but it created merge conflict
-<body><form action="/auth" method="post"> 
-		name:<input name="uname"><br>
-		pss:<input name="pw"><br>
-		<input type=submit>
-</form></body>
--->
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,7 +39,7 @@
 
             <div id="login_container">
                 <h1 id="title">Login</h1>
-
+		<div id="error"> {{.err}} </div>
                 <form id="login" action="/auth" method="post">
                     <p id="text_username">Username</p>
                     <input id="uname" name="uname" value="">

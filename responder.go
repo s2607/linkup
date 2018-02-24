@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"strconv"
 )
 
 type responder struct {
@@ -23,6 +24,37 @@ func (r responder) update_suggestions() error {
 }
 
 //DB stuff
+func Getallmatch (fname string,lname string,dob int,zip string) (error, []*responder){
+	nchan := make(chan error)
+	var r []*responder
+	DBchan <- func(Db *sql.DB)func() {
+		rows, err := Db.Query("select key from responder where fname = ? and lname = ? and dob = ? and zip = ?", fname,lname,dob,zip)
+		checkErr(err)
+		defer rows.Close()
+		i :=0
+		for rows.Next() {
+			var k int64
+			err := rows.Scan(&k)
+			if err != nil {
+				nchan <- err
+			}
+			r = append(r,new(responder))
+			r[i].key = k
+			err =r[i].Get(Db)
+			if err != nil {
+				nchan <- err
+			}
+			i=i+1
+		}
+		return func() {
+			nchan <-err
+		}
+	}
+	return <-nchan,r
+}
+func (o *responder) Tohtml() string {
+	return "<div id=responder>"+o.fname+" ID:"+strconv.FormatInt(o.key,10)+"<form method=\"post\"> <input type=\"hidden\" name=\"rkey\" value=\""+strconv.FormatInt(o.key,10)+"\"><input type=submit></form>"+ "</div>"
+}
 
 
 func (o *responder) Store(Db *sql.DB) error{

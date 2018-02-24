@@ -15,6 +15,7 @@ func Statichandler(w http.ResponseWriter, r *http.Request) {
 func main() {//main always feels ugly and hacky
 //this one in particular though 
 	http.HandleFunc("/auth", Authhandler)
+	http.HandleFunc("/newr", Ursession_handler)
 	http.HandleFunc("/", Statichandler)
 	http.HandleFunc("/index.html", Statichandler)
 	rand.Seed(4)//a random number
