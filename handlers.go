@@ -5,13 +5,13 @@ import (
     "net/http"
     "database/sql"
     "strconv"
+    "html/template"
     //"math/rand"
     _ "github.com/mattn/go-sqlite3"
 )
 
 
 //var Db *sql.DB
-
 
 func mktab (d *sql.DB, name string, cols map[string]string) {
 	s := "CREATE TABLE IF NOT EXISTS " + name +" ("
@@ -111,6 +111,11 @@ func webmessage (w http.ResponseWriter,m string) {
 	w.Header().Set("Content-Type", "text/html")
 	w.Write([]byte("<body>"+m+"</body>.\n"))
 }
+func outpage(f string , w http.ResponseWriter, d map[string]string){
+
+	t := template.Must(template.ParseFiles(f))
+	t.Execute(w,d)
+}
 func Authhandler(w http.ResponseWriter, r *http.Request) {
 //TODO: rename to sessionhandler
 	o := new(operator)
@@ -135,11 +140,16 @@ func Authhandler(w http.ResponseWriter, r *http.Request) {
 			w.Write([]byte("<body>Auth successfull!<br><a href=\"/addresponder.html\">add a responder</a></body>\n"))
 			Sstore(o)
 		}else {
-			webmessage(w,"Bad secret!")
+			outpage("auth.html.tpl",w,map[string]string{"err":"Bad Secret",})
 		}
 	} else {
 		fmt.Println("key:"+strconv.FormatInt(o.key,10))
-		webmessage(w,"No identity to auth!\n")
+		//webmessage(w,"No identity to auth!\n")
+		if r.FormValue("uname") != ""|| r.FormValue("pw") != "" {
+			outpage("auth.html.tpl",w,map[string]string{"err":"Please enter a username",})
+		} else {
+			outpage("auth.html.tpl",w,map[string]string{"err":""})
+		}
 	}
 
 }
