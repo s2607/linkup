@@ -5,6 +5,7 @@ body
     margin: 0;
     padding: 0;
     background: #AAA;
+    font-family: 'Nunito Sans', sans-serif;
 }
 
 #container
@@ -26,6 +27,15 @@ body
     margin-top: -85px;
 }
 
+#title
+{
+    width: 350px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    text-align: center;
+}
+
 #form
 {
     width: 300px;
@@ -33,6 +43,21 @@ body
     margin-right: auto;
     margin-top: 50px;
     text-align: center;
+}
+
+p
+{
+    margin: 0;
+}
+
+input
+{
+    margin-bottom: 20px;
+    background-color: #DDD;
+    border-radius: 10px;
+    border: none;
+    height: 25px;
+    font-family: 'Nunito Sans', sans-serif;
 }
 
 
