@@ -64,7 +64,6 @@ func Storedata(d map[string]interface{}, table string, k int64, DB *sql.DB) erro
     return nil
 }
 
-func Getdata(
 func Gimmeastring(data interface{}) string {
 	switch data.(type) {
 
