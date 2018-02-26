@@ -1,6 +1,59 @@
-<body><form action="/auth" method="post"> 
-		<em>{{.err}}</em> <br>
-		name:<input name="uname"><br>
-		pss:<input name="pw"><br>
-		<input type=submit>
-</form></body>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LinkUp</title>
+    <link rel="icon" href="imgs/chevron.png" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8">
+    <meta name="description" content="LinkUp">
+    <meta name="keywords" content="LinkUp">
+    
+    <!-- CSS Stylesheets -->
+    <link href="css/stylesheet.css" rel="stylesheet" />
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed|Nunito+Sans" rel="stylesheet">
+
+    <!-- No Script StyleSheet -->
+    <noscript>
+        <link href="css/noscript_stylesheet.css" rel="stylesheet" />
+    </noscript>
+
+    
+</head>
+<body>
+    
+    <div id="container">
+
+        <div id="left_container">
+            <div id="logo_container">
+
+                <img id="logo" src="imgs/logo.svg" alt="LinkUp"/>
+                <div id="slogan">Linking up the world of charities to the world in need</div>
+
+            </div>
+
+        </div>
+
+        <div id="right_container">
+
+            <div id="login_container">
+                <h1 id="title">Login</h1>
+		<div id="error"> {{.err}} </div>
+                <form id="login" action="/auth" method="post">
+                    <p id="text_username">Username</p>
+                    <input id="uname" name="uname" value="">
+                    <p id="text_password">Password</p>
+                    <input id="pw" type="password" name="pw" value="">
+                    <input id="submit_button" name="submit" type="submit">
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+    
+    <script src="js/animations.js" type="text/javascript"></script>
+    
+</body>
+</html>
