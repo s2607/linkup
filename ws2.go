@@ -37,6 +37,6 @@ func main() {//main always feels ugly and hacky
 	//Db = initdb()
 	//defer Db.Close()
 	fmt.Println("starting web server")
-	err := http.ListenAndServe(":80", nil)
+	err := http.ListenAndServe(":8080", nil)
 	fmt.Println(err)
 }

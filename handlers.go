@@ -196,10 +196,10 @@ func Ursession_handler(w http.ResponseWriter, r *http.Request) {
 			}
 			s:="<br> Or create a fresh one:<form method=\"post\">"
 			s+="<input type=\"hidden\" name=\"fname\" value=\"" +r.FormValue("fname")+"\">"
-			s+="<input type=\"hidden\" name=\"lname\" value=\"" +r.FormValue("lname")+"\""
-			s+="<input type=\"hidden\" name=\"dob\" value=\"" +r.FormValue("dob")+"\""
-			s+="<input type=\"hidden\" name=\"zip\" value=\"" +r.FormValue("zip")+"\""
-			s+="<input type=\"hidden\" name=\"rkey\" value=\"0\""
+			s+="<input type=\"hidden\" name=\"lname\" value=\"" +r.FormValue("lname")+"\">"
+			s+="<input type=\"hidden\" name=\"dob\" value=\"" +r.FormValue("dob")+"\">"
+			s+="<input type=\"hidden\" name=\"zip\" value=\"" +r.FormValue("zip")+"\">"
+			s+="<input type=\"hidden\" name=\"rkey\" value=\"0\">"
 			s+="<input type=submit></form>"
 			w.Write([]byte(s))
 		} else {
