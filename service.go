@@ -8,6 +8,7 @@ import (
 type service struct {
 	key int64
 	criteria map [question] []criterion
+	qlist []question
 	name string
 	description string
 	url string
@@ -35,7 +36,8 @@ func (o *service) Store(Db *sql.DB) error{
 		if res == nil {//XXX
 			panic(err)//never happens?
 		}
-		//TODO: composed collections
+		//TODO: criteria
+		return o.sqlist
 	}
 	return nil
 }
@@ -55,6 +57,24 @@ func (o *service) Pkey() int64{
 }
 func (o *service) Zkey(){
 	o.key=0
+}
+//DB Collections 
+
+func (o *responder) sqlist(Db *sql.DB) error {
+	for _,r := range o.qlist{
+		err :=r.Store(Db)
+		if err != nil {
+			return err
+		}
+		stmt, err := Db.Prepare("replace servicesquestions(okey,ikey) values(?,?)")
+		checkErr(err)
+		res, err := stmt.Exec(o.key,r.key)
+		checkErr(err)
+		if res == nil {
+			fmt.Println("TODO:nothing")
+		}
+	}
+	return nil
 }
 //DB Sync stuff
 func (o *service) Wait() {//NOTE: multiple threads cannot use this on the same object

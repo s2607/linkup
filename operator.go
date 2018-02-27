@@ -17,6 +17,7 @@ type operator struct {
 	cursessionid int
 	nchan chan bool
 	cresp *responder
+	cser *service
 }
 func (o *operator) setpss(pw string) error {
 	o.pwhash=md5.Sum([]byte(pw))
@@ -24,7 +25,6 @@ func (o *operator) setpss(pw string) error {
 }
 
 func (o *operator) Auth(pw string) bool{
-	//TODO: pss auth
 	if md5.Sum([]byte(pw)) != o.pwhash {
 		return false
 	}
@@ -65,7 +65,7 @@ func (o *operator) Store(Db *sql.DB) error{
 		o.key, err = res.LastInsertId()
 		checkErr(err)
 	} else  { //store
-		stmt, err := Db.Prepare("update operator set(pwhash, uname, cursessionid, cresp) = (?,?,?,?) where key = ?")
+		stmt, err := Db.Prepare("update operator set(pwhash, uname, cursessionid, cresp, cser) = (?,?,?,?,?) where key = ?")
 		checkErr(err)
 		var rk int64
 		if(o.cresp != nil) {
@@ -73,13 +73,27 @@ func (o *operator) Store(Db *sql.DB) error{
 		}else {
 			rk = 0
 		}
-		res, err := stmt.Exec(hex.EncodeToString(o.pwhash[:]),o.uname,o.cursessionid,rk,o.key)
+		var sk int64
+		if(o.cser != nil) {
+			sk = o.cser.key
+		}else {
+			sk = 0
+		}
+		res, err := stmt.Exec(hex.EncodeToString(o.pwhash[:]),o.uname,o.cursessionid,rk,sk,o.key)
 		checkErr(err)
 		if res == nil {//XXX
 			panic(err)//never happens?
 		}
 		if o.cresp != nil {
-			return o.cresp.Store(Db)
+			err := o.cresp.Store(Db)
+			if err != nil {
+				return err
+			}
+		}else {
+			return nil
+		}
+		if o.cser != nil {
+			return o.cser.Store(Db)
 		}else {
 			return nil
 		}

@@ -100,6 +100,10 @@ func initdb () *sql.DB{
 		"okey":"int",
 		"ikey":"int",
 	})
+	mktab(d,"servicesquestion",map[string]string{
+		"okey":"int",
+		"ikey":"int",
+	})
 	mktab(d,"servicesquestioncriterion",map[string]string{
 		"okey":"int",
 		"iqkey":"int",
@@ -115,6 +119,14 @@ func outpage(f string , w http.ResponseWriter, d map[string]string){
 
 	t := template.Must(template.ParseFiles(f))
 	t.Execute(w,d)
+}
+func qlist([]question) string {
+	t := template.Must(template.Parse(`
+	<div id=\"qlist\"> 
+	{{range .}} 
+	<a href=\"/qprompt/{{q.key}}\">{{q.prompt}}</a><br>\n
+	{{end}}
+	`)
 }
 func Authhandler(w http.ResponseWriter, r *http.Request) {
 //TODO: rename to sessionhandler
@@ -222,6 +234,23 @@ func Ursession_handler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func qprompt_handler(w http.ResponseWriter, r *http.Request) {
+	o := curop(r)
+	if o == nil {
+		webmessage(w,"Bad Session")
+	} else {
+		k,err := strconv.ParseInt(r.URL[8:])
+		if k==0 || err != nil {
+			//no question, list them.
+				w.Header().Set("Content-Type", "text/html")
+				w.Write([]byte("<html><body>\n"
+					+"<h1>Questions</h1> :D D: :D\n"
+					+qlist(o.cser.qlist)
+					+"or whatever</body></html>"))
+
+		}
+	}
+}
 func checkErr(err error) {
 	if err != nil {
 		fmt.Println("The application has encounterd an unrecoverable error")

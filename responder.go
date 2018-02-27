@@ -88,7 +88,7 @@ func (o *responder) sresponces(Db *sql.DB) error {
 		res, err := stmt.Exec(o.key,r.key)
 		checkErr(err)
 		if res == nil {
-			return nil //happens if relation already stored
+			fmt.Println("TODO: nothing")
 		}
 	}
 	return nil
