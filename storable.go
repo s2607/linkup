@@ -45,15 +45,26 @@ func Dbwriter() {
 }
 
 
+
+func Getdata(d map[string]*interface{}, table string, k int64, DB *sql.DB) error {
+	for key, value := range d{
+		err := Db.QueryRow("select ? from ? where key = ?", key, table, k).Scan(value)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+
 func Storedata(d map[string]interface{}, table string, k int64, DB *sql.DB) error {
-	prepareString := "update " + table + " set("
 
     for key, value := range d{
 		stmt, err := Db.Prepare("update ? set(?) = (?) where key = ?")
 		if err != nil {
 			return err
 		}
-		res, err := stmt.Exec(table, key, value, k)
+		res, err := stmt.Exec(table, Str(key), Str(value), Str(k))
 		if err != nil {
 			return err
 		}
@@ -64,7 +75,7 @@ func Storedata(d map[string]interface{}, table string, k int64, DB *sql.DB) erro
     return nil
 }
 
-func Gimmeastring(data interface{}) string {
+func Str(data interface{}) string {
 	switch data.(type) {
 
 	// INT

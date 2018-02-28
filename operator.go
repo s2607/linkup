@@ -80,6 +80,21 @@ func (o *operator) Store(Db *sql.DB) error{
 	}
 	return nil
 }
+func (o *operator) FuckGet(DB *sql.DB) error {
+	var tempPass, tempCresp string
+	if o.key == 0 {
+		err :=  Db.QueryRow("select key from operator where uname = ?", o.uname).Scan(&o.key)a
+	}
+	err = GetData(map[string]*interface{}{
+			"pwhash":tempPass,
+			"cursessionid":&o.cursessionid,
+			"cresp":tempCresp,
+		}, "operator", o.key, DB)
+	if err != nil {
+		return err
+	}
+}
+
 func (o *operator) Get(Db *sql.DB) error{
 	//var pwhash string
 	var rkey int64
