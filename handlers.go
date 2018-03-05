@@ -120,13 +120,14 @@ func outpage(f string , w http.ResponseWriter, d map[string]string){
 	t := template.Must(template.ParseFiles(f))
 	t.Execute(w,d)
 }
-func qlist([]question) string {
+func qlist([]question, w http.ResponseWriter, q []question) string {
 	t := template.Must(template.Parse(`
 	<div id=\"qlist\"> 
 	{{range .}} 
 	<a href=\"/qprompt/{{q.key}}\">{{q.prompt}}</a><br>\n
 	{{end}}
 	`)
+	t.Execute(w,q)
 }
 func Authhandler(w http.ResponseWriter, r *http.Request) {
 //TODO: rename to sessionhandler
@@ -242,11 +243,13 @@ func qprompt_handler(w http.ResponseWriter, r *http.Request) {
 		k,err := strconv.ParseInt(r.URL[8:])
 		if k==0 || err != nil {
 			//no question, list them.
-				w.Header().Set("Content-Type", "text/html")
+		/*		w.Header().Set("Content-Type", "text/html")
 				w.Write([]byte("<html><body>\n"
 					+"<h1>Questions</h1> :D D: :D\n"
 					+qlist(o.cser.qlist)
 					+"or whatever</body></html>"))
+		*/
+			qlist(w,o.cser.qlist)//Note that curop calls Sget
 
 		}
 	}
