@@ -13,7 +13,14 @@ type question struct {
 }
 
 func (q *question) New_response ()  *response {
-	return nil
+	r := new (response)
+	Init(r)
+	r.q=q
+	return r
+}
+//Should have been better with visibility...
+func (o *question)Pprompt() string {
+	return o.prompt
 }
 
 //DB stuff

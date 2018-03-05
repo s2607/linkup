@@ -83,7 +83,7 @@ func (o *responder) sresponces(Db *sql.DB) error {
 		if err != nil {
 			return err
 		}
-		stmt, err := Db.Prepare("replace respondersresponse(okey,ikey) values(?,?)")
+		stmt, err := Db.Prepare("replace into respondersresponse(okey,ikey) values(?,?)")
 		checkErr(err)
 		res, err := stmt.Exec(o.key,r.key)
 		checkErr(err)
