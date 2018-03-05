@@ -16,18 +16,29 @@ import (
 func mktab (d *sql.DB, name string, cols map[string]string) {
 	s := "CREATE TABLE IF NOT EXISTS " + name +" ("
 	i := 0
+	var ikey string
+	var okey string
 	for k,v := range cols {
 		i = i + 1
 		if(k == "key") {
 			v = "integer primary key asc" //See sqlite documentation.
+		}
+		if(k == "ikey") {
+			ikey = k
+		}
+		if(k == "okey") {
+			okey = k
 		}
 		s += k + " " + v
 		if i != len(cols) {
 			s += ","
 		}
 	}
+	if len(okey)>1 && len(ikey) >1 {
+		s += ", PRIMARY KEY ( ikey, okey )"
+	}
 	s += ")"
-//	fmt.Println(s)
+	fmt.Println(s)
 	stmt, err := d.Prepare(s)
 	checkErr(err)
 	_, err = stmt.Exec()
@@ -140,7 +151,6 @@ func qdisp(w http.ResponseWriter, k int64) {
 	checkErr(err)
 	t,err := template.New("dispt").Parse(`
 	<div id="question"> 
-	<input>
 	<form method="post">
 	{{.Pprompt}}
 	<input name="qanswer" value="" >
@@ -271,8 +281,12 @@ func qprompt_handler(w http.ResponseWriter, r *http.Request) {
 	if o == nil {
 		webmessage(w,"Bad Session")
 	} else {
+		var k int64
+		var err error
 		fmt.Println("qprompt: got url:"+r.URL.Path)
-		k,err := strconv.ParseInt(r.URL.Path[9:],10,64)
+		if len(r.URL.Path) >9 {
+		k,err = strconv.ParseInt(r.URL.Path[9:],10,64)
+		} else { k = 0 }
 		if k==0 || err != nil {
 			//no question, list them.
 		/*		w.Header().Set("Content-Type", "text/html")

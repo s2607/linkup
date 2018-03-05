@@ -100,11 +100,12 @@ func (o *responder) getresponses(Db *sql.DB) error {
 	i :=0
 	for rows.Next() {
 		var k int64
+		r := new(response)
 		err := rows.Scan(&k)
 		checkErr(err)
-		o.responses[i] = new(response)
-		o.responses[i].key = k
-		err = o.responses[i].Get(Db)
+		r.key = k
+		err = r.Get(Db)
+		o.responses = append(o.responses,r)
 		checkErr(err)
 		i=i+1
 	}

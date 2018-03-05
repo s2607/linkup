@@ -45,9 +45,8 @@ func main() {//main always feels ugly and hacky
 //this one in particular though 
 	http.HandleFunc("/auth", Authhandler)
 	http.HandleFunc("/newr", Ursession_handler)
-	//http.HandleFunc("/", Statichandler)
-	http.HandleFunc("/index.html", Statichandler)
-
+	http.HandleFunc("/", Statichandler)
+	http.HandleFunc("/index.html", Authhandler)
 	http.HandleFunc("/qprompt", qprompt_handler)
 	http.HandleFunc("/qprompt/", qprompt_handler)
 	rand.Seed(4)//a random number
