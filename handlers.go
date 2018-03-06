@@ -16,18 +16,29 @@ import (
 func mktab (d *sql.DB, name string, cols map[string]string) {
 	s := "CREATE TABLE IF NOT EXISTS " + name +" ("
 	i := 0
+	var ikey string
+	var okey string
 	for k,v := range cols {
 		i = i + 1
 		if(k == "key") {
 			v = "integer primary key asc" //See sqlite documentation.
+		}
+		if(k == "ikey") {
+			ikey = k
+		}
+		if(k == "okey") {
+			okey = k
 		}
 		s += k + " " + v
 		if i != len(cols) {
 			s += ","
 		}
 	}
+	if len(okey)>1 && len(ikey) >1 {
+		s += ", PRIMARY KEY ( ikey, okey )"
+	}
 	s += ")"
-//	fmt.Println(s)
+	fmt.Println(s)
 	stmt, err := d.Prepare(s)
 	checkErr(err)
 	_, err = stmt.Exec()
@@ -56,6 +67,7 @@ func initdb () *sql.DB{
 		"pwhash":"string",
 		"cursessionid":"int",
 		"cresp":"int",
+		"cser":"int",
 	})
 	mktab(d,"responder",map[string]string{
 		"key":"int",
@@ -64,7 +76,7 @@ func initdb () *sql.DB{
 		"zip":"string",
 		"pwhash":"string",
 		"dob":"int",//TODO: time
-		"iqkey":"int",
+		//"iqkey":"int",//???
 	})
 	mktab(d,"response",map[string]string{
 		"key":"int",
@@ -120,13 +132,43 @@ func outpage(f string , w http.ResponseWriter, d map[string]string){
 	t := template.Must(template.ParseFiles(f))
 	t.Execute(w,d)
 }
-func qlist([]question) string {
-	t := template.Must(template.Parse(`
-	<div id=\"qlist\"> 
+func qlist(w http.ResponseWriter, q []question){
+	t,err := template.New("dispt").Parse(`
+	<div id="qlist">
 	{{range .}} 
-	<a href=\"/qprompt/{{q.key}}\">{{q.prompt}}</a><br>\n
+	<a href="/qprompt/{{.Pkey}}">{{.Pprompt}}</a><br>
 	{{end}}
+	</div>
 	`)
+	checkErr(err)
+	err =t.Execute(w,q)
+	checkErr(err)
+}
+func qdisp(w http.ResponseWriter, k int64) {
+	q := new(question)
+	q.key = k
+	err := Sget(q)//TODO: check errors
+	checkErr(err)
+	t,err := template.New("dispt").Parse(`
+	<div id="question">
+	<form method="post">
+	{{.Pprompt}}
+	<input name="qanswer" value="" >
+	<input type=submit></form>
+	</div>
+	`)//TODO: different form types
+	t.Execute(w,q)
+
+}
+func qanswer(k int64, s string, ur *responder) error {//TODO: error checking this whole function
+	q := new(question)
+	q.key = k
+	err := Sget(q)//TODO: check errors
+	checkErr(err)
+	r:=q.New_response()
+	r.value=s//TODO:validate
+	ur.responses=append(ur.responses,r)
+	return nil
 }
 func Authhandler(w http.ResponseWriter, r *http.Request) {
 //TODO: rename to sessionhandler
@@ -150,7 +192,6 @@ func Authhandler(w http.ResponseWriter, r *http.Request) {
 
 			w.Header().Set("Content-Type", "text/html")
 			w.Write([]byte("<body>Auth successfull!<br><a href=\"/addresponder.html\">add a responder</a></body>\n"))
-            //outpage("addresponder.html.tpl",w,map[string]string{"err":""})
 			Sstore(o)
 		}else {
 			outpage("auth.html.tpl",w,map[string]string{"err":"Bad Secret",})
@@ -225,7 +266,7 @@ func Ursession_handler(w http.ResponseWriter, r *http.Request) {
 				o.cresp.zip=r.FormValue("zip")
 				Sstore(o)
 				w.Header().Set("Content-Type", "text/html")
-				w.Write([]byte("<body>New responder created!</body>\n"))
+				w.Write([]byte("<body>New responder created!<a href=\"/qprompt\">Anser questions</a></body>\n"))
 			}else {
 				o.cresp.key,_ = strconv.ParseInt(r.FormValue("rkey"),10,64)
 				Sget(o.cresp)
@@ -240,15 +281,39 @@ func qprompt_handler(w http.ResponseWriter, r *http.Request) {
 	if o == nil {
 		webmessage(w,"Bad Session")
 	} else {
-		k,err := strconv.ParseInt(r.URL[8:])
+		var k int64
+		var err error
+		fmt.Println("qprompt: got url:"+r.URL.Path)
+		if len(r.URL.Path) >9 {
+		k,err = strconv.ParseInt(r.URL.Path[9:],10,64)
+		} else { k = 0 }
 		if k==0 || err != nil {
 			//no question, list them.
-				w.Header().Set("Content-Type", "text/html")
+		/*		w.Header().Set("Content-Type", "text/html")
 				w.Write([]byte("<html><body>\n"
 					+"<h1>Questions</h1> :D D: :D\n"
 					+qlist(o.cser.qlist)
 					+"or whatever</body></html>"))
+		*/
+		fmt.Println(o)
+		fmt.Println(o.cser)
+		fmt.Println(o.cser.qlist)
+			qlist(w,o.cser.qlist)//Note that curop calls Sget
 
+		}else {
+			if r.FormValue("qanswer") == "" {
+				qdisp(w,k)
+			}else {
+				if qanswer(k,r.FormValue("qanswer"),o.cresp) != nil {
+					w.Header().Set("Content-Type", "text/html")
+					w.Write([]byte("<body>Failed</body>\n"))
+				}else {
+					err := Sstore(o)
+					checkErr(err)
+					w.Header().Set("Content-Type", "text/html")
+					w.Write([]byte("<body>Response stored!</body>\n"))
+				}
+			}
 		}
 	}
 }
