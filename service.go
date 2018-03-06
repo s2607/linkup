@@ -21,6 +21,9 @@ func (s *service) check(rid  int) bool {
 
 //DB stuff
 func (o *service) Store(Db *sql.DB) error{
+	fmt.Println("storing service")
+	fmt.Print("qlist len")
+	fmt.Println(len( o.qlist))
 	if o.key == 0 { //init
 		stmt, err := Db.Prepare("insert into service(key) values(NULL)")
 		checkErr(err)
@@ -37,7 +40,7 @@ func (o *service) Store(Db *sql.DB) error{
 			panic(err)//never happens?
 		}
 		//TODO: criteria
-		return o.sqlist
+		return o.sqlist(Db)
 	}
 	return nil
 }
@@ -49,7 +52,7 @@ func (o *service ) Get(Db *sql.DB) error{
 		err := Db.QueryRow("select key, name, description, url from service where key = ?", o.key).Scan(&o.key, &o.name, &o.description, &o.url)
 		if err !=nil {o.key = 0; return err}
 	}
-	return nil
+	return o.getqlist(Db)
 }
 
 func (o *service) Pkey() int64{
@@ -60,19 +63,39 @@ func (o *service) Zkey(){
 }
 //DB Collections 
 
-func (o *responder) sqlist(Db *sql.DB) error {
-	for _,r := range o.qlist{
+func (o *service) sqlist(Db *sql.DB) error {
+	for _,r := range o.qlist {
 		err :=r.Store(Db)
 		if err != nil {
 			return err
 		}
-		stmt, err := Db.Prepare("replace servicesquestions(okey,ikey) values(?,?)")
+		fmt.Println("service lelm")
+		stmt, err := Db.Prepare("replace into servicesquestion(okey,ikey) values(?,?)")
 		checkErr(err)
 		res, err := stmt.Exec(o.key,r.key)
 		checkErr(err)
 		if res == nil {
 			fmt.Println("TODO:nothing")
 		}
+	}
+	return nil
+}
+
+func (o *service) getqlist(Db *sql.DB) error {
+	rows, err := Db.Query("select ikey from servicesquestion where okey = ?", o.key)
+	checkErr(err)
+	defer rows.Close()
+	i :=0
+	for rows.Next() {
+		var k int64
+		var q question
+		err := rows.Scan(&k)
+		checkErr(err)
+		o.qlist=append(o.qlist,q)
+		o.qlist[i].key = k
+		err = o.qlist[i].Get(Db)
+		checkErr(err)
+		i=i+1
 	}
 	return nil
 }
