@@ -150,7 +150,7 @@ func Authhandler(w http.ResponseWriter, r *http.Request) {
 
 			//w.Header().Set("Content-Type", "text/html")
 			//w.Write([]byte("<body>Auth successfull!<br><a href=\"/addresponder.html\">add a responder</a></body>\n"))
-            http.ServeFile(w, r, "addresponder.html")
+            outpage("addresponder.html",w,map[string]string{"err": ""})
 			Sstore(o)
 		}else {
 			outpage("auth.html.tpl",w,map[string]string{"err":"Bad Secret",})
