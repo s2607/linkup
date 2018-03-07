@@ -236,58 +236,57 @@ func Ursession_handler(w http.ResponseWriter, r *http.Request) {
 	o := curop(r)
 	if o == nil {
 		webmessage(w,"Bad Session")
-	} else {
+        return
+	}
 
-        if checkTextInput(r.FormValue("fname")){
-                fmt.Println("valid first name")
+    if !checkTextInput(r.FormValue("fname")){
+        outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid First Name"})
+        return
+    }
+
+    if r.FormValue("rkey") =="" {
+        fmt.Println("got:"+r.FormValue("fname")+" "+r.FormValue("lname")+" "+r.FormValue("dob")+" "+r.FormValue("zip"))
+
+
+        dob,_:=strconv.Atoi(r.FormValue("dob"))
+		err,rs :=Getallmatch(r.FormValue("fname"),r.FormValue("lname"),dob,r.FormValue("zip"))
+		checkErr(err)
+
+		w.Header().Set("Content-Type", "text/html")
+		w.Write([]byte("<body>Select a responder\n"))
+		for _,r := range rs {
+		  w.Write([]byte(r.Tohtml()+"<br>\n"))
+		}
+		s:="<br> Or create a fresh one:<form method=\"post\">"
+		s+="<input type=\"hidden\" name=\"fname\" value=\"" +r.FormValue("fname")+"\">"
+		s+="<input type=\"hidden\" name=\"lname\" value=\"" +r.FormValue("lname")+"\">"
+		s+="<input type=\"hidden\" name=\"dob\" value=\"" +r.FormValue("dob")+"\">"
+		s+="<input type=\"hidden\" name=\"zip\" value=\"" +r.FormValue("zip")+"\">"
+		s+="<input type=\"hidden\" name=\"rkey\" value=\"0\">"
+		s+="<input type=submit></form>"
+		w.Write([]byte(s))
+    } else {
+		if r.FormValue("rkey") == "0" {
+            o.cresp = new(responder)
+		    Init(o.cresp)
+            if checkTextInput(r.FormValue("fname")){
+                o.cresp.fname=r.FormValue("fname")
             }else{
                 fmt.Println("Invalid First Name")
             }
 
-		if r.FormValue("rkey") =="" {
-			fmt.Println("got:"+r.FormValue("fname")+" "+r.FormValue("lname")+" "+r.FormValue("dob")+" "+r.FormValue("zip"))
-
-
-			dob,_:=strconv.Atoi(r.FormValue("dob"))
-			err,rs :=Getallmatch(r.FormValue("fname"),r.FormValue("lname"),dob,r.FormValue("zip"))
-			checkErr(err)
-
-			w.Header().Set("Content-Type", "text/html")
-			w.Write([]byte("<body>Select a responder\n"))
-			for _,r := range rs {
-				w.Write([]byte(r.Tohtml()+"<br>\n"))
-			}
-			s:="<br> Or create a fresh one:<form method=\"post\">"
-			s+="<input type=\"hidden\" name=\"fname\" value=\"" +r.FormValue("fname")+"\">"
-			s+="<input type=\"hidden\" name=\"lname\" value=\"" +r.FormValue("lname")+"\">"
-			s+="<input type=\"hidden\" name=\"dob\" value=\"" +r.FormValue("dob")+"\">"
-			s+="<input type=\"hidden\" name=\"zip\" value=\"" +r.FormValue("zip")+"\">"
-			s+="<input type=\"hidden\" name=\"rkey\" value=\"0\">"
-			s+="<input type=submit></form>"
-			w.Write([]byte(s))
-		} else {
-			if r.FormValue("rkey") == "0" {
-				o.cresp = new(responder)
-				Init(o.cresp)
-                if checkTextInput(r.FormValue("fname")){
-                    o.cresp.fname=r.FormValue("fname")
-                }else{
-                    fmt.Println("Invalid First Name")
-                }
-
-				o.cresp.lname=r.FormValue("lname")
-				o.cresp.dob,_=strconv.Atoi(r.FormValue("dob"))
-				o.cresp.zip=r.FormValue("zip")
-				Sstore(o)
-				w.Header().Set("Content-Type", "text/html")
-				w.Write([]byte("<body>New responder created!<a href=\"/qprompt\">Anser questions</a></body>\n"))
-			}else {
-				o.cresp.key,_ = strconv.ParseInt(r.FormValue("rkey"),10,64)
-				Sget(o.cresp)
-				Sstore(o)//TODO:check errors
-			}
-		}
-	}
+		    o.cresp.lname=r.FormValue("lname")
+		    o.cresp.dob,_=strconv.Atoi(r.FormValue("dob"))
+		    o.cresp.zip=r.FormValue("zip")
+		    Sstore(o)
+		    w.Header().Set("Content-Type", "text/html")
+		    w.Write([]byte("<body>New responder created!<a href=\"/qprompt\">Anser questions</a></body>\n"))
+        }else {
+            o.cresp.key,_ = strconv.ParseInt(r.FormValue("rkey"),10,64)
+			Sget(o.cresp)
+			Sstore(o)//TODO:check errors
+        }
+    }
 }
 
 func qprompt_handler(w http.ResponseWriter, r *http.Request) {

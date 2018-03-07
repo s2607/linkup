@@ -25,6 +25,8 @@
             <h1>Identifying Questions</h1>
         </div>
 
+        <div id="error" style="color:red; text-align: center; margin-bottom: -20px;">{{.err}}</div>
+
         <form id="form" action="/newr" method="post">
             <p>First Name</p>
             <input name="fname">
