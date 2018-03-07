@@ -6,6 +6,7 @@ import (
     "database/sql"
     "strconv"
     "html/template"
+    "unicode"
     //"math/rand"
     _ "github.com/mattn/go-sqlite3"
 )
@@ -259,7 +260,12 @@ func Ursession_handler(w http.ResponseWriter, r *http.Request) {
 			if r.FormValue("rkey") == "0" {
 				o.cresp = new(responder)
 				Init(o.cresp)
-				o.cresp.fname=r.FormValue("fname")
+                if checkTextInput(r.FormValue("fname")){
+                    o.cresp.fname=r.FormValue("fname")
+                }else{
+                    fmt.Println("Invalid First Name")
+                }
+
 				o.cresp.lname=r.FormValue("lname")
 				o.cresp.dob,_=strconv.Atoi(r.FormValue("dob"))
 				o.cresp.zip=r.FormValue("zip")
@@ -321,5 +327,32 @@ func checkErr(err error) {
 		fmt.Println("The application has encounterd an unrecoverable error")
 		panic(err)
 	}
+}
+
+func checkTextInput(s string) bool{
+    for _, r := range s{
+        if !unicode.IsLetter(r){
+            return false
+        }
+    }
+
+    return true
+    //TODO: parse through string, remove anything but letters
+}
+
+func checkDOBInput(s string){
+    //TDOD: Make sure in form MM/DD/YYYY can be M/D/YYYY too
+    //TODO: Parse through string and save each day, month, and year as var
+    //TODO: Make sure only numbers
+    //TODO: Make sure month is 1-12
+    //TODO: Make sure DD is 1-31 for months 1,3,5,7,8,10,12
+    //      or is 1-30 for months 4,6,9,11
+    //      or is 1-28 for month 2 unless year mod 4 is 0 then 1-29
+    //TODO: Make sure YYYY is less than current year
+}
+
+func checkZIP(s string){
+    //TODO: Make sure not over length 5
+    //TODO: Make sure only numbers
 }
 
