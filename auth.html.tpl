@@ -10,14 +10,10 @@
     
     <!-- CSS Stylesheets -->
     <link href="css/stylesheet.css" rel="stylesheet" />
+    <link href="css/noscript_stylesheet.css" rel="stylesheet" />
     
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed|Nunito+Sans" rel="stylesheet">
-
-    <!-- No Script StyleSheet -->
-    <noscript>
-        <link href="css/noscript_stylesheet.css" rel="stylesheet" />
-    </noscript>
 
     
 </head>
@@ -39,7 +35,7 @@
 
             <div id="login_container">
                 <h1 id="title">Login</h1>
-		<div id="error"> {{.err}} </div>
+		<div id="error" style="color:red;"> {{.err}} </div>
                 <form id="login" action="/auth" method="post">
                     <p id="text_username">Username</p>
                     <input id="uname" name="uname" value="">
@@ -52,8 +48,7 @@
         </div>
 
     </div>
-    
-    <script src="js/animations.js" type="text/javascript"></script>
+
     
 </body>
 </html>

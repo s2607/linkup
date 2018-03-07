@@ -193,13 +193,13 @@ func Authhandler(w http.ResponseWriter, r *http.Request) {
             outpage("addresponder.html.tpl",w,map[string]string{"err":""})
 			Sstore(o)
 		}else {
-			outpage("auth.html.tpl",w,map[string]string{"err":"Bad Secret",})
+			outpage("auth.html.tpl",w,map[string]string{"err":"Invalid Password",})
 		}
 	} else {
 		fmt.Println("key:"+strconv.FormatInt(o.key,10))
 		//webmessage(w,"No identity to auth!\n")
 		if r.FormValue("uname") != ""|| r.FormValue("pw") != "" {
-			outpage("auth.html.tpl",w,map[string]string{"err":"Please enter a username",})
+			outpage("auth.html.tpl",w,map[string]string{"err":"Please Enter A Valid Username",})
 		} else {
 			outpage("auth.html.tpl",w,map[string]string{"err":""})
 		}
