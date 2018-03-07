@@ -129,6 +129,12 @@ input
     visibility: hidden;
 }
 
+#submit_button:hover
+{
+    color: #19396D;
+    background: white;
+}
+
 
 /** FOR SMALL SCREEN SIZES **/
 
