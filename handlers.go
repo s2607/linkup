@@ -237,14 +237,16 @@ func Ursession_handler(w http.ResponseWriter, r *http.Request) {
 	if o == nil {
 		webmessage(w,"Bad Session")
 	} else {
-		if r.FormValue("rkey") =="" {
-			fmt.Println("got:"+r.FormValue("fname")+" "+r.FormValue("lname")+" "+r.FormValue("dob")+" "+r.FormValue("zip"))
 
-            if checkTextInput(r.FormValue("fname")){
+        if checkTextInput(r.FormValue("fname")){
                 fmt.Println("valid first name")
             }else{
                 fmt.Println("Invalid First Name")
             }
+
+		if r.FormValue("rkey") =="" {
+			fmt.Println("got:"+r.FormValue("fname")+" "+r.FormValue("lname")+" "+r.FormValue("dob")+" "+r.FormValue("zip"))
+
 
 			dob,_:=strconv.Atoi(r.FormValue("dob"))
 			err,rs :=Getallmatch(r.FormValue("fname"),r.FormValue("lname"),dob,r.FormValue("zip"))
