@@ -10,6 +10,7 @@
     
     <!-- CSS Stylesheets -->
     <link href="css/stylesheet.css" rel="stylesheet" />
+    <!-- This is placed here so elements are shown and not hidden if login is invalid -->
     <link href="css/noscript_stylesheet.css" rel="stylesheet" />
     
     <!-- Fonts -->
