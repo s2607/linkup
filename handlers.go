@@ -271,17 +271,23 @@ func Ursession_handler(w http.ResponseWriter, r *http.Request) {
 		checkErr(err)
 
 		w.Header().Set("Content-Type", "text/html")
-		w.Write([]byte("<body>Select a responder\n"))
-		for _,r := range rs {
-		  w.Write([]byte(r.Tohtml()+"<br>\n"))
-		}
-		s:="<br> Or create a fresh one:<form method=\"post\">"
+		w.Write([]byte("<head><title>LinkUp</title> <link rel='icon' href='imgs/chevron.png' type='image/x-icon'> <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed|Nunito+Sans' rel='stylesheet'> <link href='css/addresponder_stylesheet.css' rel='stylesheet'></head><body><div id='top_bar'>         <img id='logo' src='imgs/logo.svg' alt='LinkUp'></div><div id='title'><h1>Select A Responder</h1></div>"))
+
+        if rs == nil{
+            w.Write([]byte("<div class='responder_entry'>No Matching Entries </div><br>"))
+        }
+        else{
+		  for _,r := range rs {
+		      w.Write([]byte("<div class='responder_entry'>"+r.Tohtml()+"</div><br>"))
+		  }
+        }
+		s:="<br><br><form id='form' method=\"post\">"
 		s+="<input type=\"hidden\" name=\"fname\" value=\"" +r.FormValue("fname")+"\">"
 		s+="<input type=\"hidden\" name=\"lname\" value=\"" +r.FormValue("lname")+"\">"
 		s+="<input type=\"hidden\" name=\"dob\" value=\"" +r.FormValue("dob")+"\">"
 		s+="<input type=\"hidden\" name=\"zip\" value=\"" +r.FormValue("zip")+"\">"
 		s+="<input type=\"hidden\" name=\"rkey\" value=\"0\">"
-		s+="<input type=submit></form>"
+        s+="<input type=submit id='submit_button' value='Create New Entry' style='width: 140px;'></form>"
 		w.Write([]byte(s))
     } else {
 		if r.FormValue("rkey") == "0" {
@@ -362,7 +368,7 @@ func checkTextInput(s string) bool{
 func checkDOBInput(s string){
     //TDOD: Make sure in form MM/DD/YYYY can be M/D/YYYY too
     //TODO: Parse through string and save each day, month, and year as var
-    //TODO: Make sure only numbers
+    //TODO: Make sure only numbers by calling checkNumberInput function
     //TODO: Make sure month is 1-12
     //TODO: Make sure DD is 1-31 for months 1,3,5,7,8,10,12
     //      or is 1-30 for months 4,6,9,11

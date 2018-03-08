@@ -115,6 +115,10 @@ input
     height: 25px;
 }
 
+input:focus
+{
+    outline: none;
+}
 
 #submit_button
 {
