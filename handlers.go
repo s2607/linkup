@@ -239,8 +239,26 @@ func Ursession_handler(w http.ResponseWriter, r *http.Request) {
         return
 	}
 
+    //Validate Input
+    if r.FormValue("fname") == "" || r.FormValue("lname") == "" ||
+        r.FormValue("dob") == "" || r.FormValue("zip") == "" {
+         outpage("addresponder.html.tpl",w,map[string]string{"err":"Please Complete All Fields"})
+        return
+    }
+
     if !checkTextInput(r.FormValue("fname")){
         outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid First Name"})
+        return
+    }
+
+    if !checkTextInput(r.FormValue("lname")){
+        outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid Last Name"})
+        return
+    }
+
+    //Validate Input
+    if !checkNumberInput(r.FormValue("zip")) || len(r.FormValue("zip")) != 5 {
+        outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid ZIP Code"})
         return
     }
 
@@ -269,18 +287,12 @@ func Ursession_handler(w http.ResponseWriter, r *http.Request) {
 		if r.FormValue("rkey") == "0" {
             o.cresp = new(responder)
 		    Init(o.cresp)
-            if checkTextInput(r.FormValue("fname")){
-                o.cresp.fname=r.FormValue("fname")
-            }else{
-                fmt.Println("Invalid First Name")
-            }
-
-		    o.cresp.lname=r.FormValue("lname")
+            o.cresp.lname=r.FormValue("lname")
 		    o.cresp.dob,_=strconv.Atoi(r.FormValue("dob"))
 		    o.cresp.zip=r.FormValue("zip")
 		    Sstore(o)
 		    w.Header().Set("Content-Type", "text/html")
-		    w.Write([]byte("<body>New responder created!<a href=\"/qprompt\">Anser questions</a></body>\n"))
+		    w.Write([]byte("<body>New responder created!<a href=\"/qprompt\">Answer questions</a></body>\n"))
         }else {
             o.cresp.key,_ = strconv.ParseInt(r.FormValue("rkey"),10,64)
 			Sget(o.cresp)
@@ -345,7 +357,6 @@ func checkTextInput(s string) bool{
     }
 
     return true
-    //TODO: parse through string, remove anything but letters
 }
 
 func checkDOBInput(s string){
@@ -359,8 +370,13 @@ func checkDOBInput(s string){
     //TODO: Make sure YYYY is less than current year
 }
 
-func checkZIP(s string){
-    //TODO: Make sure not over length 5
-    //TODO: Make sure only numbers
+func checkNumberInput(s string) bool{
+    for _, r := range s{
+        if !unicode.IsDigit(r){
+            return false
+        }
+    }
+
+    return true
 }
 
