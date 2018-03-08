@@ -275,8 +275,7 @@ func Ursession_handler(w http.ResponseWriter, r *http.Request) {
 
         if rs == nil{
             w.Write([]byte("<div class='responder_entry'>No Matching Entries </div><br>"))
-        }
-        else{
+        }else{
 		  for _,r := range rs {
 		      w.Write([]byte("<div class='responder_entry'>"+r.Tohtml()+"</div><br>"))
 		  }
