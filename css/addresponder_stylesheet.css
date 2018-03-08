@@ -51,6 +51,12 @@ p
     margin: 0;
 }
 
+#dob_format
+{
+    color: #333;
+    font-size: 10px;
+}
+
 input
 {
     margin-bottom: 20px;
