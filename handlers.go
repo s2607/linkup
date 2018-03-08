@@ -7,6 +7,8 @@ import (
     "strconv"
     "html/template"
     "unicode"
+    "time"
+    "strings"
     //"math/rand"
     _ "github.com/mattn/go-sqlite3"
 )
@@ -256,11 +258,17 @@ func Ursession_handler(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-    //Validate Input
+    //Add this after type for DOB is correct
+    /*if !checkDOBInput(r.FormValue("dob")){
+        outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid Date Of Birth"})
+        return
+    }*/
+
     if !checkNumberInput(r.FormValue("zip")) || len(r.FormValue("zip")) != 5 {
         outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid ZIP Code"})
         return
     }
+    //End validation
 
     if r.FormValue("rkey") =="" {
         fmt.Println("got:"+r.FormValue("fname")+" "+r.FormValue("lname")+" "+r.FormValue("dob")+" "+r.FormValue("zip"))
@@ -277,7 +285,7 @@ func Ursession_handler(w http.ResponseWriter, r *http.Request) {
             w.Write([]byte("<div class='responder_entry'>No Matching Entries </div><br>"))
         }else{
 		  for _,r := range rs {
-		      w.Write([]byte("<div class='responder_entry'>"+r.Tohtml()+"</div><br>"))
+		      w.Write([]byte(r.Tohtml()))
 		  }
         }
 		s:="<br><br><form id='form' method=\"post\">"
@@ -364,15 +372,99 @@ func checkTextInput(s string) bool{
     return true
 }
 
-func checkDOBInput(s string){
-    //TDOD: Make sure in form MM/DD/YYYY can be M/D/YYYY too
-    //TODO: Parse through string and save each day, month, and year as var
-    //TODO: Make sure only numbers by calling checkNumberInput function
-    //TODO: Make sure month is 1-12
-    //TODO: Make sure DD is 1-31 for months 1,3,5,7,8,10,12
-    //      or is 1-30 for months 4,6,9,11
-    //      or is 1-28 for month 2 unless year mod 4 is 0 then 1-29
-    //TODO: Make sure YYYY is less than current year
+func checkDOBInput(s string) bool{
+
+    var slashCount int = 0
+    var previousCharWasSlash bool = false
+
+    for _, r:= range s {
+
+        if previousCharWasSlash && r =='/' {
+            return false
+        }else{
+            previousCharWasSlash = false
+        }
+
+        if !unicode.IsDigit(r) && r != '/' {
+            return false
+        }
+
+        if r == '/'{
+            slashCount++
+            previousCharWasSlash = true
+        }
+
+    }
+
+    //format requires exactly 2 slashes
+    if slashCount != 2 {
+        return false
+    }
+
+
+    //Split string to month, day, and year strings
+    date := strings.Split(s, "/")
+    month,_ := strconv.Atoi(date[0])
+    day,_ := strconv.Atoi(date[1])
+    year,_ := strconv.Atoi(date[2])
+
+    //Make sure month is 1-12
+    if month < 1 || month > 12 {
+        return false
+    }
+
+    // Make sure day is 1-31 for months 1,3,5,7,8,10,12
+    if month == 1 || month == 3 || month == 5 || month == 7 ||
+    month == 8 || month == 10 || month == 12{
+        if day < 1 || day > 31 {
+            return false
+        }
+    }
+
+    // Make sure day is 1-30 for months 4,6,9,11
+    if month == 4 || month == 6 || month == 9 || month == 11{
+        if day < 1 || day > 30 {
+            return false
+        }
+    }
+
+    // Make sure day is between 1-28 for month 2
+    if month == 2 {
+        //If year is a leap year then range is 1-29
+        if year % 4 == 0 {
+            if day < 1 || day > 29 {
+                return false
+            }
+        }else{
+            if day < 1 || day > 28 {
+                return false
+            }
+        }
+    }
+
+
+    //Make sure year is less than current year
+    if year < 1 || year > time.Now().Year() {
+        return false
+    }
+
+    // Make sure not past the current date in current year
+    if year == time.Now().Year(){
+        if month > int(time.Now().Month()){
+            return false
+        }
+
+        if month == int(time.Now().Month()){
+            if day > time.Now().Day(){
+                return false
+            }
+        }
+    }
+
+    //TODO: Possibly make a function call here to make the time object
+
+    //If date is valid
+    return true
 }
 
 func checkNumberInput(s string) bool{
