@@ -141,29 +141,3 @@ func (o *responder) Notify() {
 func (o *responder) Readynchan() {
 	o.nchan = make(chan bool)
 }
-//old stuff
-/*func (o *operator) Sstore() error{
-	o.nchan = make(chan bool)
-	//Wrchan <-o
-	DBchan <- func (Db *sql.DB)func() {
-		o.Store(Db)
-		return o.Notify
-	}
-	o.Wait()
-	return nil
-}*/
-/*
-func (o *operator) Sget() error {
-	o.nchan = make(chan bool)
-	DBchan <- func (Db *sql.DB)func() {
-		o.Get(Db)
-		return o.Notify
-	}
-	o.Wait()
-	return nil
-}/*
-func (o *operator) Init() error {
-	o.key = 0
-	return o.Sstore()
-}
-**/
