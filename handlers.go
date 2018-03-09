@@ -259,10 +259,10 @@ func Ursession_handler(w http.ResponseWriter, r *http.Request) {
     }
 
     //Add this after type for DOB is correct
-    /*if !checkDOBInput(r.FormValue("dob")){
+    if !checkDOBInput(r.FormValue("dob")){
         outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid Date Of Birth"})
         return
-    }*/
+    }
 
     if !checkNumberInput(r.FormValue("zip")) || len(r.FormValue("zip")) != 5 {
         outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid ZIP Code"})
@@ -375,15 +375,8 @@ func checkTextInput(s string) bool{
 func checkDOBInput(s string) bool{
 
     var slashCount int = 0
-    var previousCharWasSlash bool = false
 
     for _, r:= range s {
-
-        if previousCharWasSlash && r =='/' {
-            return false
-        }else{
-            previousCharWasSlash = false
-        }
 
         if !unicode.IsDigit(r) && r != '/' {
             return false
@@ -391,7 +384,6 @@ func checkDOBInput(s string) bool{
 
         if r == '/'{
             slashCount++
-            previousCharWasSlash = true
         }
 
     }
@@ -404,9 +396,19 @@ func checkDOBInput(s string) bool{
 
     //Split string to month, day, and year strings
     date := strings.Split(s, "/")
+
+    //make sure each has a value
+    for _, d := range date {
+        if d == "" {
+            return false
+        }
+    }
+
     month,_ := strconv.Atoi(date[0])
     day,_ := strconv.Atoi(date[1])
     year,_ := strconv.Atoi(date[2])
+
+
 
     //Make sure month is 1-12
     if month < 1 || month > 12 {
