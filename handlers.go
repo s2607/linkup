@@ -136,7 +136,10 @@ func outpage(f string , w http.ResponseWriter, d map[string]string){
 	t.Execute(w,d)
 }
 func qlist(w http.ResponseWriter, q []question){
-	t,err := template.New("dispt").Parse(`
+
+    //outpage("disp_qlist.html.tpl", w, q)
+
+    t,err := template.New("dispt").Parse(`
 	<div id="qlist">
 	{{range .}} 
 	<a href="/qprompt/{{.Pkey}}">{{.Pprompt}}</a><br>
@@ -152,6 +155,9 @@ func qdisp(w http.ResponseWriter, k int64) {
 	q.key = k
 	err := Sget(q)//TODO: check errors
 	checkErr(err)
+
+    //outpage("disp_question.html.tpl", w, q)
+
 	t,err := template.New("dispt").Parse(`
 	<div id="question">
 	<form method="post">
