@@ -22,7 +22,7 @@
         </div>
 
         <div id="title">
-            <h1>Survey Questions</h1>
+            <h1>Select Question</h1>
         </div>
 
         <div id="qlist">

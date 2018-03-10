@@ -22,7 +22,7 @@
         </div>
 
         <div id="title">
-            <h1>Survey Questions</h1>
+            <h1>Answer Question</h1>
         </div>
 
         <form id="form" action="/newr" method="post">
