@@ -285,7 +285,7 @@ func Ursession_handler(w http.ResponseWriter, r *http.Request) {
 		checkErr(err)
 
 		w.Header().Set("Content-Type", "text/html")
-		w.Write([]byte("<head><title>LinkUp</title> <link rel='icon' href='imgs/chevron.png' type='image/x-icon'> <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed|Nunito+Sans' rel='stylesheet'> <link href='css/addresponder_stylesheet.css' rel='stylesheet'></head><body><div id='top_bar'>         <img id='logo' src='imgs/logo.svg' alt='LinkUp'></div><div id='title'><h1>Select A Responder</h1></div>"))
+		w.Write([]byte("<head><title>LinkUp</title> <link rel='icon' href='imgs/chevron.png' type='image/x-icon'> <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed|Nunito+Sans' rel='stylesheet'> <link href='css/survey_stylesheet.css' rel='stylesheet'></head><body><div id='top_bar'>         <img id='logo' src='imgs/logo.svg' alt='LinkUp'></div><div id='title'><h1>Select A Responder</h1></div>"))
 
         if rs == nil{
             w.Write([]byte("<div class='responder_entry'>No Matching Entries </div><br>"))

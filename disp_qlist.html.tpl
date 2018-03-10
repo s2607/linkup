@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed|Nunito+Sans" rel="stylesheet">
 
     <!-- Stylesheet -->
-    <link href="css/addresponder_stylesheet.css" rel="stylesheet">
+    <link href="css/survey_stylesheet.css" rel="stylesheet">
 
 </head>
 <body>
