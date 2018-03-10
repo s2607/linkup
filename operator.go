@@ -89,29 +89,27 @@ func (o *operator) Store(Db *sql.DB) error{
 			if err != nil {
 				return err
 			}
-		}else {
-			return nil
 		}
 		if o.cser != nil {
 			return o.cser.Store(Db)
-		}else {
-			return nil
 		}
+		return nil
 	}
 	return nil
 }
 func (o *operator) Get(Db *sql.DB) error{
 	//var pwhash string
 	var rkey int64
+	var ckey int64
 	var phh string
 	if o.key == 0 {
 		fmt.Println("Getting "+o.uname)
-		err :=  Db.QueryRow("select key, uname, cursessionid, pwhash, cresp from operator where uname = ?", o.uname).Scan(&o.key,  &o.uname, &o.cursessionid, &phh,&rkey)
+		err :=  Db.QueryRow("select key, uname, cursessionid, pwhash, cresp,cser from operator where uname = ?", o.uname).Scan(&o.key,  &o.uname, &o.cursessionid, &phh,&rkey,&ckey)
 		fmt.Print("Got key: ")
 		fmt.Println(o.key)
 		if err !=nil {return err}
 	} else {
-		err := Db.QueryRow("select key, uname, cursessionid, pwhash, cresp from operator where key = ?", o.key).Scan(&o.key,  &o.uname, &o.cursessionid, &phh, &rkey)
+		err := Db.QueryRow("select key, uname, cursessionid, pwhash, cresp,cser from operator where key = ?", o.key).Scan(&o.key,  &o.uname, &o.cursessionid, &phh, &rkey,&ckey)
 		if err !=nil {o.key=0;return err}
 	}
 	ph, err := hex.DecodeString(phh)
@@ -124,6 +122,16 @@ func (o *operator) Get(Db *sql.DB) error{
 		o.cresp = new(responder)
 		o.cresp.key=rkey
 		err = o.cresp.Get(Db)
+		if err != nil {
+			o.key = 0
+			return err
+		}
+	}
+	if ckey != 0 {
+		fmt.Println("fetch cser")
+		o.cser = new(service)
+		o.cser.key=ckey
+		err = o.cser.Get(Db)
 		if err != nil {
 			o.key = 0
 			return err
