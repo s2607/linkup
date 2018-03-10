@@ -11,17 +11,17 @@ func Statichandler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "./"+r.URL.Path)
 	fmt.Print(r.URL.Path)
 }
-
-func main() {//main always feels ugly and hacky
-//this one in particular though 
-	http.HandleFunc("/auth", Authhandler)
-	http.HandleFunc("/newr", Ursession_handler)
-	http.HandleFunc("/", Statichandler)
-	http.HandleFunc("/index.html", Statichandler)
-	rand.Seed(4)//a random number
-	fmt.Println("start")
-	go Dbwriter()
-	defer func(){Killchan <-true}()//lol
+func sometestdata() {
+	q := new(question)
+	p := new(question)
+	Init(q)
+	q.prompt = "What is your mothers madin name"
+	fmt.Println(q)
+	checkErr(Sstore(q))
+	Init(p)
+	p.prompt = "What is your fathers madin name"
+	fmt.Println(p)
+	checkErr(Sstore(p))
 	o := new(operator)
 	var op storable
 	o.Getbyname("swiley")//hehhhhhh
@@ -30,12 +30,30 @@ func main() {//main always feels ugly and hacky
 		Init(o)
 		o.uname = "swiley"
 		o.setpss("abc123")
+		o.cser = new(service)
+		o.cser.name = "cfaw"
+		Init(o.cser)
+		o.cser.qlist=append(o.cser.qlist,*p)
+		o.cser.qlist=append(o.cser.qlist,*q)
 		Sstore(o)
 	}
 	op = o
 	fmt.Println(op)
-	//Db = initdb()
-	//defer Db.Close()
+}
+
+func main() {//main always feels ugly and hacky
+//this one in particular though
+	http.HandleFunc("/auth", Authhandler)
+	http.HandleFunc("/newr", Ursession_handler)
+	http.HandleFunc("/", Statichandler)
+	http.HandleFunc("/index.html", Authhandler)
+	http.HandleFunc("/qprompt", qprompt_handler)
+	http.HandleFunc("/qprompt/", qprompt_handler)
+	rand.Seed(4)//a random number
+	fmt.Println("start")
+	go Dbwriter()
+	defer func(){Killchan <-true}()//lol
+	sometestdata()
 	fmt.Println("starting web server")
 	err := http.ListenAndServe(":8080", nil)
 	fmt.Println(err)
