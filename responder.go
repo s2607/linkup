@@ -53,7 +53,7 @@ func Getallmatch (fname string,lname string,dob int,zip string) (error, []*respo
 	return <-nchan,r
 }
 func (o *responder) Tohtml() string {
-	return "<div class='responder_entry'>"+o.fname+" ID:"+strconv.FormatInt(o.key,10)+"<form method=\"post\"> <input type=\"hidden\" name=\"rkey\" value=\""+strconv.FormatInt(o.key,10)+"\"><input id='submit_button' type=submit value='Select' style='margin-top:0;'></form>"+ "</div>"
+	return "<div id=responder>"+o.fname+" ID:"+strconv.FormatInt(o.key,10)+"<form method=\"post\"> <input type=\"hidden\" name=\"rkey\" value=\""+strconv.FormatInt(o.key,10)+"\"><input type=submit></form>"+ "</div>"
 }
 
 
@@ -141,3 +141,29 @@ func (o *responder) Notify() {
 func (o *responder) Readynchan() {
 	o.nchan = make(chan bool)
 }
+//old stuff
+/*func (o *operator) Sstore() error{
+	o.nchan = make(chan bool)
+	//Wrchan <-o
+	DBchan <- func (Db *sql.DB)func() {
+		o.Store(Db)
+		return o.Notify
+	}
+	o.Wait()
+	return nil
+}*/
+/*
+func (o *operator) Sget() error {
+	o.nchan = make(chan bool)
+	DBchan <- func (Db *sql.DB)func() {
+		o.Get(Db)
+		return o.Notify
+	}
+	o.Wait()
+	return nil
+}/*
+func (o *operator) Init() error {
+	o.key = 0
+	return o.Sstore()
+}
+**/
