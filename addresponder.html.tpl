@@ -36,7 +36,7 @@
 		    <input name="dob">
             <p>Zip Code</p>
             <input name="zip"><br>
-		  <input id="submit_button" type=submit>
+		  <input id="submit_button" type=submit value="Submit">
         </form>
 
     </div>
