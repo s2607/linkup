@@ -53,7 +53,7 @@ func Getallmatch (fname string,lname string,dob int,zip string) (error, []*respo
 	return <-nchan,r
 }
 func (o *responder) Tohtml() string {
-	return "<div class='resopnder_entry'>"+o.fname+" ID:"+strconv.FormatInt(o.key,10)+"<form method=\"post\"> <input type=\"hidden\" name=\"rkey\" value=\""+strconv.FormatInt(o.key,10)+"\"><input type=submit id='submit_button' value='Select'></form>"+ "</div>"
+	return "<div class='responder_entry'>"+o.fname+" ID:"+strconv.FormatInt(o.key,10)+"<form method=\"post\"> <input type=\"hidden\" name=\"rkey\" value=\""+strconv.FormatInt(o.key,10)+"\"><input type=submit id='submit_button' value='Select'></form>"+ "</div>"
 }
 
 
