@@ -362,6 +362,17 @@ func qprompt_handler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 }
+
+func sugg_handler(w http.ResponseWriter, r *http.Request) {
+	o := curop(r)
+	if o == nil {
+		webmessage(w,"Bad Session")
+	} else {
+		o.cresp.update_suggestions()
+		showsug(w,*(o.cresp))
+	}
+}
+
 func checkErr(err error) {
 	if err != nil {
 		fmt.Println("The application has encounterd an unrecoverable error")
