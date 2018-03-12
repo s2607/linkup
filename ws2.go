@@ -17,9 +17,9 @@ func sometestdata() {
 	l := new(criterion)
 	m := new(criterion)
 	Init(m)
-	m.q=p
+	m.q=nil//implies same question to prevent infinitely nested get calls
 	m.regex="mom"
-	p.clist=append(p.clist,l)
+	p.clist=append(p.clist,m)
 	fmt.Println(m)
 	Init(q)
 	q.prompt = "What is your mothers madin name"

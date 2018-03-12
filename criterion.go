@@ -55,7 +55,7 @@ func Validate(re []*response, cr []*criterion) bool {
 			fmt.Println("against "+c.regex+" "+r.value)
 			var xj bool
 			xj = false
-			if c.q.key == r.q.key {
+			if c.q == nil || c.q.key == r.q.key {
 				switch r.q.qtype {
 					case 0: xj = c.checkstr(r.value)
 					case 1: xj = c.checkint(r.value)
