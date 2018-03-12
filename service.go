@@ -7,7 +7,7 @@ import (
 
 type service struct {
 	key int64
-	criteria map [question] []criterion
+	criteria []*criterion
 	qlist []question
 	name string
 	description string
@@ -18,8 +18,46 @@ type service struct {
 func (s *service) check(rid  int) bool {
 	return true
 }
+func (s *service) Purl() string {
+	return s.url
+}
+func (s *service) Pname() string {
+	return s.name
+}
+func (s *service) Pdesc() string {
+	return s.description
+}
 
 //DB stuff
+
+func Getallservices() (error, []*service){
+	nchan := make(chan error)
+	var r []*service
+	DBchan <- func(Db *sql.DB)func() {
+		rows, err := Db.Query("select key from service")
+		checkErr(err)
+		defer rows.Close()
+		i :=0
+		for rows.Next() {
+			var k int64
+			err := rows.Scan(&k)
+			if err != nil {
+				nchan <- err
+			}
+			r = append(r,new(service))
+			r[i].key = k
+			err =r[i].Get(Db)
+			if err != nil {
+				nchan <- err
+			}
+			i=i+1
+		}
+		return func() {
+			nchan <-err
+		}
+	}
+	return <-nchan,r
+}
 func (o *service) Store(Db *sql.DB) error{
 	fmt.Println("storing service")
 	fmt.Print("qlist len")
@@ -39,8 +77,11 @@ func (o *service) Store(Db *sql.DB) error{
 		if res == nil {//XXX
 			panic(err)//never happens?
 		}
-		//TODO: criteria
-		return o.sqlist(Db)
+		err = o.sqlist(Db)
+		if err != nil {
+			return err
+		}
+		return o.sclist(Db)
 	}
 	return nil
 }
@@ -52,7 +93,13 @@ func (o *service ) Get(Db *sql.DB) error{
 		err := Db.QueryRow("select key, name, description, url from service where key = ?", o.key).Scan(&o.key, &o.name, &o.description, &o.url)
 		if err !=nil {o.key = 0; return err}
 	}
-	return o.getqlist(Db)
+	err := o.getqlist(Db)
+	if err != nil {
+		o.key = 0
+		return err
+	}
+	return o.getclist(Db)
+
 }
 
 func (o *service) Pkey() int64{
@@ -80,6 +127,23 @@ func (o *service) sqlist(Db *sql.DB) error {
 	}
 	return nil
 }
+func (o *service) sclist(Db *sql.DB) error {
+	for _,r := range o.criteria {
+		err :=r.Store(Db)
+		if err != nil {
+			return err
+		}
+		fmt.Println("service lelc")
+		stmt, err := Db.Prepare("replace into servicescriterion(okey,ikey) values(?,?)")
+		checkErr(err)
+		res, err := stmt.Exec(o.key,r.key)
+		checkErr(err)
+		if res == nil {
+			fmt.Println("TODO:nothing")
+		}
+	}
+	return nil
+}
 
 func (o *service) getqlist(Db *sql.DB) error {
 	rows, err := Db.Query("select ikey from servicesquestion where okey = ?", o.key)
@@ -94,6 +158,24 @@ func (o *service) getqlist(Db *sql.DB) error {
 		o.qlist=append(o.qlist,q)
 		o.qlist[i].key = k
 		err = o.qlist[i].Get(Db)
+		checkErr(err)
+		i=i+1
+	}
+	return nil
+}
+func (o *service) getclist(Db *sql.DB) error {
+	rows, err := Db.Query("select ikey from servicescriterion where okey = ?", o.key)
+	checkErr(err)
+	defer rows.Close()
+	i :=0
+	for rows.Next() {
+		var k int64
+		q := new(criterion)
+		err := rows.Scan(&k)
+		checkErr(err)
+		o.criteria=append(o.criteria,q)
+		o.criteria[i].key = k
+		err = o.criteria[i].Get(Db)
 		checkErr(err)
 		i=i+1
 	}
