@@ -19,13 +19,17 @@ type responder struct {
 
 }
 
-func (r responder) update_suggestions() error {
+func (r *responder) update_suggestions() error {
 	err,se :=Getallservices()
 	checkErr(err)
 	r.suggestions = nil //release for garbage collection
 	for _,s := range se {
+		fmt.Print("checking service:"+s.name)
 		if Validate(r.responses,s.criteria) {
+			fmt.Println(" yes")
 			r.suggestions = append(r.suggestions,*s)
+		}else {
+			fmt.Println(" no")
 		}
 	}
 	return nil

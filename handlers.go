@@ -337,6 +337,7 @@ func sugg_handler(w http.ResponseWriter, r *http.Request) {
 	if o == nil {
 		webmessage(w,"Bad Session")
 	} else {
+		o.cresp.update_suggestions()
 		showsug(w,*(o.cresp))
 	}
 }

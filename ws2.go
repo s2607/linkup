@@ -37,6 +37,8 @@ func sometestdata() {
 		o.setpss("abc123")
 		o.cser = new(service)
 		o.cser.name = "cfaw"
+		o.cser.url= "http://liberty.edu"
+		o.cser.description= "college for a weekend"
 		Init(o.cser)
 		o.cser.qlist=append(o.cser.qlist,*p)
 		o.cser.qlist=append(o.cser.qlist,*q)

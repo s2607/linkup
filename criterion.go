@@ -21,9 +21,13 @@ type criterion struct {
 }
 
 func (o *criterion) checkstr(v string) bool{
+	fmt.Println("check str:"+v+" "+o.regex)
 	return o.checkbool(v==o.regex)//regex sans the +,*and () operators
 }
 func (o *criterion) checkint(x string) bool{
+	fmt.Print("check int:"+x+" ")
+	fmt.Print(o.aval)
+	fmt.Println(o.bval)
 	v,err := strconv.Atoi(x)
 	if err != nil { return o.checkbool(false)}
 	return o.checkbool(v>o.aval&&v<o.bval)
@@ -31,8 +35,9 @@ func (o *criterion) checkint(x string) bool{
 
 func (o *criterion) checkbool(v bool) bool{//other check methods call this one 
 	var x bool
-	x = !(v!=o.lval!=o.inv)
-
+	//x = !(v!=o.lval!=o.inv)
+	//XXX
+	x = (v!=o.inv)
 	return x
 }
 
