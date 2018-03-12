@@ -20,6 +20,14 @@ type responder struct {
 }
 
 func (r responder) update_suggestions() error {
+	err,se :=Getallservices()
+	checkErr(err)
+	r.suggestions = nil //release for garbage collection
+	for _,s := range se {
+		if Validate(r.responses,s.criteria) {
+			r.suggestions = append(r.suggestions,*s)
+		}
+	}
 	return nil
 }
 

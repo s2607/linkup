@@ -98,6 +98,7 @@ func initdb () *sql.DB{
 		"conj":"bool",
 		"regex":"string",
 		"qtype":"int",
+		"qkey":"int",
 	})
 	//relation tables
 	mktab(d,"respondersresponse",map[string]string{
@@ -108,7 +109,7 @@ func initdb () *sql.DB{
 		"okey":"int",
 		"ikey":"int",
 	})
-	mktab(d,"questionscriterion",map[string]string{
+	mktab(d,"servicescriterion",map[string]string{
 		"okey":"int",
 		"ikey":"int",
 	})
@@ -138,10 +139,24 @@ func qlist(w http.ResponseWriter, q []question){
 	{{range .}} 
 	<a href="/qprompt/{{.Pkey}}">{{.Pprompt}}</a><br>
 	{{end}}
+	<a href="/sugs">check suggestions</a>
 	</div>
 	`)
 	checkErr(err)
 	err =t.Execute(w,q)
+	checkErr(err)
+}
+func showsug(w http.ResponseWriter, r responder){
+	t,err := template.New("dispt").Parse(`
+	<div id="slist"> 
+	{{range .}} 
+	<div id="suggestion"> <a href="{{.Purl}}">{{.Pname}}</a><p>{{.Pdesc}}</p> </div><br>
+	{{end}}
+	</div>
+	<a href="/qprompt">return</a>
+	`)
+	checkErr(err)
+	err =t.Execute(w,r.suggestions)
 	checkErr(err)
 }
 func qdisp(w http.ResponseWriter, k int64) {
@@ -315,6 +330,14 @@ func qprompt_handler(w http.ResponseWriter, r *http.Request) {
 				}
 			}
 		}
+	}
+}
+func sugg_handler(w http.ResponseWriter, r *http.Request) {
+	o := curop(r)
+	if o == nil {
+		webmessage(w,"Bad Session")
+	} else {
+		showsug(w,*(o.cresp))
 	}
 }
 func checkErr(err error) {

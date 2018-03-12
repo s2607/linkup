@@ -7,7 +7,7 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 	"fmt"
 )
-func Statichandler(w http.ResponseWriter, r *http.Request) {
+func Statichandler(w http.ResponseWriter, r *http.Request) {//Should we really keep it?
 	http.ServeFile(w, r, "./"+r.URL.Path)
 	fmt.Print(r.URL.Path)
 }
@@ -49,6 +49,7 @@ func main() {//main always feels ugly and hacky
 	http.HandleFunc("/index.html", Authhandler)
 	http.HandleFunc("/qprompt", qprompt_handler)
 	http.HandleFunc("/qprompt/", qprompt_handler)
+	http.HandleFunc("/sugs/", sugg_handler)
 	rand.Seed(4)//a random number
 	fmt.Println("start")
 	go Dbwriter()
