@@ -180,6 +180,20 @@ func qanswer(k int64, s string, ur *responder) error {//TODO: error checking thi
 	ur.responses=append(ur.responses,r)
 	return nil
 }
+func showsug(w http.ResponseWriter, r responder){
+	t,err := template.New("dispt").Parse(`
+	<div id="slist">
+	{{range .}}
+	<div id="suggestion"> <a href="{{.Purl}}">{{.Pname}}</a><p>{{.Pdesc}}</p> </div><br>
+	{{end}}
+	</div>
+	<a href="/qprompt">return</a>
+	`)
+	checkErr(err)
+	err =t.Execute(w,r.suggestions)
+	checkErr(err)
+}
+
 func Authhandler(w http.ResponseWriter, r *http.Request) {
 //TODO: rename to sessionhandler
 	o := new(operator)
