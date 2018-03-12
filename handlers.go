@@ -248,7 +248,7 @@ func Ursession_handler(w http.ResponseWriter, r *http.Request) {
         return
 	}
 
-   /* //Validate Input
+    //Validate Input
     if r.FormValue("fname") == "" || r.FormValue("lname") == "" ||
         r.FormValue("dob") == "" || r.FormValue("zip") == "" {
          outpage("addresponder.html.tpl",w,map[string]string{"err":"Please Complete All Fields"})
@@ -275,7 +275,7 @@ func Ursession_handler(w http.ResponseWriter, r *http.Request) {
         outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid ZIP Code"})
         return
     }
-    //End validation*/
+    //End validation
 
     if r.FormValue("rkey") =="" {
         fmt.Println("got:"+r.FormValue("fname")+" "+r.FormValue("lname")+" "+r.FormValue("dob")+" "+r.FormValue("zip"))

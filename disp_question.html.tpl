@@ -25,7 +25,7 @@
             <h1>Answer Question</h1>
         </div>
 
-        <form id="form" action="/newr" method="post">
+        <form id="form" method="post">
             <div>{{.Pprompt}}</div>
             <br>
             <input name="qanswer" value="">
