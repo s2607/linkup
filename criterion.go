@@ -41,7 +41,8 @@ func (o *criterion) checkbool(v bool) bool{//other check methods call this one
 	return x
 }
 
-func Validate(re []*response, cr []criterion) bool {
+func Validate(re []*response, cr []*criterion) bool {
+	fmt.Println("validate")
 	//this checks the user's responses to questions it depends on.
 	//the dependancy can be checked by q.something
 	vals := make(map[int64] int)//yes, for the conjunctive critria
@@ -49,13 +50,16 @@ func Validate(re []*response, cr []criterion) bool {
 		vals[c.key] = -1
 	}
 	for _,c := range cr {
+			fmt.Println("check"+c.regex)
 		for _,r :=range re {
+			fmt.Println("against "+c.regex+" "+r.value)
 			var xj bool
 			xj = false
 			if c.q.key == r.q.key {
 				switch r.q.qtype {
 					case 0: xj = c.checkstr(r.value)
 					case 1: xj = c.checkint(r.value)
+					default: panic("nope")
 				}
 				if c.conj&&(vals[c.key]!=0) {
 					if xj {

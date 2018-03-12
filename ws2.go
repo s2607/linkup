@@ -42,7 +42,7 @@ func sometestdata() {
 		Init(o.cser)
 		o.cser.qlist=append(o.cser.qlist,*p)
 		o.cser.qlist=append(o.cser.qlist,*q)
-		o.cser.criteria=append(o.cser.criteria,*l)
+		o.cser.criteria=append(o.cser.criteria,l)
 		Sstore(o)
 	}
 	op = o

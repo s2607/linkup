@@ -7,7 +7,7 @@ import (
 
 type service struct {
 	key int64
-	criteria []criterion
+	criteria []*criterion
 	qlist []question
 	name string
 	description string
@@ -133,6 +133,7 @@ func (o *service) sclist(Db *sql.DB) error {
 		if err != nil {
 			return err
 		}
+		fmt.Println("service lelc")
 		stmt, err := Db.Prepare("replace into servicescriterion(okey,ikey) values(?,?)")
 		checkErr(err)
 		res, err := stmt.Exec(o.key,r.key)
@@ -169,7 +170,7 @@ func (o *service) getclist(Db *sql.DB) error {
 	i :=0
 	for rows.Next() {
 		var k int64
-		var q criterion
+		q := new(criterion)
 		err := rows.Scan(&k)
 		checkErr(err)
 		o.criteria=append(o.criteria,q)
