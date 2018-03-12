@@ -27,7 +27,7 @@
 
         <div id="qlist">
 	       {{range .}}
-	       <a href="/qprompt/{{.Pkey}}">{{.Pprompt}}</a><br>
+	       <a href="/qprompt/{{.Pkey}}">{{.Pprompt}}</a><br><br>
 	       {{end}}
         </div>
 

@@ -137,9 +137,10 @@ func outpage(f string , w http.ResponseWriter, d map[string]string){
 }
 func qlist(w http.ResponseWriter, q []question){
 
-    //outpage("disp_qlist.html.tpl", w, q)
+    t := template.Must(template.ParseFiles("disp_qlist.html.tpl"))
+    t.Execute(w,q)
 
-    t,err := template.New("dispt").Parse(`
+    /*t,err := template.New("dispt").Parse(`
 	<div id="qlist">
 	{{range .}} 
 	<a href="/qprompt/{{.Pkey}}">{{.Pprompt}}</a><br>
@@ -147,8 +148,8 @@ func qlist(w http.ResponseWriter, q []question){
 	</div>
 	`)
 	checkErr(err)
-	err =t.Execute(w,q)
-	checkErr(err)
+	err = t.Execute(w,q)
+	checkErr(err)*/
 }
 func qdisp(w http.ResponseWriter, k int64) {
 	q := new(question)
@@ -156,16 +157,16 @@ func qdisp(w http.ResponseWriter, k int64) {
 	err := Sget(q)//TODO: check errors
 	checkErr(err)
 
-    //outpage("disp_question.html.tpl", w, q)
+    t := template.Must(template.ParseFiles("disp_question.html.tpl"))
 
-	t,err := template.New("dispt").Parse(`
+	/*t,err := template.New("dispt").Parse(`
 	<div id="question">
 	<form method="post">
 	{{.Pprompt}}
 	<input name="qanswer" value="" >
 	<input type=submit></form>
 	</div>
-	`)//TODO: different form types
+	`)//TODO: different form types*/
 	t.Execute(w,q)
 
 }
@@ -247,7 +248,7 @@ func Ursession_handler(w http.ResponseWriter, r *http.Request) {
         return
 	}
 
-    //Validate Input
+   /* //Validate Input
     if r.FormValue("fname") == "" || r.FormValue("lname") == "" ||
         r.FormValue("dob") == "" || r.FormValue("zip") == "" {
          outpage("addresponder.html.tpl",w,map[string]string{"err":"Please Complete All Fields"})
@@ -274,7 +275,7 @@ func Ursession_handler(w http.ResponseWriter, r *http.Request) {
         outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid ZIP Code"})
         return
     }
-    //End validation
+    //End validation*/
 
     if r.FormValue("rkey") =="" {
         fmt.Println("got:"+r.FormValue("fname")+" "+r.FormValue("lname")+" "+r.FormValue("dob")+" "+r.FormValue("zip"))
@@ -452,7 +453,7 @@ func checkDOBInput(s string) bool{
 
 
     //Make sure year is less than current year
-    if year < 1 || year > time.Now().Year() {
+    if year < 1850 || year > time.Now().Year() {
         return false
     }
 

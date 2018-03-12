@@ -100,6 +100,21 @@ input:focus
     text-align: center;
 }
 
+#qlist
+{
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    text-align: center;
+}
+
+a
+{
+    color: black;
+    font-size: 17px;
+}
+
 
 
 /*FONTS
