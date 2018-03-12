@@ -14,6 +14,7 @@ func Statichandler(w http.ResponseWriter, r *http.Request) {//Should we really k
 func sometestdata() {
 	q := new(question)
 	p := new(question)
+	l := new(criterion)
 	Init(q)
 	q.prompt = "What is your mothers madin name"
 	fmt.Println(q)
@@ -21,6 +22,10 @@ func sometestdata() {
 	Init(p)
 	p.prompt = "What is your fathers madin name"
 	fmt.Println(p)
+	Init(l)
+	l.q=q
+	l.regex="dad"
+	fmt.Println(l)
 	checkErr(Sstore(p))
 	o := new(operator)
 	var op storable
@@ -35,6 +40,7 @@ func sometestdata() {
 		Init(o.cser)
 		o.cser.qlist=append(o.cser.qlist,*p)
 		o.cser.qlist=append(o.cser.qlist,*q)
+		o.cser.criteria=append(o.cser.criteria,*l)
 		Sstore(o)
 	}
 	op = o
