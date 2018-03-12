@@ -319,19 +319,20 @@ func Ursession_handler(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(s))
     } else {
 		if r.FormValue("rkey") == "0" {
-            o.cresp = new(responder)
-		    Init(o.cresp)
-            o.cresp.lname=r.FormValue("lname")
-		    o.cresp.dob,_=strconv.Atoi(r.FormValue("dob"))
-		    o.cresp.zip=r.FormValue("zip")
-		    Sstore(o)
-		    w.Header().Set("Content-Type", "text/html")
-		    w.Write([]byte("<body>New responder created!<a href=\"/qprompt\">Answer questions</a></body>\n"))
-        }else {
-            o.cresp.key,_ = strconv.ParseInt(r.FormValue("rkey"),10,64)
-			Sget(o.cresp)
-			Sstore(o)//TODO:check errors
-        }
+				o.cresp = new(responder)
+				Init(o.cresp)
+				o.cresp.fname=r.FormValue("fname")
+				o.cresp.lname=r.FormValue("lname")
+				o.cresp.dob,_=strconv.Atoi(r.FormValue("dob"))
+				o.cresp.zip=r.FormValue("zip")
+				Sstore(o)
+				w.Header().Set("Content-Type", "text/html")
+				w.Write([]byte("<body>New responder created!<a href=\"/qprompt\">Anser questions</a></body>\n"))
+			}else {
+				o.cresp.key,_ = strconv.ParseInt(r.FormValue("rkey"),10,64)
+				Sget(o.cresp)
+				Sstore(o)//TODO:check errors
+			}
     }
 }
 
