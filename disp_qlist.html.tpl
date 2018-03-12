@@ -31,6 +31,8 @@
 	       {{end}}
         </div>
 
+        <a href="/sugs"><div id="submit_button" style="width: 200px;">Suggest Services</div></a>
+
     </div>
 </body>
 </html>
