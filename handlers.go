@@ -264,6 +264,12 @@ func Ursession_handler(w http.ResponseWriter, r *http.Request) {
 	} else {
 		if r.FormValue("rkey") =="" {
 			fmt.Println("got:"+r.FormValue("fname")+" "+r.FormValue("lname")+" "+r.FormValue("dob")+" "+r.FormValue("zip"))
+			if r.FormValue("fname")==""&&r.FormValue("lname")==""&&r.FormValue("dob")==""&&r.FormValue("zip")=="" {
+				webmessage(w,"blank input")
+				return
+				}
+
+
 			dob,_:=strconv.Atoi(r.FormValue("dob"))
 			err,rs :=Getallmatch(r.FormValue("fname"),r.FormValue("lname"),dob,r.FormValue("zip"))
 			checkErr(err)
