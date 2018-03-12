@@ -495,8 +495,6 @@ func checkDOBInput(s string) bool{
         }
     }
 
-    //TODO: Possibly make a function call here to make the time object
-
     //If date is valid
     return true
 }
