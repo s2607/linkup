@@ -15,6 +15,12 @@ func sometestdata() {
 	q := new(question)
 	p := new(question)
 	l := new(criterion)
+	m := new(criterion)
+	Init(m)
+	m.q=p
+	m.regex="mom"
+	p.clist=append(p.clist,l)
+	fmt.Println(m)
 	Init(q)
 	q.prompt = "What is your mothers madin name"
 	fmt.Println(q)

@@ -6,6 +6,7 @@ import (
     "database/sql"
     "strconv"
     "html/template"
+    "errors"
     //"math/rand"
     _ "github.com/mattn/go-sqlite3"
 )
@@ -113,6 +114,10 @@ func initdb () *sql.DB{
 		"okey":"int",
 		"ikey":"int",
 	})
+	mktab(d,"questionscriterion",map[string]string{
+		"okey":"int",
+		"ikey":"int",
+	})
 	mktab(d,"servicesquestion",map[string]string{
 		"okey":"int",
 		"ikey":"int",
@@ -182,7 +187,12 @@ func qanswer(k int64, s string, ur *responder) error {//TODO: error checking thi
 	checkErr(err)
 	r:=q.New_response()
 	r.value=s//TODO:validate
-	ur.responses=append(ur.responses,r)
+	if Validate([]*response{r},q.clist) {
+		ur.responses=append(ur.responses,r)
+	}else {
+		return errors.New("Failed validation")
+	}
+	//TODO: r.delete to prevent leaking response keys
 	return nil
 }
 func Authhandler(w http.ResponseWriter, r *http.Request) {
@@ -321,7 +331,7 @@ func qprompt_handler(w http.ResponseWriter, r *http.Request) {
 			}else {
 				if qanswer(k,r.FormValue("qanswer"),o.cresp) != nil {
 					w.Header().Set("Content-Type", "text/html")
-					w.Write([]byte("<body>Failed</body>\n"))
+					w.Write([]byte("<body>Failed (bad input?)</body>\n"))
 				}else {
 					err := Sstore(o)
 					checkErr(err)
