@@ -214,7 +214,11 @@ func Authhandler(w http.ResponseWriter, r *http.Request) {
 			http.SetCookie(w, &uc)
 			http.SetCookie(w, &sc)
 
-            outpage("addresponder.html.tpl",w,map[string]string{"err":""})
+            //USE THIS AFTER ALPHA TESTING
+            //outpage("addresponder.html.tpl",w,map[string]string{"err":""})
+
+            w.Header().Set("Content-Type", "text/html")
+            w.Write([]byte("<body>Auth Successful!<a href=\"addresponder.html\">Answer questions</a></body>\n"))
 			Sstore(o)
 		}else {
 			outpage("auth.html.tpl",w,map[string]string{"err":"Invalid Password",})
@@ -262,38 +266,12 @@ func Ursession_handler(w http.ResponseWriter, r *http.Request) {
         return
 	}
 
-    //Validate Input
-    if r.FormValue("fname") == "" || r.FormValue("lname") == "" ||
-        r.FormValue("dob") == "" || r.FormValue("zip") == "" {
-         outpage("addresponder.html.tpl",w,map[string]string{"err":"Please Complete All Fields"})
-        return
-    }
 
-    if !checkTextInput(r.FormValue("fname")){
-        outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid First Name"})
-        return
-    }
-
-    if !checkTextInput(r.FormValue("lname")){
-        outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid Last Name"})
-        return
-    }
-
-    //Add this after type for DOB is correct
-    if !checkDOBInput(r.FormValue("dob")){
-        outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid Date Of Birth"})
-        return
-    }
-
-    if !checkNumberInput(r.FormValue("zip")) || len(r.FormValue("zip")) != 5 {
-        outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid ZIP Code"})
-        return
-    }
-    //End validation
 
     if r.FormValue("rkey") =="" {
         fmt.Println("got:"+r.FormValue("fname")+" "+r.FormValue("lname")+" "+r.FormValue("dob")+" "+r.FormValue("zip"))
 
+        validateResponderId(w,r)
 
         dob,_:=strconv.Atoi(r.FormValue("dob"))
 		err,rs :=Getallmatch(r.FormValue("fname"),r.FormValue("lname"),dob,r.FormValue("zip"))
@@ -319,6 +297,9 @@ func Ursession_handler(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(s))
     } else {
 		if r.FormValue("rkey") == "0" {
+
+                validateResponderId(w,r)
+
 				o.cresp = new(responder)
 				Init(o.cresp)
 				o.cresp.fname=r.FormValue("fname")
@@ -327,7 +308,7 @@ func Ursession_handler(w http.ResponseWriter, r *http.Request) {
 				o.cresp.zip=r.FormValue("zip")
 				Sstore(o)
 				w.Header().Set("Content-Type", "text/html")
-				w.Write([]byte("<body>New responder created!<a href=\"/qprompt\">Anser questions</a></body>\n"))
+				w.Write([]byte("<body>New responder created!<a href=\"/qprompt\">Answer questions</a></body>\n"))
 			}else {
 				o.cresp.key,_ = strconv.ParseInt(r.FormValue("rkey"),10,64)
 				Sget(o.cresp)
@@ -393,6 +374,37 @@ func checkErr(err error) {
 		fmt.Println("The application has encounterd an unrecoverable error")
 		panic(err)
 	}
+}
+
+func validateResponderId(w http.ResponseWriter, r *http.Request) {
+    //Validate Input
+    if r.FormValue("fname") == "" || r.FormValue("lname") == "" ||
+        r.FormValue("dob") == "" || r.FormValue("zip") == "" {
+         outpage("addresponder.html.tpl",w,map[string]string{"err":"Please Complete All Fields"})
+        return
+    }
+
+    if !checkTextInput(r.FormValue("fname")){
+        outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid First Name"})
+        return
+    }
+
+    if !checkTextInput(r.FormValue("lname")){
+        outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid Last Name"})
+        return
+    }
+
+    //Add this after type for DOB is correct
+    if !checkDOBInput(r.FormValue("dob")){
+        outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid Date Of Birth"})
+        return
+    }
+
+    if !checkNumberInput(r.FormValue("zip")) || len(r.FormValue("zip")) != 5 {
+        outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid ZIP Code"})
+        return
+    }
+    //End validation
 }
 
 func checkTextInput(s string) bool{
