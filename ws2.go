@@ -70,6 +70,7 @@ func main() {//main always feels ugly and hacky
 	defer func(){Killchan <-true}()//lol
 	sometestdata()
 	fmt.Println("starting web server")
-	err := http.ListenAndServe(":8080", nil)
+	//err := http.ListenAndServe(":8080", nil)
+	err := http.ListenAndServeTLS(":8080", "server.crt", "server.key", nil)
 	fmt.Println(err)
 }
