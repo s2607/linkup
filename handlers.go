@@ -305,11 +305,6 @@ func Ursession_handler(w http.ResponseWriter, r *http.Request) {
     } else {
 		if r.FormValue("rkey") == "0" {
 
-            //Might not need this check here, I think the only time it gets here is if the Create new entry button was clicked meaning the fields were already validated
-            //if(!validateResponderId(w,r)){
-            //    return
-            //}
-
             o.cresp = new(responder)
 			Init(o.cresp)
 			o.cresp.fname=r.FormValue("fname")
