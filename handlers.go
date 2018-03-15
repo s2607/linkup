@@ -219,9 +219,10 @@ func Authhandler(w http.ResponseWriter, r *http.Request) {
 			http.SetCookie(w, &uc)
 			http.SetCookie(w, &sc)
 
-            //USE THIS AFTER ALPHA TESTING
+            //TODO: USE THIS AFTER ALPHA TESTING
             //outpage("addresponder.html.tpl",w,map[string]string{"err":""})
 
+            //TODO: DELETE NEXT TWO LINES AFTER ALPHA TESTING AND UNCOMMENT ABOVE LINE
             w.Header().Set("Content-Type", "text/html")
             w.Write([]byte("<body>Auth Successful!<a href=\"addresponder.html\">Answer questions</a></body>\n"))
 			Sstore(o)
