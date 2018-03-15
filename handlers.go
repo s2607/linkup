@@ -101,6 +101,7 @@ func initdb () *sql.DB{
 		"conj":"bool",
 		"regex":"string",
 		"qtype":"int",
+        "qkey":"int",
 	})
 	//relation tables
 	mktab(d,"respondersresponse",map[string]string{
@@ -116,6 +117,10 @@ func initdb () *sql.DB{
 		"ikey":"int",
 	})
 	mktab(d,"servicesquestion",map[string]string{
+		"okey":"int",
+		"ikey":"int",
+	})
+    mktab(d,"servicescriterion",map[string]string{
 		"okey":"int",
 		"ikey":"int",
 	})
@@ -271,7 +276,9 @@ func Ursession_handler(w http.ResponseWriter, r *http.Request) {
     if r.FormValue("rkey") =="" {
         fmt.Println("got:"+r.FormValue("fname")+" "+r.FormValue("lname")+" "+r.FormValue("dob")+" "+r.FormValue("zip"))
 
-        validateResponderId(w,r)
+        if(!validateResponderId(w,r)){
+            return
+        }
 
         dob,_:=strconv.Atoi(r.FormValue("dob"))
 		err,rs :=Getallmatch(r.FormValue("fname"),r.FormValue("lname"),dob,r.FormValue("zip"))
@@ -298,22 +305,25 @@ func Ursession_handler(w http.ResponseWriter, r *http.Request) {
     } else {
 		if r.FormValue("rkey") == "0" {
 
-                validateResponderId(w,r)
+            //Might not need this check here, I think the only time it gets here is if the Create new entry button was clicked meaning the fields were already validated
+            //if(!validateResponderId(w,r)){
+            //    return
+            //}
 
-				o.cresp = new(responder)
-				Init(o.cresp)
-				o.cresp.fname=r.FormValue("fname")
-				o.cresp.lname=r.FormValue("lname")
-				o.cresp.dob,_=strconv.Atoi(r.FormValue("dob"))
-				o.cresp.zip=r.FormValue("zip")
-				Sstore(o)
-				w.Header().Set("Content-Type", "text/html")
-				w.Write([]byte("<body>New responder created!<a href=\"/qprompt\">Answer questions</a></body>\n"))
-			}else {
-				o.cresp.key,_ = strconv.ParseInt(r.FormValue("rkey"),10,64)
-				Sget(o.cresp)
-				Sstore(o)//TODO:check errors
-			}
+            o.cresp = new(responder)
+			Init(o.cresp)
+			o.cresp.fname=r.FormValue("fname")
+			o.cresp.lname=r.FormValue("lname")
+			o.cresp.dob,_=strconv.Atoi(r.FormValue("dob"))
+			o.cresp.zip=r.FormValue("zip")
+			Sstore(o)
+			w.Header().Set("Content-Type", "text/html")
+			w.Write([]byte("<body>New responder created!<a href=\"/qprompt\">Answer questions</a></body>\n"))
+        }else {
+            o.cresp.key,_ = strconv.ParseInt(r.FormValue("rkey"),10,64)
+			Sget(o.cresp)
+			Sstore(o)//TODO:check errors
+		}
     }
 }
 
@@ -376,34 +386,36 @@ func checkErr(err error) {
 	}
 }
 
-func validateResponderId(w http.ResponseWriter, r *http.Request) {
+func validateResponderId(w http.ResponseWriter, r *http.Request) bool {
     //Validate Input
     if r.FormValue("fname") == "" || r.FormValue("lname") == "" ||
         r.FormValue("dob") == "" || r.FormValue("zip") == "" {
          outpage("addresponder.html.tpl",w,map[string]string{"err":"Please Complete All Fields"})
-        return
+        return false
     }
 
     if !checkTextInput(r.FormValue("fname")){
         outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid First Name"})
-        return
+        return false
     }
 
     if !checkTextInput(r.FormValue("lname")){
         outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid Last Name"})
-        return
+        return false
     }
 
     //Add this after type for DOB is correct
     if !checkDOBInput(r.FormValue("dob")){
         outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid Date Of Birth"})
-        return
+        return false
     }
 
     if !checkNumberInput(r.FormValue("zip")) || len(r.FormValue("zip")) != 5 {
         outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid ZIP Code"})
-        return
+        return false
     }
+
+    return true
     //End validation
 }
 
