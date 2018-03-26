@@ -216,7 +216,15 @@ func Authhandler(w http.ResponseWriter, r *http.Request) {
 			http.SetCookie(w, &sc)
 
 			w.Header().Set("Content-Type", "text/html")
-			w.Write([]byte("<body>Auth successfull!<br><a href=\"/addresponder.html\">add a responder</a></body>\n"))
+			w.Write([]byte(`<body>Auth successfull!<br>
+				<a href="/addresponder.html">add a responder</a>
+				<a href="/newop">add an operator</a>
+				<a href="/newserv">add a service</a>
+				<a href="/newq">add a question</a>
+				<a href="/searchq">search for a question</a>
+				<a href="/searchop">search for an operator</a>
+				<a href="/searchs">search for a service</a>
+				</body>\n`))
 			Sstore(o)
 		}else {
 			outpage("auth.html.tpl",w,map[string]string{"err":"Bad Secret",})

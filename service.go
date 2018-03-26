@@ -18,15 +18,13 @@ type service struct {
 func (s *service) check(rid  int) bool {
 	return true
 }
-func (s *service) Purl() string {
-	return s.url
-}
-func (s *service) Pname() string {
-	return s.name
-}
 func (s *service) Pdesc() string {
 	return s.description
 }
+//Template stuff
+func (s *service)Pname() string {return s.name}
+func (s *service)Pdescription() string {return s.description}
+func (s *service)Purl() string {return s.url}
 
 //DB stuff
 

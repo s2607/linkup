@@ -141,6 +141,7 @@ func (o *criterion) Get(Db *sql.DB) error{
 	return nil
 }
 
+//Template getters
 func (o *criterion) Pkey() int64{
 	return o.key
 }

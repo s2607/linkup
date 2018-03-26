@@ -20,11 +20,49 @@ func (q *question) New_response ()  *response {
 	return r
 }
 //Should have been better with visibility...
+//template getters
 func (o *question)Pprompt() string {
 	return o.prompt
 }
 
+func (q *question)Ptype() int {return q.qtype}
+func (q *question)Pclist() []*criterion {return q.clist}
 //DB stuff
+
+func Getallprompts (p string) (error, []*question){
+	nchan := make(chan error)
+	var r []*question
+	DBchan <- func(Db *sql.DB)func() {
+		rows, err := Db.Query("select key from responder where prompt = ?", p)//TODO regex
+		checkErr(err)
+		defer rows.Close()
+		i :=0
+		for rows.Next() {
+			var k int64
+			err := rows.Scan(&k)
+			if err != nil {
+				nchan <- err
+			}
+			r = append(r,new(question))
+			r[i].key = k
+			err =r[i].Get(Db)
+			if err != nil {
+				nchan <- err
+			}
+			i=i+1
+		}
+		return func() {
+			nchan <-err
+		}
+	}
+	return <-nchan,r
+}
+func Get1q(p string) (*question) {
+	err,qs := Getallprompts(p)
+	if err != nil || len(qs)<1{return nil} else{
+		return qs[0]
+	}
+}
 func (o *question) Store(Db *sql.DB) error{
 	if o.key == 0 { //init
 		stmt, err := Db.Prepare("insert into question(key) values(NULL)")
