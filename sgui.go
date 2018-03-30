@@ -64,7 +64,7 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
 			Sget(ns)
 		}
 		t := template.Must(template.ParseFiles("addserv.html.tpl"))
-		t.Execute(w,ns)
+		t.Execute(w,struct{A string; O *service}{"/newserv",ns})
 	}
 }
 
@@ -96,8 +96,8 @@ func questioncreate_handler(w http.ResponseWriter, r *http.Request) {
 			nq.key,_ = strconv.ParseInt(r.FormValue("nqkey"),10,64)
 			Sget(nq)
 		}
-		t := template.Must(template.ParseFiles("addserv.html.tpl"))
-		t.Execute(w,nq)
+		t := template.Must(template.ParseFiles("addq.html.tpl"))
+		t.Execute(w,struct{A string; O *question}{"/newq",nq})
 	}
 }
 func ist(s string) bool{

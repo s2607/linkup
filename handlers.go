@@ -216,7 +216,7 @@ func Authhandler(w http.ResponseWriter, r *http.Request) {
 			http.SetCookie(w, &sc)
 
 			w.Header().Set("Content-Type", "text/html")
-			w.Write([]byte(`<body>Auth successfull!<br>
+			w.Write([]byte(`<body>Auth successfull!<br><pre>
 				<a href="/addresponder.html">add a responder</a>
 				<a href="/newop">add an operator</a>
 				<a href="/newserv">add a service</a>

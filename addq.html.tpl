@@ -8,5 +8,5 @@ Criteria:<br>
 {{range .O.Pclist}}
 	<form action="delc" method="post">delete <input name="nckey" value="{{.Pkey}}"><input type=submit></form><hr>
 {{end}}
-<form action="addc"> add a criterion <input name="rp" type="hidden" value="{{.A}}" ><input type=submit> </form>
+<form action="addc"> add a criterion <input name="rp" type="hidden" value="/newq" ><input type=submit> </form>
 </body>

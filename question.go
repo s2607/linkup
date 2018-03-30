@@ -27,13 +27,14 @@ func (o *question)Pprompt() string {
 
 func (q *question)Ptype() int {return q.qtype}
 func (q *question)Pclist() []*criterion {return q.clist}
+func (q *question)Ptext() string {return q.prompt}
 //DB stuff
 
 func Getallprompts (p string) (error, []*question){
 	nchan := make(chan error)
 	var r []*question
 	DBchan <- func(Db *sql.DB)func() {
-		rows, err := Db.Query("select key from responder where prompt = ?", p)//TODO regex
+		rows, err := Db.Query("select key from question where prompt REGEXP ?", p)//TODO regex
 		checkErr(err)
 		defer rows.Close()
 		i :=0

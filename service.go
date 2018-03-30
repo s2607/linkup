@@ -28,6 +28,34 @@ func (s *service)Purl() string {return s.url}
 
 //DB stuff
 
+func Getallsbyname (p string) (error, []*service){
+	nchan := make(chan error)
+	var r []*question
+	DBchan <- func(Db *sql.DB)func() {
+		rows, err := Db.Query("select key from service where name = ?", p)//TODO regex
+		checkErr(err)
+		defer rows.Close()
+		i :=0
+		for rows.Next() {
+			var k int64
+			err := rows.Scan(&k)
+			if err != nil {
+				nchan <- err
+			}
+			r = append(r,new(service))
+			r[i].key = k
+			err =r[i].Get(Db)
+			if err != nil {
+				nchan <- err
+			}
+			i=i+1
+		}
+		return func() {
+			nchan <-err
+		}
+	}
+	return <-nchan,r
+}
 func Getallservices() (error, []*service){
 	nchan := make(chan error)
 	var r []*service
