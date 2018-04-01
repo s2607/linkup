@@ -25,13 +25,13 @@
             <h1>Add Operator</h1>
         </div>
 
-        <form action="/newop" method="post">
+        <form id="form" action="/newop" method="post">
             <p>New Username</p>
             <input name="uname">
             <p>New Password</p>
             <input name="pw">
             <p>Service Key</p>
-            <input name="skey">
+            <input name="skey"><br>
             <input id="submit_button" value="Submit" type=submit>
         </form>
 

@@ -25,7 +25,7 @@
             <h1>Add Criterion</h1>
         </div>
 
-        <form action="{{.A}}" method="post">
+        <form id="form" action="{{.A}}" method="post">
             <p>qprompt</p>
             <input name="qprompt" >
             <p>regex</p>
@@ -41,7 +41,7 @@
             <p>inv</p>
             <input name="inv">
             <p>conj</p>
-            <input name="conj">
+            <input name="conj"><br>
 		<input id="submit_button" value="Submit" type=submit>
     </form>
 

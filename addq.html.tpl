@@ -26,27 +26,27 @@
             <h1>Add Question</h1>
         </div>
 
-        <form action="/newq" method="post">
+        <form id="form" action="/newq" method="post">
             <!--TODO:oldvals-->
             <p>prompt</p>
             <input name="prompt" value="{{.O.Pprompt}}">
             <p>qtype</p>
-            <input name="qtype" value="{{.O.Ptype}}">
+            <input name="qtype" value="{{.O.Ptype}}"><br>
             <input id="submit_button" value="Submit" type=submit>
         </form><hr>
 
         Criteria:<br>
         {{range .O.Pclist}}
-	   <form action="delc" method="post">
+	   <form id="form" action="delc" method="post">
            <p>Delete a Criterion</p>
-           <input name="nckey" value="{{.Pkey}}">
+           <input name="nckey" value="{{.Pkey}}"><br>
            <input id="submit_button" value="Submit" type=submit>
         </form><hr>
         {{end}}
 
-        <form action="addc">
+        <form id="form" action="addc">
             <p>Add a Criterion</p>
-            <input name="rp" type="hidden" value="/newq" >
+            <input name="rp" type="hidden" value="/newq" ><br>
             <input id="submit_button" value="Submit" type=submit>
         </form>
 

@@ -25,44 +25,44 @@
             <h1>Add Service</h1>
         </div>
 
-        <form action="/newserv" method="post">
+        <form id="form" action="/newserv" method="post">
             <p>Name</p>
             <input name="name" value="{{.O.Pname}}">
             <p>Description</p>
             <input name="description" value="{{.O.Pdescription}}">
             <p>Website URL</p>
-            <input name="url" value="{{.O.Purl}}">
+            <input name="url" value="{{.O.Purl}}"><br>
             <input id="submit_button" value="Submit" type=submit>
         </form><hr>
 
         Criteria:<br>
         {{range .O.Pclist}}
-        <form action="delc" method="post">
+        <form id="form" action="delc" method="post">
             <p>delete</p>
-            <input name="nckey" value="{{.Pkey}}">
+            <input name="nckey" value="{{.Pkey}}"><br>
             <input id="submit_button" value="Submit" type=submit>
         </form><hr>
         {{end}}
 
-        <form action="addc">
+        <form id="form" action="addc">
             <p>Add A Criterion</p>
-            <input name="rp" type="hidden" value="/neserv" >
+            <input name="rp" type="hidden" value="/neserv" ><br>
             <input id="submit_button" value="Submit" type=submit>
         </form>
         <hr>
 
         Questions:<br>
         {{range .O.Pqlist}}
-        <form action="delc" method="post">{{.Pprompt}}
+        <form id="form" action="delc" method="post">{{.Pprompt}}
             <p>delete</p>
-            <input name="nckey" value="{{.Pkey}}">
+            <input name="nckey" value="{{.Pkey}}"><br>
             <input id="submit_button" value="Submit" type=submit>
         </form><hr>
         {{end}}
 
-        <form action="/newserv">
+        <form id="form" action="/newserv">
             <p>Add A Question (Type The Prompt Here)</p>
-            <input name="nprompt">
+            <input name="nprompt"><br>
             <input id="submit_button" value="Submit" type=submit>
         </form>
 
