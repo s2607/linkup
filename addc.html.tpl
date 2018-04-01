@@ -22,7 +22,7 @@
         </div>
 
         <div id="title">
-            <h1>Addc</h1>
+            <h1>Add Criterion</h1>
         </div>
 
         <form action="{{.A}}" method="post">
@@ -42,7 +42,7 @@
             <input name="inv">
             <p>conj</p>
             <input name="conj">
-		<input type=submit>
+		<input id="submit_button" value="Submit" type=submit>
     </form>
 
     </div>
