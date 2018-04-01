@@ -35,7 +35,10 @@
             <input id="submit_button" value="Submit" type=submit>
         </form><hr>
 
-        Criteria:<br>
+        <div id="title">
+            <h2>Criteria</h2>
+        </div>
+
         {{range .O.Pclist}}
 	   <form id="form" action="delc" method="post">
            <p>Delete a Criterion</p>

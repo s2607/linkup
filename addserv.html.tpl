@@ -35,7 +35,10 @@
             <input id="submit_button" value="Submit" type=submit>
         </form><hr>
 
-        Criteria:<br>
+        <div id="title">
+            <h2>Criteria</h2>
+        </div>
+
         {{range .O.Pclist}}
         <form id="form" action="delc" method="post">
             <p>delete</p>
@@ -51,7 +54,9 @@
         </form>
         <hr>
 
-        Questions:<br>
+        <div id="title">
+            <h2>Questions</h2>
+        </div>
         {{range .O.Pqlist}}
         <form id="form" action="delc" method="post">{{.Pprompt}}
             <p>delete</p>
