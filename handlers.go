@@ -186,7 +186,7 @@ func qanswer(k int64, s string, ur *responder) error {//TODO: error checking thi
 	return nil
 }
 func showsug(w http.ResponseWriter, r responder){
-	t,err := template.New("dispt").Parse(`
+	/*t,err := template.New("dispt").Parse(`
 	<div id="slist">
 	{{range .}}
 	<div id="suggestion"> <a href="{{.Purl}}">{{.Pname}}</a><p>{{.Pdesc}}</p> </div><br>
@@ -194,9 +194,13 @@ func showsug(w http.ResponseWriter, r responder){
 	</div>
 	<a href="/qprompt">return</a>
 	`)
-	checkErr(err)
-	err =t.Execute(w,r.suggestions)
-	checkErr(err)
+	checkErr(err)*/
+
+    t := template.Must(template.ParseFiles("disp_sugs.html.tpl"))
+
+    err := t.Execute(w,r.suggestions)
+    checkErr(err)
+
 }
 
 func Authhandler(w http.ResponseWriter, r *http.Request) {
@@ -219,12 +223,42 @@ func Authhandler(w http.ResponseWriter, r *http.Request) {
 			http.SetCookie(w, &uc)
 			http.SetCookie(w, &sc)
 
-            //TODO: USE THIS AFTER ALPHA TESTING
-            //outpage("addresponder.html.tpl",w,map[string]string{"err":""})
 
             //TODO: DELETE NEXT TWO LINES AFTER ALPHA TESTING AND UNCOMMENT ABOVE LINE
             w.Header().Set("Content-Type", "text/html")
-            w.Write([]byte("<body>Auth Successful!<a href=\"addresponder.html\">Answer questions</a></body>\n"))
+            w.Write([]byte(`<html><head>
+            <title>LinkUp</title>
+            <link rel="icon" href="imgs/chevron.png" type="image/x-icon">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+            <meta charset="UTF-8">
+            <meta name="description" content="">
+            <meta name="keywords" content="">
+
+            <!-- Fonts -->
+            <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed|Nunito+Sans" rel="stylesheet">
+
+            <!-- Stylesheet -->
+            <link href="css/survey_stylesheet.css" rel="stylesheet">
+
+            </head>
+            <body><div id="container"><div id="top_bar">
+            <img id="logo" src="imgs/logo.svg" alt="LinkUp">
+            </div>
+
+            <div id="title">
+                <h1>Select An Action</h1>
+            </div><br /><br />
+            <div style="text-align: center;">
+				<a href="/addresponder.html">Add A Responder</a><br /><br />
+				<a href="/newop">Add An Operator</a><br /><br />
+				<a href="/newserv">Add A Service</a><br /><br />
+				<a href="/newq">Add A Question</a><br /><br />
+				<a href="/searchq">Search For A Question</a><br /><br />
+				<a href="/searchop">Search For An Operator</a><br /><br />
+				<a href="/searchs">Search For A Service</a><br />
+            </div>
+            </div>
+			</body>`))
 			Sstore(o)
 		}else {
 			outpage("auth.html.tpl",w,map[string]string{"err":"Invalid Password",})
