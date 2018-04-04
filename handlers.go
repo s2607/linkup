@@ -224,7 +224,6 @@ func Authhandler(w http.ResponseWriter, r *http.Request) {
 			http.SetCookie(w, &sc)
 
 
-            //TODO: DELETE NEXT TWO LINES AFTER ALPHA TESTING AND UNCOMMENT ABOVE LINE
             w.Header().Set("Content-Type", "text/html")
             w.Write([]byte(`<html><head>
             <title>LinkUp</title>
@@ -251,11 +250,11 @@ func Authhandler(w http.ResponseWriter, r *http.Request) {
             <div style="text-align: center;">
 				<a href="/addresponder.html">Add A Responder</a><br /><br />
 				<a href="/newop">Add An Operator</a><br /><br />
-				<a href="/newserv">Add A Service</a><br /><br />
+				<a href="/newserv">Add A Service Program</a><br /><br />
 				<a href="/newq">Add A Question</a><br /><br />
 				<a href="/searchq">Search For A Question</a><br /><br />
 				<a href="/searchop">Search For An Operator</a><br /><br />
-				<a href="/searchs">Search For A Service</a><br />
+				<a href="/searchs">Search For A Service Program</a><br />
             </div>
             </div>
 			</body>`))
