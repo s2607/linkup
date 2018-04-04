@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"database/sql"
+	"regexp"
 )
 
 type service struct {
@@ -29,29 +30,36 @@ func (s *service)Purl() string {return s.url}
 //DB stuff
 
 func Getallsbyname (p string) (error, []*service){
+	fmt.Println("got:"+p)
+	if p=="" {return nil,nil}
+	regex, _ := regexp.Compile(p)
+
 	nchan := make(chan error)
-	var r []*question
+	var r []*service
 	DBchan <- func(Db *sql.DB)func() {
-		rows, err := Db.Query("select key from service where name = ?", p)//TODO regex
+
+		rows, err := Db.Query("select key from service")
 		checkErr(err)
 		defer rows.Close()
 		i :=0
 		for rows.Next() {
 			var k int64
-			err := rows.Scan(&k)
-			if err != nil {
-				nchan <- err
+			s := new(service)
+			rows.Scan(&k)
+			//checkErr(err)
+			if k == 0 {continue}
+			if !regex.MatchString(s.name){
+				fmt.Println("skip")
+				continue
 			}
-			r = append(r,new(service))
+			r=append(r,s)
 			r[i].key = k
-			err =r[i].Get(Db)
-			if err != nil {
-				nchan <- err
-			}
+			r[i].Get(Db)
+			//checkErr(err)
 			i=i+1
 		}
 		return func() {
-			nchan <-err
+			nchan <-nil
 		}
 	}
 	return <-nchan,r
@@ -66,20 +74,18 @@ func Getallservices() (error, []*service){
 		i :=0
 		for rows.Next() {
 			var k int64
-			err := rows.Scan(&k)
-			if err != nil {
-				nchan <- err
-			}
-			r = append(r,new(service))
+			s := new(service)
+			rows.Scan(&k)
+			//checkErr(err)
+			if k == 0 {continue}
+			r=append(r,s)
 			r[i].key = k
-			err =r[i].Get(Db)
-			if err != nil {
-				nchan <- err
-			}
+			r[i].Get(Db)
+			//checkErr(err)
 			i=i+1
 		}
 		return func() {
-			nchan <-err
+			nchan <-nil
 		}
 	}
 	return <-nchan,r

@@ -34,7 +34,7 @@ func Getallprompts (p string) (error, []*question){
 	nchan := make(chan error)
 	var r []*question
 	DBchan <- func(Db *sql.DB)func() {
-		rows, err := Db.Query("select key from question where prompt REGEXP ?", p)//TODO regex
+		rows, err := Db.Query("select key from question where prompt = ?", p)//TODO regex
 		checkErr(err)
 		defer rows.Close()
 		i :=0

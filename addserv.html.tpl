@@ -9,7 +9,7 @@ Criteria:<br>
 {{range .O.Pclist}}
 	<form action="delc" method="post">delete <input name="nckey" value="{{.Pkey}}"><input type=submit></form><hr>
 {{end}}
-<form action="addc"> add a criterion <input name="rp" type="hidden" value="/neserv" ><input type=submit> </form>
+<form action="/addc"> add a criterion <input name="rp" type="hidden" value="/neserv" ><input type=submit> </form>
 <hr>
 Questions:<br>
 {{range .O.Pqlist}}
