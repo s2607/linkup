@@ -5,6 +5,7 @@ import (
     "strconv"
     "database/sql"
     "errors"
+    "regexp"
 )
 
 type criterion struct {
@@ -22,7 +23,9 @@ type criterion struct {
 
 func (o *criterion) checkstr(v string) bool{
 	fmt.Println("check str:"+v+" "+o.regex)
-	return o.checkbool(v==o.regex)//regex sans the +,*and () operators
+	regex,_ := regexp.Compile(o.regex)
+	//return o.checkbool(v==o.regex)//regex sans the +,*and () operators
+	return o.checkbool(regex.MatchString(v))
 }
 func (o *criterion) checkint(x string) bool{
 	fmt.Print("check int:"+x+" ")
