@@ -222,7 +222,7 @@ func Authhandler(w http.ResponseWriter, r *http.Request) {
 				<a href="/newserv">add a service</a>
 				<a href="/newq">add a question</a>
 				<a href="/searchq">search for a question</a>
-				<a href="/searchop">search for an operator</a>
+				<a href="/searcho">search for an operator</a>
 				<a href="/searchs">search for a service</a>
 				</body>\n`))
 			Sstore(o)

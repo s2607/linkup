@@ -132,7 +132,7 @@ func criterioncreate_handler(w http.ResponseWriter, r *http.Request) {
 			nc.key,_ = strconv.ParseInt(r.FormValue("nckey"),10,64)
 			Sget(nc)
 		}
-		t := template.Must(template.ParseFiles("addserv.html.tpl"))
+		t := template.Must(template.ParseFiles("addc.html.tpl"))
 		t.Execute(w,nc)
 	}
 }
@@ -164,12 +164,27 @@ func delq_handler(w http.ResponseWriter, r *http.Request) {
 }
 //search
 
-func searchq_handler(w http.ResponseWriter, r *http.Request) {}
+func searchq_handler(w http.ResponseWriter, r *http.Request) {
+		fmt.Println("searchq"+r.FormValue("q"))
+		err,s := Getallqbyname(r.FormValue("q"))
+		fmt.Println(s)
+		checkErr(err)
+		t := template.Must(template.ParseFiles("searchq.html.tpl"))
+		t.Execute(w,s)
+}
 func searchs_handler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("searchs"+r.FormValue("q"))
 		err,s := Getallsbyname(r.FormValue("q"))
+		fmt.Println(s)
 		checkErr(err)
 		t := template.Must(template.ParseFiles("searchs.html.tpl"))
 		t.Execute(w,s)
 }
-func searcho_handler(w http.ResponseWriter, r *http.Request) {}
+func searcho_handler(w http.ResponseWriter, r *http.Request) {
+		fmt.Println("searchq"+r.FormValue("q"))
+		err,s := Getallobyname(r.FormValue("q"))
+		fmt.Println(s)
+		checkErr(err)
+		t := template.Must(template.ParseFiles("searchq.html.tpl"))
+		t.Execute(w,s)
+}

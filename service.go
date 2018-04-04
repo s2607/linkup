@@ -22,6 +22,12 @@ func (s *service) check(rid  int) bool {
 func (s *service) Pdesc() string {
 	return s.description
 }
+func (s *service) Pclist() []*criterion {
+	return s.criteria
+}
+func (s *service) Pqlist() []question{
+	return s.qlist
+}
 //Template stuff
 func (s *service)Pname() string {return s.name}
 func (s *service)Pdescription() string {return s.description}

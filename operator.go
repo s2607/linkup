@@ -8,6 +8,7 @@ import (
 	"crypto/md5"
 	"strconv"
 	"errors"
+	"regexp"
 )
 
 type operator struct {
@@ -35,6 +36,42 @@ func (o *operator) Checksesh(sesh int) bool{
 	fmt.Println("Checking "+strconv.Itoa(sesh)+" against "+strconv.Itoa(o.cursessionid))
 	if o.cursessionid == sesh { return true}
 	return false
+}
+
+func Getallobyname (p string) (error, []*operator){
+	fmt.Println("got:"+p)
+	if p=="" {return nil,nil}
+	regex, _ := regexp.Compile(p)
+
+	nchan := make(chan error)
+	var r []*operator
+	DBchan <- func(Db *sql.DB)func() {
+
+		rows, err := Db.Query("select key from service")
+		checkErr(err)
+		defer rows.Close()
+		i :=0
+		for rows.Next() {
+			var k int64
+			s := new(operator)
+			rows.Scan(&k)
+			//checkErr(err)
+			if k == 0 {continue}
+			if !regex.MatchString(s.uname){
+				fmt.Println("skip")
+				continue
+			}
+			r=append(r,s)
+			r[i].key = k
+			r[i].Get(Db)
+			//checkErr(err)
+			i=i+1
+		}
+		return func() {
+			nchan <-nil
+		}
+	}
+	return <-nchan,r
 }
 func (o *operator) Getbyname(name string) error{
 	if o == nil {
