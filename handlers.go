@@ -6,7 +6,10 @@ import (
     "database/sql"
     "strconv"
     "html/template"
-    "errors"
+//    "errors"
+    "unicode"
+    "time"
+    "strings"
     //"math/rand"
     _ "github.com/mattn/go-sqlite3"
 )
@@ -122,6 +125,10 @@ func initdb () *sql.DB{
 		"okey":"int",
 		"ikey":"int",
 	})
+    mktab(d,"servicescriterion",map[string]string{
+		"okey":"int",
+		"ikey":"int",
+	})
 	mktab(d,"servicesquestioncriterion",map[string]string{
 		"okey":"int",
 		"iqkey":"int",
@@ -139,44 +146,36 @@ func outpage(f string , w http.ResponseWriter, d map[string]string){
 	t.Execute(w,d)
 }
 func qlist(w http.ResponseWriter, q []question){
-	t,err := template.New("dispt").Parse(`
-	<div id="qlist"> 
+    t := template.Must(template.ParseFiles("disp_qlist.html.tpl"))
+    t.Execute(w,q)
+
+    /*t,err := template.New("dispt").Parse(`
+	<div id="qlist">
 	{{range .}} 
 	<a href="/qprompt/{{.Pkey}}">{{.Pprompt}}</a><br>
 	{{end}}
-	<a href="/sugs">check suggestions</a>
 	</div>
 	`)
 	checkErr(err)
-	err =t.Execute(w,q)
-	checkErr(err)
-}
-func showsug(w http.ResponseWriter, r responder){
-	t,err := template.New("dispt").Parse(`
-	<div id="slist"> 
-	{{range .}} 
-	<div id="suggestion"> <a href="{{.Purl}}">{{.Pname}}</a><p>{{.Pdesc}}</p> </div><br>
-	{{end}}
-	</div>
-	<a href="/qprompt">return</a>
-	`)
-	checkErr(err)
-	err =t.Execute(w,r.suggestions)
-	checkErr(err)
+	err = t.Execute(w,q)
+	checkErr(err)*/
 }
 func qdisp(w http.ResponseWriter, k int64) {
 	q := new(question)
 	q.key = k
 	err := Sget(q)//TODO: check errors
 	checkErr(err)
-	t,err := template.New("dispt").Parse(`
-	<div id="question"> 
+
+    t := template.Must(template.ParseFiles("disp_question.html.tpl"))
+
+	/*t,err := template.New("dispt").Parse(`
+	<div id="question">
 	<form method="post">
 	{{.Pprompt}}
 	<input name="qanswer" value="" >
 	<input type=submit></form>
 	</div>
-	`)//TODO: different form types
+	`)//TODO: different form types*/
 	t.Execute(w,q)
 
 }
@@ -187,14 +186,27 @@ func qanswer(k int64, s string, ur *responder) error {//TODO: error checking thi
 	checkErr(err)
 	r:=q.New_response()
 	r.value=s//TODO:validate
-	if Validate([]*response{r},q.clist) {
-		ur.responses=append(ur.responses,r)
-	}else {
-		return errors.New("Failed validation")
-	}
-	//TODO: r.delete to prevent leaking response keys
+	ur.responses=append(ur.responses,r)
 	return nil
 }
+func showsug(w http.ResponseWriter, r responder){
+	/*t,err := template.New("dispt").Parse(`
+	<div id="slist">
+	{{range .}}
+	<div id="suggestion"> <a href="{{.Purl}}">{{.Pname}}</a><p>{{.Pdesc}}</p> </div><br>
+	{{end}}
+	</div>
+	<a href="/qprompt">return</a>
+	`)
+	checkErr(err)*/
+
+    t := template.Must(template.ParseFiles("disp_sugs.html.tpl"))
+
+    err := t.Execute(w,r.suggestions)
+    checkErr(err)
+
+}
+
 func Authhandler(w http.ResponseWriter, r *http.Request) {
 //TODO: rename to sessionhandler
 	o := new(operator)
@@ -215,27 +227,52 @@ func Authhandler(w http.ResponseWriter, r *http.Request) {
 			http.SetCookie(w, &uc)
 			http.SetCookie(w, &sc)
 
-			w.Header().Set("Content-Type", "text/html")
-			w.Write([]byte(`<body>Auth successfull!<br><pre>
-				<a href="/addresponder.html">add a responder</a>
-				<a href="/newop">add an operator</a>
-				<a href="/newserv">add a service</a>
-				<a href="/newq">add a question</a>
-				<a href="/searchq">search for a question</a>
-				<a href="/searcho">search for an operator</a>
-				<a href="/searchs">search for a service</a>
-				</body>\n`))
+
+            w.Header().Set("Content-Type", "text/html")
+            w.Write([]byte(`<html><head>
+            <title>LinkUp</title>
+            <link rel="icon" href="imgs/chevron.png" type="image/x-icon">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+            <meta charset="UTF-8">
+            <meta name="description" content="">
+            <meta name="keywords" content="">
+
+            <!-- Fonts -->
+            <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed|Nunito+Sans" rel="stylesheet">
+
+            <!-- Stylesheet -->
+            <link href="css/survey_stylesheet.css" rel="stylesheet">
+
+            </head>
+            <body><div id="container"><div id="top_bar">
+            <img id="logo" src="imgs/logo.svg" alt="LinkUp">
+            </div>
+
+            <div id="title">
+                <h1>Select An Action</h1>
+            </div><br /><br />
+            <div style="text-align: center;">
+				<a href="/addresponder.html">Add A Responder</a><br /><br />
+				<a href="/newop">Add An Operator</a><br /><br />
+				<a href="/newserv">Add A Service Program</a><br /><br />
+				<a href="/newq">Add A Question</a><br /><br />
+				<a href="/searchq">Search For A Question</a><br /><br />
+				<a href="/searcho">Search For An Operator</a><br /><br />
+				<a href="/searchs">Search For A Service Program</a><br />
+            </div>
+            </div>
+			</body>`))
 			Sstore(o)
 		}else {
-			outpage("auth.html.tpl",w,map[string]string{"err":"Bad Secret",})
+			outpage("auth.html.tpl",w,map[string]string{"err":"Invalid Password",})
 		}
 	} else {
 		fmt.Println("key:"+strconv.FormatInt(o.key,10))
 		//webmessage(w,"No identity to auth!\n")
 		if r.FormValue("uname") != ""|| r.FormValue("pw") != "" {
-			outpage("auth.html.tpl",w,map[string]string{"err":"Please enter a username",})
+			outpage("auth.html.tpl",w,map[string]string{"err":"Please Enter A Valid Username",})
 		} else {
-			outpage("auth.html.tpl",w,map[string]string{"err":""})
+			outpage("auth.html.tpl",w,map[string]string{"err":"Please Enter Credentials"})
 		}
 	}
 
@@ -269,50 +306,58 @@ func Ursession_handler(w http.ResponseWriter, r *http.Request) {
 	o := curop(r)
 	if o == nil {
 		webmessage(w,"Bad Session")
-	} else {
-		if r.FormValue("rkey") =="" {
-			fmt.Println("got:"+r.FormValue("fname")+" "+r.FormValue("lname")+" "+r.FormValue("dob")+" "+r.FormValue("zip"))
-			if r.FormValue("fname")==""&&r.FormValue("lname")==""&&r.FormValue("dob")==""&&r.FormValue("zip")=="" {
-				webmessage(w,"blank input")
-				return
-				}
-
-
-			dob,_:=strconv.Atoi(r.FormValue("dob"))
-			err,rs :=Getallmatch(r.FormValue("fname"),r.FormValue("lname"),dob,r.FormValue("zip"))
-			checkErr(err)
-
-			w.Header().Set("Content-Type", "text/html")
-			w.Write([]byte("<body>Select a responder\n"))
-			for _,r := range rs {
-				w.Write([]byte(r.Tohtml()+"<br>\n"))
-			}
-			s:="<br> Or create a fresh one:<form method=\"post\">"
-			s+="<input type=\"hidden\" name=\"fname\" value=\"" +r.FormValue("fname")+"\">"
-			s+="<input type=\"hidden\" name=\"lname\" value=\"" +r.FormValue("lname")+"\">"
-			s+="<input type=\"hidden\" name=\"dob\" value=\"" +r.FormValue("dob")+"\">"
-			s+="<input type=\"hidden\" name=\"zip\" value=\"" +r.FormValue("zip")+"\">"
-			s+="<input type=\"hidden\" name=\"rkey\" value=\"0\">"
-			s+="<input type=submit></form>"
-			w.Write([]byte(s))
-		} else {
-			if r.FormValue("rkey") == "0" {
-				o.cresp = new(responder)
-				Init(o.cresp)
-				o.cresp.fname=r.FormValue("fname")
-				o.cresp.lname=r.FormValue("lname")
-				o.cresp.dob,_=strconv.Atoi(r.FormValue("dob"))
-				o.cresp.zip=r.FormValue("zip")
-				Sstore(o)
-				w.Header().Set("Content-Type", "text/html")
-				w.Write([]byte("<body>New responder created!<a href=\"/qprompt\">Anser questions</a></body>\n"))
-			}else {
-				o.cresp.key,_ = strconv.ParseInt(r.FormValue("rkey"),10,64)
-				Sget(o.cresp)
-				Sstore(o)//TODO:check errors
-			}
-		}
+        return
 	}
+
+
+
+    if r.FormValue("rkey") =="" {
+        fmt.Println("got:"+r.FormValue("fname")+" "+r.FormValue("lname")+" "+r.FormValue("dob")+" "+r.FormValue("zip"))
+
+        if(!validateResponderId(w,r)){
+            return
+        }
+
+        dob,_:=strconv.Atoi(r.FormValue("dob"))
+		err,rs :=Getallmatch(r.FormValue("fname"),r.FormValue("lname"),dob,r.FormValue("zip"))
+		checkErr(err)
+
+		w.Header().Set("Content-Type", "text/html")
+		w.Write([]byte("<head><title>LinkUp</title> <link rel='icon' href='imgs/chevron.png' type='image/x-icon'> <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed|Nunito+Sans' rel='stylesheet'> <link href='css/survey_stylesheet.css' rel='stylesheet'></head><body><div id='top_bar'>         <img id='logo' src='imgs/logo.svg' alt='LinkUp'></div><div id='title'><h1>Select A Responder</h1></div>"))
+
+        if rs == nil{
+            w.Write([]byte("<div class='responder_entry'>No Matching Entries </div><br>"))
+        }else{
+		  for _,r := range rs {
+		      w.Write([]byte(r.Tohtml()))
+		  }
+        }
+		s:="<br><br><form id='form' method=\"post\">"
+		s+="<input type=\"hidden\" name=\"fname\" value=\"" +r.FormValue("fname")+"\">"
+		s+="<input type=\"hidden\" name=\"lname\" value=\"" +r.FormValue("lname")+"\">"
+		s+="<input type=\"hidden\" name=\"dob\" value=\"" +r.FormValue("dob")+"\">"
+		s+="<input type=\"hidden\" name=\"zip\" value=\"" +r.FormValue("zip")+"\">"
+		s+="<input type=\"hidden\" name=\"rkey\" value=\"0\">"
+        s+="<input type=submit id='submit_button' value='Create New Entry' style='width: 140px;'></form>"
+		w.Write([]byte(s))
+    } else {
+		if r.FormValue("rkey") == "0" {
+
+            o.cresp = new(responder)
+			Init(o.cresp)
+			o.cresp.fname=r.FormValue("fname")
+			o.cresp.lname=r.FormValue("lname")
+			o.cresp.dob,_=strconv.Atoi(r.FormValue("dob"))
+			o.cresp.zip=r.FormValue("zip")
+			Sstore(o)
+			w.Header().Set("Content-Type", "text/html")
+			w.Write([]byte("<body>New responder created!<a href=\"/qprompt\">Answer questions</a></body>\n"))
+        }else {
+            o.cresp.key,_ = strconv.ParseInt(r.FormValue("rkey"),10,64)
+			Sget(o.cresp)
+			Sstore(o)//TODO:check errors
+	}
+    }
 }
 
 func qprompt_handler(w http.ResponseWriter, r *http.Request) {
@@ -370,5 +415,153 @@ func checkErr(err error) {
 		fmt.Println("The application has encounterd an unrecoverable error")
 		panic(err)
 	}
+}
+
+func validateResponderId(w http.ResponseWriter, r *http.Request) bool {
+    //Validate Input
+    if r.FormValue("fname") == "" || r.FormValue("lname") == "" ||
+        r.FormValue("dob") == "" || r.FormValue("zip") == "" {
+         outpage("addresponder.html.tpl",w,map[string]string{"err":"Please Complete All Fields"})
+        return false
+    }
+
+    if !checkTextInput(r.FormValue("fname")){
+        outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid First Name"})
+        return false
+    }
+
+    if !checkTextInput(r.FormValue("lname")){
+        outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid Last Name"})
+        return false
+    }
+
+    //Add this after type for DOB is correct
+    if !checkDOBInput(r.FormValue("dob")){
+        outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid Date Of Birth"})
+        return false
+    }
+
+    if !checkNumberInput(r.FormValue("zip")) || len(r.FormValue("zip")) != 5 {
+        outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid ZIP Code"})
+        return false
+    }
+
+    return true
+    //End validation
+}
+
+func checkTextInput(s string) bool{
+    for _, r := range s{
+        if !unicode.IsLetter(r){
+            return false
+        }
+    }
+
+    return true
+}
+
+func checkDOBInput(s string) bool{
+
+    var slashCount int = 0
+
+    for _, r:= range s {
+
+        if !unicode.IsDigit(r) && r != '/' {
+            return false
+        }
+
+        if r == '/'{
+            slashCount++
+        }
+
+    }
+
+    //format requires exactly 2 slashes
+    if slashCount != 2 {
+        return false
+    }
+
+
+    //Split string to month, day, and year strings
+    date := strings.Split(s, "/")
+
+    //make sure each has a value
+    for _, d := range date {
+        if d == "" {
+            return false
+        }
+    }
+
+    month,_ := strconv.Atoi(date[0])
+    day,_ := strconv.Atoi(date[1])
+    year,_ := strconv.Atoi(date[2])
+
+
+
+    //Make sure month is 1-12
+    if month < 1 || month > 12 {
+        return false
+    }
+
+    // Make sure day is 1-31 for months 1,3,5,7,8,10,12
+    if month == 1 || month == 3 || month == 5 || month == 7 ||
+    month == 8 || month == 10 || month == 12{
+        if day < 1 || day > 31 {
+            return false
+        }
+    }
+
+    // Make sure day is 1-30 for months 4,6,9,11
+    if month == 4 || month == 6 || month == 9 || month == 11{
+        if day < 1 || day > 30 {
+            return false
+        }
+    }
+
+    // Make sure day is between 1-28 for month 2
+    if month == 2 {
+        //If year is a leap year then range is 1-29
+        if year % 4 == 0 {
+            if day < 1 || day > 29 {
+                return false
+            }
+        }else{
+            if day < 1 || day > 28 {
+                return false
+            }
+        }
+    }
+
+
+    //Make sure year is less than current year
+    if year < 1850 || year > time.Now().Year() {
+        return false
+    }
+
+    // Make sure not past the current date in current year
+    if year == time.Now().Year(){
+        if month > int(time.Now().Month()){
+            return false
+        }
+
+        if month == int(time.Now().Month()){
+            if day > time.Now().Day(){
+                return false
+            }
+        }
+    }
+
+    //If date is valid
+    return true
+}
+
+func checkNumberInput(s string) bool{
+    for _, r := range s{
+        if !unicode.IsDigit(r){
+            return false
+        }
+    }
+
+    return true
 }
 

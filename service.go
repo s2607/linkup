@@ -70,6 +70,8 @@ func Getallsbyname (p string) (error, []*service){
 	}
 	return <-nchan,r
 }
+//DB stuff
+
 func Getallservices() (error, []*service){
 	nchan := make(chan error)
 	var r []*service
@@ -182,7 +184,6 @@ func (o *service) sclist(Db *sql.DB) error {
 	}
 	return nil
 }
-
 func (o *service) getqlist(Db *sql.DB) error {
 	rows, err := Db.Query("select ikey from servicesquestion where okey = ?", o.key)
 	checkErr(err)

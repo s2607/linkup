@@ -43,7 +43,7 @@ func sometestdata() {
 		o.setpss("abc123")
 		o.cser = new(service)
 		o.cser.name = "cfaw"
-		o.cser.url= "http://liberty.edu"
+		o.cser.url= "http://www.liberty.edu"
 		o.cser.description= "college for a weekend"
 		Init(o.cser)
 		o.cser.qlist=append(o.cser.qlist,*p)
@@ -56,7 +56,6 @@ func sometestdata() {
 }
 
 func main() {//main always feels ugly and hacky
-//this one in particular though 
 	http.HandleFunc("/auth", Authhandler)
 	http.HandleFunc("/newr", Ursession_handler)
 	http.HandleFunc("/", Statichandler)

@@ -10,14 +10,11 @@
     
     <!-- CSS Stylesheets -->
     <link href="css/stylesheet.css" rel="stylesheet" />
+    <!-- This is placed here so elements are shown and not hidden if login is invalid -->
+    <link href="css/noscript_stylesheet.css" rel="stylesheet" />
     
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed|Nunito+Sans" rel="stylesheet">
-
-    <!-- No Script StyleSheet -->
-    <noscript>
-        <link href="css/noscript_stylesheet.css" rel="stylesheet" />
-    </noscript>
 
     
 </head>
@@ -39,21 +36,20 @@
 
             <div id="login_container">
                 <h1 id="title">Login</h1>
-		<div id="error"> {{.err}} </div>
+		<div id="error" style="color:red;"> {{.err}} </div>
                 <form id="login" action="/auth" method="post">
                     <p id="text_username">Username</p>
                     <input id="uname" name="uname" value="">
                     <p id="text_password">Password</p>
                     <input id="pw" type="password" name="pw" value="">
-                    <input id="submit_button" name="submit" type="submit">
+                    <input id="submit_button" name="submit" type="submit" value="Submit">
                 </form>
             </div>
 
         </div>
 
     </div>
-    
-    <script src="js/animations.js" type="text/javascript"></script>
+
     
 </body>
 </html>
