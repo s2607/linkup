@@ -272,7 +272,7 @@ func Authhandler(w http.ResponseWriter, r *http.Request) {
 		if r.FormValue("uname") != ""|| r.FormValue("pw") != "" {
 			outpage("auth.html.tpl",w,map[string]string{"err":"Please Enter A Valid Username",})
 		} else {
-			outpage("auth.html.tpl",w,map[string]string{"err":"Please Enter Credentials"})
+			outpage("auth.html.tpl",w,map[string]string{"err":""})
 		}
 	}
 
