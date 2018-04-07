@@ -47,9 +47,23 @@
         </form><hr>
         {{end}}
 
-        <form id="form" action="addc">
-            <p>Add a Criterion</p>
-            <input name="rp" type="hidden" value="/newq" ><br>
+        <form id="form" action="newq" method="post">
+            <h3 style="color: #19396D;">Add A Criterion</h3>
+            <p>Regex</p>
+            <input name="regex">
+            <p>aval</p>
+            <input name="aval">
+            <p>bval</p>
+            <input name="bval">
+            <p>lval:</p>
+            <input name="lval">
+            <p>isnil:</p>
+            <input name="isnil">
+            <p>inv</p>
+            <input name="inv">
+            <p>conj</p>
+            <input name="conj">
+            <input type="hidden" name="nqkey" value="{{.O.Pkey}}"><br>
             <input id="submit_button" value="Submit" type=submit>
         </form>
 

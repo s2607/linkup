@@ -143,7 +143,8 @@ func outpage(f string , w http.ResponseWriter, d map[string]string){
 func qlist(w http.ResponseWriter, q []question){
 
     t := template.Must(template.ParseFiles("disp_qlist.html.tpl"))
-    t.Execute(w,q)
+    err := t.Execute(w,q)
+    checkErr(err)
 
     /*t,err := template.New("dispt").Parse(`
 	<div id="qlist">
@@ -172,7 +173,8 @@ func qdisp(w http.ResponseWriter, k int64) {
 	<input type=submit></form>
 	</div>
 	`)//TODO: different form types*/
-	t.Execute(w,q)
+	err = t.Execute(w,q)
+    checkErr(err)
 
 }
 func qanswer(k int64, s string, ur *responder) error {//TODO: error checking this whole function
