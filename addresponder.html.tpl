@@ -29,13 +29,13 @@
 
         <form id="form" action="/newr" method="post">
             <p>First Name</p>
-            <input name="fname">
+            <input name="fname" value="{{.fname}}">
             <p>Last Name</p>
-            <input name="lname">
+            <input name="lname" value="{{.lname}}">
             <p>Date Of Birth <span id="dob_format">(MM/DD/YYYY)</span></p>
-		    <input name="dob">
+		    <input name="dob" value="{{.dob}}">
             <p>Zip Code</p>
-            <input name="zip"><br>
+            <input name="zip" value="{{.zip}}"><br>
 		  <input id="submit_button" type=submit value="Submit">
         </form>
 

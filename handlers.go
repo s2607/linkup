@@ -421,28 +421,28 @@ func validateResponderId(w http.ResponseWriter, r *http.Request) bool {
     //Validate Input
     if r.FormValue("fname") == "" || r.FormValue("lname") == "" ||
         r.FormValue("dob") == "" || r.FormValue("zip") == "" {
-         outpage("addresponder.html.tpl",w,map[string]string{"err":"Please Complete All Fields"})
+         outpage("addresponder.html.tpl",w,map[string]string{"err":"Please Complete All Fields", "fname":r.FormValue("fname"), "lname":r.FormValue("lname"), "dob":r.FormValue("dob"), "zip":r.FormValue("zip")})
         return false
     }
 
     if !checkTextInput(r.FormValue("fname")){
-        outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid First Name"})
+        outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid First Name", "fname":r.FormValue("fname"), "lname":r.FormValue("lname"), "dob":r.FormValue("dob"), "zip":r.FormValue("zip")})
         return false
     }
 
     if !checkTextInput(r.FormValue("lname")){
-        outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid Last Name"})
+        outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid Last Name", "fname":r.FormValue("fname"), "lname":r.FormValue("lname"), "dob":r.FormValue("dob"), "zip":r.FormValue("zip")})
         return false
     }
 
     //Add this after type for DOB is correct
     if !checkDOBInput(r.FormValue("dob")){
-        outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid Date Of Birth"})
+        outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid Date Of Birth", "fname":r.FormValue("fname"), "lname":r.FormValue("lname"), "dob":r.FormValue("dob"), "zip":r.FormValue("zip")})
         return false
     }
 
     if !checkNumberInput(r.FormValue("zip")) || len(r.FormValue("zip")) != 5 {
-        outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid ZIP Code"})
+        outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid ZIP Code", "fname":r.FormValue("fname"), "lname":r.FormValue("lname"), "dob":r.FormValue("dob"), "zip":r.FormValue("zip")})
         return false
     }
 
