@@ -46,6 +46,11 @@ body
     text-align: center;
 }
 
+h3
+{
+    color: #19396D;
+}
+
 p
 {
     margin: 0;
@@ -72,6 +77,33 @@ input:focus
 {
     outline: none;
 }
+
+.checkbox
+{
+    width: 15px;
+    height: 15px;
+    background: #DDD;
+}
+
+select
+{
+    background: #DDD;
+    border-radius: 5px;
+    height: 25px;
+}
+
+select:focus
+{
+    outline: none;
+}
+
+/*For Edge*/
+select:hover
+{
+    outline: none;
+    background: #DDD;
+}
+
 
 #submit_button
 {

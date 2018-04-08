@@ -48,21 +48,24 @@
         {{end}}
 
         <form id="form" action="newq" method="post">
-            <h3 style="color: #19396D;">Add A Criterion</h3>
-            <p>Regex</p>
+            <h3>Add a Criterion</h3>
+            <p>Text Answers</p>
             <input name="regex">
-            <p>aval</p>
-            <input name="aval">
-            <p>bval</p>
-            <input name="bval">
-            <p>lval:</p>
-            <input name="lval">
+            <p>Lower Limit</p>
+            <input type="number" name="aval">
+            <p>Upper Limit</p>
+            <input type="number" name="bval">
+            <p>Yes/No Questions <br><select name="lval">
+                <option></option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select></p><br>
             <p>isnil:</p>
-            <input name="isnil">
+            <input type="checkbox" value="1" class="checkbox" name="isnil">
             <p>inv</p>
-            <input name="inv">
+            <input type="checkbox" class="checkbox" value="1" name="inv">
             <p>conj</p>
-            <input name="conj">
+            <input type="checkbox" name="conj" value="1" class="checkbox">
             <input type="hidden" name="nqkey" value="{{.O.Pkey}}"><br>
             <input id="submit_button" value="Submit" type=submit>
         </form>
