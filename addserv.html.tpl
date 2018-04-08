@@ -41,7 +41,7 @@
 
         {{range .O.Pclist}}
         <form id="form" action="delc" method="post">
-            <p>Delete By Key</p>
+            <p>Delete</p>
             <input name="nckey" value="{{.Pkey}}"><br>
             <input id="submit_button" value="Submit" type=submit>
         </form><hr>
@@ -76,7 +76,7 @@
         </div>
         {{range .O.Pqlist}}
         <form id="form" action="delc" method="post">{{.Pprompt}}
-            <p>Delete By Key</p>
+            <p>Delete</p>
             <input name="nckey" value="{{.Pkey}}"><br>
             <input id="submit_button" value="Submit" type=submit>
         </form><hr>

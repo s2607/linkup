@@ -28,10 +28,14 @@
 
         <form id="form" action="/newq" method="post">
             <!--TODO:oldvals-->
-            <p>prompt</p>
+            <p>Question Prompt</p>
             <input name="prompt" value="{{.O.Pprompt}}">
-            <p>qtype</p>
-            <input name="qtype" value="{{.O.Ptype}}"><br>
+            <p>Question Type <br><span>
+                <input type="radio" name="qtype" value="string">string
+                <input type="radio" name="qtype" value="range">range
+                <input type="radio" name="qtype" value="boolean">boolean
+                </span>
+            </p><br>
             <input id="submit_button" value="Submit" type=submit>
         </form><hr>
 
@@ -39,17 +43,9 @@
             <h2>Criteria</h2>
         </div>
 
-        {{range .O.Pclist}}
-	   <form id="form" action="delc" method="post">
-           <p>Delete a Criterion</p>
-           <input name="nckey" value="{{.Pkey}}"><br>
-           <input id="submit_button" value="Submit" type=submit>
-        </form><hr>
-        {{end}}
-
         <form id="form" action="newq" method="post">
-            <h3>Add a Criterion</h3>
-            <p>Text Answers</p>
+            <h3>Add A Criterion</h3>
+            <p>Text Answer</p>
             <input name="regex">
             <p>Lower Limit</p>
             <input type="number" name="aval">
@@ -69,6 +65,17 @@
             <input type="hidden" name="nqkey" value="{{.O.Pkey}}"><br>
             <input id="submit_button" value="Submit" type=submit>
         </form>
+        <hr>
+
+        {{range .O.Pclist}}
+	   <form id="form" action="delc" method="post">
+           <p>Delete A Criterion</p>
+           <input name="nckey" value="{{.Pkey}}"><br>
+           <input id="submit_button" value="Submit" type=submit>
+        </form><hr>
+        {{end}}
+
+
 
     </div>
 
