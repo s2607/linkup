@@ -248,8 +248,8 @@ func Authhandler(w http.ResponseWriter, r *http.Request) {
 
             <div id="title">
                 <h1>Select An Action</h1>
-            </div><br /><br />
-            <div style="text-align: center;">
+            </div>
+            <div style="text-align: center; margin-top: 50px; animation: form_fade_in; animation-duration: 1s; animation-timing-function: ease-in-out;">
 				<a href="/addresponder.html">Add A Responder</a><br /><br />
 				<a href="/newop">Add An Operator</a><br /><br />
 				<a href="/newserv">Add A Service Program</a><br /><br />

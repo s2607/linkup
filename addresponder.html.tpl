@@ -21,13 +21,13 @@
             <img id="logo" src="imgs/logo.svg" alt="LinkUp">
         </div>
 
-        <div id="title">
+        <div id="title" style="animation: none;">
             <h1>Identifying Questions</h1>
         </div>
 
         <div id="error" style="color:red; text-align: center; margin-bottom: -20px;">{{.err}}</div>
 
-        <form id="form" action="/newr" method="post">
+        <form id="form" action="/newr" method="post" style="animation: none;">
             <p>First Name</p>
             <input name="fname" value="{{.fname}}">
             <p>Last Name</p>

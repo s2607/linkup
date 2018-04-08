@@ -31,7 +31,7 @@
 	       {{end}}
         </div>
 
-        <a href="/sugs" id="sug_services_button"><div id="submit_button" style="width: 180px; padding-top: 6px; height: 29px; margin-left: auto; margin-right: auto;">Suggest Services</div></a>
+        <a href="/sugs" id="sug_services_button"><div id="submit_button" class="button_anim" style="width: 180px; padding-top: 6px; height: 29px; margin-left: auto; margin-right: auto; margin-top: 50px;">Suggest Services</div></a>
 
     </div>
 </body>
