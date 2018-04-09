@@ -22,7 +22,7 @@
         </div>
 
         <div id="title">
-            <h1>Add Operator</h1>
+            <h1>Add Interviewer</h1>
         </div>
 
         <form id="form" action="/newop" method="post">
