@@ -48,7 +48,7 @@
         {{end}}
 
         <form id="form" action="newq" method="post">
-            <h3>Add a Criterion</h3>
+            <h3>Add Eligibility Criterion</h3>
             <p>Text Answers</p>
             <input name="regex">
             <p>Lower Limit</p>
