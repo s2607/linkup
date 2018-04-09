@@ -22,7 +22,7 @@
         </div>
 
         <div id="title">
-            <h1>Add Service</h1>
+            <h1>Add Service Program</h1>
         </div>
 
         <form id="form" action="/newserv" method="post">
