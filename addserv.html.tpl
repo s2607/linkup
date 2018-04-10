@@ -29,7 +29,7 @@
             <p>Name</p>
             <input name="name" value="{{.O.Pname}}">
             <p>Description</p>
-            <input name="description" value="{{.O.Pdescription}}">
+            <input name="description" value="{{.O.Pdescription}}" spellcheck="true">
             <p>Website URL</p>
             <input name="url" value="{{.O.Purl}}"><br>
             <input id="submit_button" value="Submit" type=submit>
@@ -50,7 +50,7 @@
         <form id="form" action="newq" method="post">
             <h3>Add Eligibility Criterion</h3>
             <p>Text Answers</p>
-            <input name="regex">
+            <input name="regex" spellcheck="true">
             <p>Lower Limit</p>
             <input type="number" name="aval">
             <p>Upper Limit</p>
@@ -84,7 +84,7 @@
 
         <form id="form" action="/newserv">
             <p>Add A Question (Type The Prompt Here)</p>
-            <input name="nprompt"><br>
+            <input name="nprompt" spellcheck="true"><br>
             <input id="submit_button" value="Submit" type=submit>
         </form>
 

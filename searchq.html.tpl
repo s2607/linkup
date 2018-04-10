@@ -30,7 +30,7 @@
 
             <form id="form" action="/searchq" method="post" style="animation: none;">
                 <p>Enter Question</p>
-                <input type="search" name="q" ><br>
+                <input type="search" name="q" spellcheck="true"><br>
                 <input id="submit_button" value="Search" type=submit>
             </form>
 
@@ -49,7 +49,7 @@
 
             <form id="form" action="/newq" method="post">
                 <p>Edit</p>
-                <input name="nqkey" value="{{.Pkey}}"><br>
+                <input name="nqkey" value="{{.Pkey}}" spellcheck="true"><br>
                 <input id="submit_button" value="Submit" type=submit>
             </form><hr>
             {{end}}

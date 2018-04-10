@@ -29,7 +29,7 @@
         <form id="form" action="/newq" method="post">
             <!--TODO:oldvals-->
             <p>Question Prompt</p>
-            <input name="prompt" value="{{.O.Pprompt}}">
+            <input name="prompt" value="{{.O.Pprompt}}" spellcheck="true">
             <p>Answer Type <br><span>
                 <input type="radio" name="qtype" value="0">Text
                 <input type="radio" name="qtype" value="1">Number
@@ -46,7 +46,7 @@
         <form id="form" action="newq" method="post">
             <h3>Add A Criterion</h3>
             <p>Text Answer</p>
-            <input name="regex">
+            <input name="regex" spellcheck="true">
             <p>Lower Limit</p>
             <input type="number" name="aval">
             <p>Upper Limit</p>

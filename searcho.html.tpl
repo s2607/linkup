@@ -30,7 +30,7 @@
 
             <form id="form" action="/searcho" method="post" style="animation: none">
                 <p>Enter Username</p>
-                <input type="search" name="q"><br>
+                <input type="search" name="q" spellcheck="true"><br>
                 <input id="submit_button" value="Search" type=submit>
             </form>
         </div>
@@ -47,7 +47,7 @@
 
             <form id="form" action="/newop" method="post">
                 <p>Edit</p>
-                <input name="nskey" value="{{.Pkey}}"><br>
+                <input name="nskey" value="{{.Pkey}}" spellcheck="true"><br>
                 <input id="submit_button" value="Submit" type=submit>
             </form><hr>
             {{end}}
