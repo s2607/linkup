@@ -30,10 +30,10 @@
             <!--TODO:oldvals-->
             <p>Question Prompt</p>
             <input name="prompt" value="{{.O.Pprompt}}">
-            <p>Question Type <br><span>
-                <input type="radio" name="qtype" value="string">string
-                <input type="radio" name="qtype" value="range">range
-                <input type="radio" name="qtype" value="boolean">boolean
+            <p>Answer Type <br><span>
+                <input type="radio" name="qtype" value="0">Text
+                <input type="radio" name="qtype" value="1">Number
+                <input type="radio" name="qtype" value="boolean">Any More?
                 </span>
             </p><br>
             <input id="submit_button" value="Submit" type=submit>
