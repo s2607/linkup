@@ -13,6 +13,8 @@
 
     <!-- Stylesheet -->
     <link href="css/survey_stylesheet.css" rel="stylesheet">
+    <link href="css/search_stylesheet.css" rel="stylesheet">
+
 </head>
 <body>
 
@@ -21,30 +23,36 @@
             <img id="logo" src="imgs/logo.svg" alt="LinkUp">
         </div>
 
-        <div id="title" style="width: 400px;">
-            <h1>Search Service Programs</h1>
+        <div id="left_container">
+            <div id="left_title" style="width: 400px;">
+                <h1>Search Service Programs</h1>
+            </div>
+
+            <form id="form" action="/searchs" method="post" style="animation: none;">
+                <p>Enter Program</p>
+                <input type="search" name="q" ><br>
+                <input id="submit_button" value="Search" type=submit>
+            </form>
+
         </div>
 
-        <form id="form" action="/searchs" method="post">
-            <p>Enter Program</p>
-            <input type="search" name="q" ><br>
-            <input id="submit_button" value="Search" type=submit>
-        </form><hr>
+        <div id="right_container">
+            <div id="right_title">
+                <h1>Results</h1>
+            </div>
 
-        <div id="title">
-            <h2>Results</h2>
-        </div>
+            {{range .}}
+            <div id="title">
+                {{.Pname}} @ {{.Pkey}}
+            </div>
+            <form id="form" action="/newserv" method="post">
+                <p>Edit</p>
+                <input name="nskey" value="{{.Pkey}}"><br>
+                <input id="submit_button" value="Submit" type=submit>
+            </form><hr>
+            {{end}}
 
-        {{range .}}
-        <div id="title">
-            {{.Pname}} @ {{.Pkey}}
         </div>
-        <form id="form" action="/newserv" method="post">
-            <p>Edit</p>
-            <input name="nskey" value="{{.Pkey}}"><br>
-            <input id="submit_button" value="Submit" type=submit>
-        </form><hr>
-        {{end}}
 
     </div>
 </body>
