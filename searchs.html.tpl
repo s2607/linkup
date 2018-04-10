@@ -21,13 +21,13 @@
             <img id="logo" src="imgs/logo.svg" alt="LinkUp">
         </div>
 
-        <div id="title">
-            <h1>Search Interviewers</h1>
+        <div id="title" style="width: 400px;">
+            <h1>Search Service Programs</h1>
         </div>
 
-        <form id="form" action="/searcho" method="post">
-            <p>Enter Username</p>
-            <input type="search" name="q"><br>
+        <form id="form" action="/searchs" method="post">
+            <p>Enter Program</p>
+            <input type="search" name="q" ><br>
             <input id="submit_button" value="Search" type=submit>
         </form><hr>
 
@@ -37,10 +37,9 @@
 
         {{range .}}
         <div id="title">
-            {{.Puname}} @ {{.Pkey}}
+            {{.Pname}} @ {{.Pkey}}
         </div>
-
-        <form id="form" action="/newop" method="post">
+        <form id="form" action="/newserv" method="post">
             <p>Edit</p>
             <input name="nskey" value="{{.Pkey}}"><br>
             <input id="submit_button" value="Submit" type=submit>
@@ -48,7 +47,5 @@
         {{end}}
 
     </div>
-
-
 </body>
 </html>
