@@ -1,7 +1,11 @@
-#left_container
+#top_bar
 {
     position: relative;
-    z-index: -100;
+    z-index: 100;
+}
+
+#left_container
+{
     margin-top: -120px;
     float: left;
     width: 50vw;
@@ -28,6 +32,11 @@
     overflow-y: scroll;
 }
 
+#right_container::-webkit-scrollbar {
+  /* Only works for Chrome and Safari */
+  display: none;
+}
+
 #right_title
 {
     width: 400px;
@@ -38,23 +47,6 @@
     color: #19396D;
 }
 
-#right_title
-{
-    position: relative;
-    z-index: -100;
-}
-
-#title
-{
-    position: relative;
-    z-index: -100;
-}
-
-#form
-{
-    position: relative;
-    z-index: -100;
-}
 
 /** FOR SMALL SCREEN SIZES **/
 

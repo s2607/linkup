@@ -18,7 +18,7 @@
 <body>
     <div id="container">
         <div id="top_bar">
-            <img id="logo" src="../imgs/logo.svg" alt="LinkUp">
+            <img id="logo" src="../imgs/logo.png" alt="LinkUp">
         </div>
 
         <div id="title">

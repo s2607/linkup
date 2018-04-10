@@ -19,7 +19,7 @@
 <body>
     <div id="container">
         <div id="top_bar">
-            <img id="logo" src="imgs/logo.svg" alt="LinkUp">
+            <img id="logo" src="imgs/logo.png" alt="LinkUp">
         </div>
 
         <div id="left_container">
@@ -43,6 +43,26 @@
             </div>
 
             {{range .}}
+            <div id="title">
+                {{.Pprompt}} @ {{.Pkey}}
+            </div>
+
+            <form id="form" action="/newq" method="post">
+                <p>Edit</p>
+                <input name="nqkey" value="{{.Pkey}}" spellcheck="true"><br>
+                <input id="submit_button" value="Submit" type=submit>
+            </form><hr>
+
+            <div id="title">
+                {{.Pprompt}} @ {{.Pkey}}
+            </div>
+
+            <form id="form" action="/newq" method="post">
+                <p>Edit</p>
+                <input name="nqkey" value="{{.Pkey}}" spellcheck="true"><br>
+                <input id="submit_button" value="Submit" type=submit>
+            </form><hr>
+
             <div id="title">
                 {{.Pprompt}} @ {{.Pkey}}
             </div>
