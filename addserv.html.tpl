@@ -31,9 +31,28 @@
             <p>Description</p>
             <input name="description" value="{{.O.Pdescription}}" spellcheck="true">
             <p>Website URL</p>
-            <input name="url" value="{{.O.Purl}}"><br>
+            <input name="url" value="{{.O.Purl}}">
+            <input name="nskey" type="hidden" value="{{.O.Pkey}}"><br>
             <input id="submit_button" value="Submit" type=submit>
         </form><hr>
+
+        <div id="title">
+            <h2>Questions</h2>
+        </div>
+        {{range .O.Pqlist}}
+        <form id="form" action="delc" method="post">{{.Pprompt}}
+            <p>Delete</p>
+            <input name="nckey" value="{{.Pkey}}"><br>
+            <input id="submit_button" value="Submit" type=submit>
+        </form><hr>
+        {{end}}
+
+        <form id="form" action="/newserv">
+            <p>Add A Question (Type The Prompt Here)</p>
+            <input name="nprompt" spellcheck="true"><br>
+            <input id="submit_button" value="Submit" type=submit>
+        </form><hr>
+
 
         <div id="title">
             <h2>Criteria</h2>
@@ -47,7 +66,7 @@
         </form><hr>
         {{end}}
 
-        <form id="form" action="newq" method="post">
+        <form id="form" action="/newserv" method="post">
             <h3>Add Eligibility Criterion</h3>
             <p>Text Answers</p>
             <input name="regex" spellcheck="true">
@@ -69,24 +88,7 @@
             <input type="hidden" name="nqkey" value="{{.O.Pkey}}"><br>
             <input id="submit_button" value="Submit" type=submit>
         </form>
-        <hr>
 
-        <div id="title">
-            <h2>Questions</h2>
-        </div>
-        {{range .O.Pqlist}}
-        <form id="form" action="delc" method="post">{{.Pprompt}}
-            <p>Delete</p>
-            <input name="nckey" value="{{.Pkey}}"><br>
-            <input id="submit_button" value="Submit" type=submit>
-        </form><hr>
-        {{end}}
-
-        <form id="form" action="/newserv">
-            <p>Add A Question (Type The Prompt Here)</p>
-            <input name="nprompt" spellcheck="true"><br>
-            <input id="submit_button" value="Submit" type=submit>
-        </form>
 
     </div>
 
