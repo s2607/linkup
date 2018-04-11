@@ -4,6 +4,7 @@ import (
 	"strconv"
 	"html/template"
 	"database/sql"
+	"fmt"
 )
 //TODO: edit
 func opcreate_handler(w http.ResponseWriter, r *http.Request) {
@@ -163,6 +164,27 @@ func delq_handler(w http.ResponseWriter, r *http.Request) {
 }
 //search
 
-func searchq_handler(w http.ResponseWriter, r *http.Request) {}
-func searchs_handler(w http.ResponseWriter, r *http.Request) {}
-func searcho_handler(w http.ResponseWriter, r *http.Request) {}
+func searchq_handler(w http.ResponseWriter, r *http.Request) {
+		fmt.Println("searchq"+r.FormValue("q"))
+		err,s := Getallqbyname(r.FormValue("q"))
+		fmt.Println(s)
+		checkErr(err)
+		t := template.Must(template.ParseFiles("searchq.html.tpl"))
+		t.Execute(w,s)
+}
+func searchs_handler(w http.ResponseWriter, r *http.Request) {
+		fmt.Println("searchs"+r.FormValue("q"))
+		err,s := Getallsbyname(r.FormValue("q"))
+		fmt.Println(s)
+		checkErr(err)
+		t := template.Must(template.ParseFiles("searchs.html.tpl"))
+		t.Execute(w,s)
+}
+func searcho_handler(w http.ResponseWriter, r *http.Request) {
+		fmt.Println("searchq"+r.FormValue("q"))
+		err,s := Getallobyname(r.FormValue("q"))
+		fmt.Println(s)
+		checkErr(err)
+		t := template.Must(template.ParseFiles("searchq.html.tpl"))
+		t.Execute(w,s)
+}
