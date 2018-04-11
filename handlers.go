@@ -257,7 +257,7 @@ func Authhandler(w http.ResponseWriter, r *http.Request) {
 				<a href="/newserv">Add A Service Program</a><br /><br />
 				<a href="/newq">Add A Question</a><br /><br />
 				<a href="/searchq">Search For A Question</a><br /><br />
-				<a href="/searchop">Search For An Interviewer</a><br /><br />
+				<a href="/searcho">Search For An Interviewer</a><br /><br />
 				<a href="/searchs">Search For A Service Program</a><br />
             </div>
             </div>
