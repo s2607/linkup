@@ -242,7 +242,9 @@ func Authhandler(w http.ResponseWriter, r *http.Request) {
             <link href="css/survey_stylesheet.css" rel="stylesheet">
 
             </head>
-            <body><div id="container"><div id="top_bar">
+            <body>
+            <div id="container">
+            <div id="top_bar" style="animation: extend_bar; animation-duration: 1s; animation-timing-function: ease-in-out;">
             <img id="logo" src="imgs/logo.png" alt="LinkUp">
             </div>
 
