@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"database/sql"
+	"regexp"
 )
 
 type service struct {
@@ -18,16 +19,57 @@ type service struct {
 func (s *service) check(rid  int) bool {
 	return true
 }
-func (s *service) Purl() string {
-	return s.url
-}
-func (s *service) Pname() string {
-	return s.name
-}
 func (s *service) Pdesc() string {
 	return s.description
 }
+func (s *service) Pclist() []*criterion {
+	return s.criteria
+}
+func (s *service) Pqlist() []question{
+	return s.qlist
+}
+//Template stuff
+func (s *service)Pname() string {return s.name}
+func (s *service)Pdescription() string {return s.description}
+func (s *service)Purl() string {return s.url}
 
+//DB stuff
+
+func Getallsbyname (p string) (error, []*service){
+	fmt.Println("got:"+p)
+	if p=="" {return nil,nil}
+	regex, _ := regexp.Compile(p)
+
+	nchan := make(chan error)
+	var r []*service
+	DBchan <- func(Db *sql.DB)func() {
+
+		rows, err := Db.Query("select key from service")
+		checkErr(err)
+		defer rows.Close()
+		i :=0
+		for rows.Next() {
+			var k int64
+			s := new(service)
+			rows.Scan(&k)
+			//checkErr(err)
+			if k == 0 {continue}
+			if !regex.MatchString(s.name){
+				fmt.Println("skip")
+				continue
+			}
+			r=append(r,s)
+			r[i].key = k
+			r[i].Get(Db)
+			//checkErr(err)
+			i=i+1
+		}
+		return func() {
+			nchan <-nil
+		}
+	}
+	return <-nchan,r
+}
 //DB stuff
 
 func Getallservices() (error, []*service){
@@ -40,20 +82,18 @@ func Getallservices() (error, []*service){
 		i :=0
 		for rows.Next() {
 			var k int64
-			err := rows.Scan(&k)
-			if err != nil {
-				nchan <- err
-			}
-			r = append(r,new(service))
+			s := new(service)
+			rows.Scan(&k)
+			//checkErr(err)
+			if k == 0 {continue}
+			r=append(r,s)
 			r[i].key = k
-			err =r[i].Get(Db)
-			if err != nil {
-				nchan <- err
-			}
+			r[i].Get(Db)
+			//checkErr(err)
 			i=i+1
 		}
 		return func() {
-			nchan <-err
+			nchan <-nil
 		}
 	}
 	return <-nchan,r
@@ -144,7 +184,6 @@ func (o *service) sclist(Db *sql.DB) error {
 	}
 	return nil
 }
-
 func (o *service) getqlist(Db *sql.DB) error {
 	rows, err := Db.Query("select ikey from servicesquestion where okey = ?", o.key)
 	checkErr(err)
