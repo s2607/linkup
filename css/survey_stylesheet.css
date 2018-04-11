@@ -157,6 +157,15 @@ a
 {
     color: black;
     font-size: 17px;
+    transition: .5s; /*For mouse leave*/
+}
+
+a:hover
+{
+    width: 350px;
+    font-size: 20px;
+    color: #19396D;
+    transition: .5s;
 }
 
 #sug_services_button
