@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"regexp"
 )
 
 type question struct {
@@ -30,11 +31,47 @@ func (q *question)Pclist() []*criterion {return q.clist}
 func (q *question)Ptext() string {return q.prompt}
 //DB stuff
 
+func Getallqbyname (p string) (error, []*question){
+	fmt.Println("got:"+p)
+	if p=="" {return nil,nil}
+	regex, _ := regexp.Compile(p)
+
+	nchan := make(chan error)
+	var r []*question
+	DBchan <- func(Db *sql.DB)func() {
+
+		rows, err := Db.Query("select key from question")
+		checkErr(err)
+		defer rows.Close()
+		i :=0
+		for rows.Next() {
+			var k int64
+			s := new(question)
+			rows.Scan(&k)
+			//checkErr(err)
+			if k == 0 {continue}
+			if !regex.MatchString(s.prompt){
+				fmt.Println("skip")
+				continue
+			}
+			r=append(r,s)
+			r[i].key = k
+			r[i].Get(Db)
+			//checkErr(err)
+			i=i+1
+		}
+		return func() {
+			nchan <-nil
+		}
+	}
+	return <-nchan,r
+}
+
 func Getallprompts (p string) (error, []*question){
 	nchan := make(chan error)
 	var r []*question
 	DBchan <- func(Db *sql.DB)func() {
-		rows, err := Db.Query("select key from question where prompt REGEXP ?", p)//TODO regex
+		rows, err := Db.Query("select key from question where prompt = ?", p)//TODO regex
 		checkErr(err)
 		defer rows.Close()
 		i :=0
