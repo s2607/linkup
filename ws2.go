@@ -58,6 +58,16 @@ func main() {//main always feels ugly and hacky
 	http.HandleFunc("/qprompt", qprompt_handler)
 	http.HandleFunc("/qprompt/", qprompt_handler)
 	http.HandleFunc("/sugs/", sugg_handler)
+    //"service GUI"
+	http.HandleFunc("/newop", opcreate_handler)
+	http.HandleFunc("/newserv", servicecreate_handler)
+	http.HandleFunc("/newq", questioncreate_handler)
+	http.HandleFunc("/newc", criterioncreate_handler)
+	http.HandleFunc("/delc", delc_handler)
+	http.HandleFunc("/delq", delq_handler)
+	http.HandleFunc("/searchq", searchq_handler)
+	http.HandleFunc("/searchs", searchs_handler)
+	http.HandleFunc("/searcho", searchs_handler)
 	rand.Seed(4)//a random number
 	fmt.Println("start")
 	go Dbwriter()
