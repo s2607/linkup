@@ -205,6 +205,12 @@ func showsug(w http.ResponseWriter, r responder){
 
 }
 
+func home_handler(w http.ResponseWriter, r *http.Request) {
+    uc, err := r.Cookie("uname")
+    checkErr(err)
+    outpage("actions.html.tpl",w,map[string]string{"wel":"Welcome " + uc.Value})
+}
+
 func Authhandler(w http.ResponseWriter, r *http.Request) {
 //TODO: rename to sessionhandler
 	o := new(operator)
@@ -226,7 +232,7 @@ func Authhandler(w http.ResponseWriter, r *http.Request) {
 			http.SetCookie(w, &sc)
 
 
-            w.Header().Set("Content-Type", "text/html")
+           /* w.Header().Set("Content-Type", "text/html")
             w.Write([]byte(`<html><head>
             <title>LinkUp</title>
             <link rel="icon" href="imgs/chevron.png" type="image/x-icon">
@@ -261,7 +267,8 @@ func Authhandler(w http.ResponseWriter, r *http.Request) {
 				<a href="/searchs">Search For A Service Program</a><br />
             </div>
             </div>
-			</body>`))
+			</body>`))*/
+            outpage("actions.html.tpl",w,map[string]string{"wel":"Welcome " + uc.Value})
 			Sstore(o)
 		}else {
 			outpage("auth.html.tpl",w,map[string]string{"err":"Invalid Password",})
@@ -323,7 +330,7 @@ func Ursession_handler(w http.ResponseWriter, r *http.Request) {
 		checkErr(err)
 
 		w.Header().Set("Content-Type", "text/html")
-		w.Write([]byte("<head><title>LinkUp</title> <link rel='icon' href='imgs/chevron.png' type='image/x-icon'> <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed|Nunito+Sans' rel='stylesheet'> <link href='css/survey_stylesheet.css' rel='stylesheet'></head><body><div id='top_bar'>         <img id='logo' src='imgs/logo.png' alt='LinkUp'></div><div id='title'><h1>Select A Responder</h1></div>"))
+		w.Write([]byte("<head><title>LinkUp</title> <link rel='icon' href='imgs/chevron.png' type='image/x-icon'> <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed|Nunito+Sans' rel='stylesheet'> <link href='css/survey_stylesheet.css' rel='stylesheet'></head><body><div id='top_bar'>         <img id='logo' src='imgs/logo.png' alt='LinkUp'><a href='/home'><div id='home_button'>Home</div></a></div><div id='title'><h1>Select A Responder</h1></div>"))
 
         if rs == nil{
             w.Write([]byte("<div class='responder_entry'>No Matching Entries </div><br>"))

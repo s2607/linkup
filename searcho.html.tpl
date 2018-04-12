@@ -21,6 +21,7 @@
     <div id="container">
         <div id="top_bar">
             <img id="logo" src="imgs/logo.png" alt="LinkUp">
+            <a href="/home"><div id="home_button">Home</div></a>
         </div>
 
         <div id="left_container">
