@@ -1,0 +1,80 @@
+#new_login
+{
+    font-size: 15px;
+    transition: 0s; /*Couteracts style for a elements in other stylesheet*/
+}
+
+#content_container
+{
+    width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#left_container
+{
+    float: left;
+    width: 50%;
+    text-align: center;
+    margin-top: 50px;
+    animation: form_fade_in;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+}
+
+#right_container
+{
+    float: left;
+    width: 50%;
+    text-align: center;
+    margin-top: 50px;
+    animation: form_fade_in;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+}
+
+
+/*Animation*/
+
+@keyframes form_fade_in
+{
+    from
+    {
+        opacity: 0;
+        margin-top: 0;
+    }
+
+    to
+    {
+        opacity: 1;
+        margin-top: 50px;
+    }
+
+}
+
+/** FOR SMALL SCREEN SIZES **/
+
+@media only screen and (max-width: 800px){
+
+    #content_container
+    {
+        width: 100%;
+    }
+
+    #left_container
+    {
+        float: none;
+        width: 100%;
+        height: auto;
+    }
+
+
+    #right_container
+    {
+        float: none;
+        width: 100%;
+        height: auto;
+    }
+
+}
+
