@@ -30,7 +30,7 @@
 
         <div id="slist">
 	       {{range .}}
-	       <div id="suggestion"> <a href="{{.Purl}}">{{.Pname}}</a><p>{{.Pdesc}}</p> </div><br>
+	       <div id="suggestion"> <a class="sug_link" href="{{.Purl}}">{{.Pname}}</a><p>{{.Pdesc}}</p> </div><br>
 	       {{end}}
 	   </div>
 

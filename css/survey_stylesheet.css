@@ -217,6 +217,16 @@ a:hover
     text-align: center;
 }
 
+.sug_link
+{
+    font-size: 25px;
+}
+
+.sug_link:hover
+{
+    font-size: 28px;
+}
+
 
 /** ANIMATIONS **/
 
@@ -262,6 +272,18 @@ a:hover
     {
         opacity: 1;
         width: 100%;
+    }
+}
+
+/*For Small Screens*/
+
+@media only screen and (max-width: 450px)
+{
+    #home_button
+    {
+        width: 100%;
+        padding-left: 45%;
+        margin-bottom: 20px;
     }
 }
 
