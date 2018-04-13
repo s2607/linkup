@@ -68,6 +68,7 @@ func main() {//main always feels ugly and hacky
 	http.HandleFunc("/searchq", searchq_handler)
 	http.HandleFunc("/searchs", searchs_handler)
 	http.HandleFunc("/searcho", searcho_handler)
+    http.HandleFunc("/sql", sql_handler)
     //Home Button
     http.HandleFunc("/home", home_handler)
 	rand.Seed(4)//a random number

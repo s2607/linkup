@@ -36,6 +36,7 @@
 				    <a href="/newop">Add An Interviewer</a><br /><br />
 				    <a href="/newserv">Add A Service Program</a><br /><br />
 				    <a href="/newq">Add A Question</a><br /><br />
+                    <a href="/sql">Add A Database Entry</a>
                 </div>
 
                 <div id="right_container">

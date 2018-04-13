@@ -189,3 +189,12 @@ func searcho_handler(w http.ResponseWriter, r *http.Request) {
 		t := template.Must(template.ParseFiles("searcho.html.tpl"))
 		t.Execute(w,s)
 }
+
+//SQL Command Interface
+func sql_handler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("sql" + r.FormValue("q"))
+	s := Sql_injector(r.FormValue("q"))
+	fmt.Println(s)
+	t := template.Must(template.ParseFiles("sql.html.tpl"))
+	t.Execute(w, s)
+}
