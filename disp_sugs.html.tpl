@@ -26,13 +26,15 @@
             <h1>Suggested Services</h1>
         </div>
 
-
-
+        {{if .Empty}}
+        <div class="service_sug">No Matching Service Programs</div>
+        {{else}}
         <div id="slist">
-	       {{range .}}
+	       {{range .S}}
 	       <div id="suggestion"> <a class="sug_link" href="{{.Purl}}">{{.Pname}}</a><p>{{.Pdesc}}</p> </div><br>
 	       {{end}}
 	   </div>
+        {{end}}
 
 	   <a href="/qprompt" id="sug_services_button"><div id="submit_button" class="button_anim" style="width: 180px; padding-top: 6px; height: 29px; margin-left: auto; margin-right: auto; margin-top: 50px;">Return</div></a>
 

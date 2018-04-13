@@ -197,11 +197,22 @@ func showsug(w http.ResponseWriter, r responder){
 	<a href="/qprompt">return</a>
 	`)
 	checkErr(err)*/
+    empty := false
+
+    if r.suggestions == nil {
+        empty = true
+    }
+
+    data := struct {
+        Empty bool
+        S []service
+    }{
+        empty,
+        r.suggestions,
+    }
 
     t := template.Must(template.ParseFiles("disp_sugs.html.tpl"))
-
-    err := t.Execute(w,r.suggestions)
-    checkErr(err)
+    t.Execute(w,data)
 
 }
 
