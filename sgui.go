@@ -186,6 +186,6 @@ func searcho_handler(w http.ResponseWriter, r *http.Request) {
 		err,s := Getallobyname(r.FormValue("q"))
 		fmt.Println(s)
 		checkErr(err)
-		t := template.Must(template.ParseFiles("searchq.html.tpl"))
+		t := template.Must(template.ParseFiles("searcho.html.tpl"))
 		t.Execute(w,s)
 }
