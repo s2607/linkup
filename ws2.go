@@ -16,11 +16,11 @@ func sometestdata() {
 	p := new(question)
 	l := new(criterion)
 	Init(q)
-	q.prompt = "What is your mothers maiden name?"
+	q.prompt = "What is your mother's maiden name?"
 	fmt.Println(q)
 	checkErr(Sstore(q))
 	Init(p)
-	p.prompt = "What is your fathers maiden name?"
+	p.prompt = "What is your father's maiden name?"
 	fmt.Println(p)
 	Init(l)
 	l.q=q
