@@ -165,7 +165,7 @@ select:hover
 
 #qlist
 {
-    width: 300px;
+    width: 400px;
     margin-left: auto;
     margin-right: auto;
     margin-top: 50px;
@@ -185,17 +185,32 @@ a
 
 a:hover
 {
-    width: 350px;
     font-size: 20px;
     color: #19396D;
     transition: .5s;
 }
 
-#sug_services_button
+#sug_services_button, #return_button
 {
-    text-decoration: none;
-    text-align: center;
+    height: 29px;
+    width: 180px;
     margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 6px;
+    background: #19396D;
+    border-radius: 12px;
+    border: none;
+    color: white;
+    font-size: 15px;
+    text-align: center;
+    text-decoration: none;
+}
+
+#sug_services_button:hover, #return_button:hover
+{
+    color: #19396D;
+    background: white;
 }
 
 .button_anim

@@ -36,7 +36,7 @@
 	   </div>
         {{end}}
 
-	   <a href="/qprompt" id="sug_services_button"><div id="submit_button" class="button_anim" style="width: 180px; padding-top: 6px; height: 29px; margin-left: auto; margin-right: auto; margin-top: 50px;">Return</div></a>
+	   <a href="/qprompt"><div id="return_button" class="button_anim">Return</div></a>
 
     </div>
 
