@@ -152,7 +152,7 @@ select:hover
     cursor: pointer;
 }
 
-.responder_entry, .service_sug
+.responder_entry, .service_sug, .no_questions
 {
     width: 300px;
     margin-left: auto;

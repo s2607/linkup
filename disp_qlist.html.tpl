@@ -28,11 +28,15 @@
 
         <!-- TODO: Box on left with services (make dropdown in top left) -->
 
+        {{if .Empty}}
+        <div class="no_questions">No Questions To Answer</div>
+        {{else}}
         <div id="qlist">
-	       {{range .}}
+	       {{range .Q}}
 	       <a href="/qprompt/{{.Pkey}}">{{.Pprompt}}</a><br><br>
 	       {{end}}
         </div>
+        {{end}}
 
         <a href="/sugs" id="sug_services_button"><div id="submit_button" class="button_anim" style="width: 180px; padding-top: 6px; height: 29px; margin-left: auto; margin-right: auto; margin-top: 50px;">Suggest Services</div></a>
 

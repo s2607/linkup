@@ -142,8 +142,22 @@ func outpage(f string , w http.ResponseWriter, d map[string]string){
 }
 func qlist(w http.ResponseWriter, q []question){
 
+    empty := false
+
+    if len(q) == 0 {
+        empty = true
+    }
+
+    data := struct{
+        Empty bool
+        Q []question
+    }{
+        empty,
+        q,
+    }
+
     t := template.Must(template.ParseFiles("disp_qlist.html.tpl"))
-    err := t.Execute(w,q)
+    err := t.Execute(w,data)
     checkErr(err)
 
     /*t,err := template.New("dispt").Parse(`
