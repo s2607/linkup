@@ -227,6 +227,12 @@ a:hover
     font-size: 28px;
 }
 
+#succ_msg
+{
+    text-align: center;
+    color: green;
+}
+
 
 /** ANIMATIONS **/
 

@@ -26,6 +26,9 @@
             <h1>Add Interviewer</h1>
         </div>
 
+
+        <div id="succ_msg">{{.succ}}</div>
+
         <form id="form" action="/newop" method="post">
             <p>New Username</p>
             <input name="uname">

@@ -9,7 +9,7 @@ import (
 //TODO: edit
 func opcreate_handler(w http.ResponseWriter, r *http.Request) {
         o := curop(r)
-	no := new(operator)
+	    no := new(operator)
         if o == nil {
                 webmessage(w,"Bad Session")
         } else if r.FormValue("uname") != "" {
@@ -23,14 +23,15 @@ func opcreate_handler(w http.ResponseWriter, r *http.Request) {
 		Sget(no.cser)
 		no.setpss(r.FormValue("pw"))
 		Sstore(no)
-		webmessage(w,"ok")
+        t := template.Must(template.ParseFiles("addop.html.tpl"))
+        t.Execute(w,map[string]string{"succ":"Interviewer Successfully Added"})
         }else {
 		if r.FormValue("nokey") != "" {
 			no.key,_ = strconv.ParseInt(r.FormValue("nokey"),10,64)
 			Sget(no)
 		}
 		t := template.Must(template.ParseFiles("addop.html.tpl"))
-		t.Execute(w,no)
+        t.Execute(w,map[string]string{"succ":""})
 	}
 }
 func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
@@ -58,14 +59,14 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 		Sstore(ns)
-		webmessage(w,"ok")
+        webmessage(w,"ok")
         }else {
 		if r.FormValue("nskey") != "" {
 			ns.key,_ = strconv.ParseInt(r.FormValue("nskey"),10,64)
 			Sget(ns)
 		}
 		t := template.Must(template.ParseFiles("addserv.html.tpl"))
-		t.Execute(w,struct{A string; O *service}{"/newserv",ns})
+        t.Execute(w,struct{ A string; O *service}{"/newserv",ns})
 	}
 }
 
