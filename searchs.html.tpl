@@ -44,13 +44,17 @@
 
             {{range .}}
             <div id="title">
-                {{.Pname}} @ {{.Pkey}}
+                {{.Pname}}<br>
+                <div id="id">ID: {{.Pkey}}</div>
             </div>
-            <form id="form" action="/newserv" method="post">
+            <form id="result_form" action="/newserv" method="post">
                 <p>Edit</p>
-                <input name="nskey" value="{{.Pkey}}" spellcheck="true"><br>
-                <input id="submit_button" value="Submit" type=submit>
-            </form><hr>
+                <input name="nskey" type="hidden" value="{{.Pkey}}" spellcheck="true"><br>
+                <input id="submit_button" value="Edit" type=submit>
+            </form>
+
+            <div id="horiz_bar"></div>
+
             {{end}}
 
         </div>

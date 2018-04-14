@@ -43,14 +43,17 @@
 
             {{range .}}
             <div id="title">
-                {{.Puname}} @ {{.Pkey}}
+                {{.Puname}} <br>
+                <div id="id">ID: {{.Pkey}}</div>
             </div>
 
-            <form id="form" action="/newop" method="post">
-                <p>Edit</p>
-                <input name="nskey" value="{{.Pkey}}" spellcheck="true"><br>
-                <input id="submit_button" value="Submit" type=submit>
-            </form><hr>
+            <form id="result_form" action="/newop" method="post">
+                <input name="nskey" type="hidden" value="{{.Pkey}}" spellcheck="true"><br>
+                <input id="submit_button" value="Edit" type=submit>
+            </form>
+
+            <div id="horiz_bar"></div>
+
             {{end}}
         </div>
 
