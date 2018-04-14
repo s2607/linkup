@@ -33,8 +33,8 @@
                 <p>Select Service Program</p>
                 <select name="service" value="select">
                     <option value=""></option>
-                    {{range .Snames}}
-                    <option value="{{.}}">{{.}}</option>
+                    {{range .S}}
+                    <option value="{{.Pname}}">{{.Pname}}</option>
                     {{end}}
                 </select><br />
                 <input id="find_button" value="Find Questions" type="submit">

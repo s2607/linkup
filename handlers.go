@@ -142,32 +142,11 @@ func outpage(f string , w http.ResponseWriter, d map[string]string){
 }
 func qlist(w http.ResponseWriter, r *http.Request){
 
-    db := Getdb()
     empty := false
-    serviceNames := []string{}
-    _, servArr := Getallservices()
+    err, servArr := Getallservices()
     var serv *service
 
-    //get services names from database
-    rows, err := db.Query("select name from service")
-    if err != nil {
-	   checkErr(err)
-    }
-    defer rows.Close()
-    for rows.Next() {
-        var name string
-	   err := rows.Scan(&name)
-	   if err != nil {
-		  checkErr(err)
-	   }
-        serviceNames = append(serviceNames, name)
-        fmt.Println("got " + name)
-    }
-    err = rows.Err()
-    if err != nil {
-	   checkErr(err)
-    }
-    //end db stuff
+    checkErr(err)
 
     //get form value and set the services questions to display
     if r.FormValue("service") == "" {
@@ -189,12 +168,12 @@ func qlist(w http.ResponseWriter, r *http.Request){
     data := struct{
         Empty bool
         Q []question
-        Snames []string
+        S []*service
         Name string
     }{
         empty,
         serv.qlist,
-        serviceNames,
+        servArr,
         serv.name,
     }
 
