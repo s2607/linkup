@@ -175,6 +175,13 @@ select:hover
     animation-timing-function: ease-in-out;
 }
 
+#serv_name
+{
+    animation: fade_in;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+}
+
 a
 {
     color: black;

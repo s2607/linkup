@@ -29,13 +29,13 @@
                 <h1>Find Questions</h1>
             </div>
 
-            <form id="form" action="/qprompt" method="post">
+            <form id="form" action="" method="post">
                 <p>Select Service Program</p>
-                <select>
-                    <option></option>
-                    <option>Test</option>
-                    <option>Test2</option>
-                    <option>Test3</option>
+                <select name="service" value="select">
+                    <option value=""></option>
+                    {{range .Snames}}
+                    <option value="{{.}}">{{.}}</option>
+                    {{end}}
                 </select><br />
                 <input id="find_button" value="Find Questions" type="submit">
             </form>
@@ -48,6 +48,7 @@
 
             <div id="right_title">
                 <h1>Select Question</h1>
+                <h3 id="serv_name">{{.Name}}</h3>
             </div>
 
             {{if .Empty}}
