@@ -34,7 +34,7 @@
             <p>Answer Type <br><span>
                 <input type="radio" name="qtype" value="0">Text
                 <input type="radio" name="qtype" value="1">Number
-                <input type="radio" name="qtype" value="boolean">Any More?
+                <input type="radio" name="qtype" value="2">Yes/No
                 </span>
             </p><br>
             <input id="submit_button" value="Submit" type=submit>
