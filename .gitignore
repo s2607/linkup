@@ -1,3 +1,5 @@
 wdb.db
 linkup
 linkup.exe
+*.key
+*.crt
