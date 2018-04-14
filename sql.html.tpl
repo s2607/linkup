@@ -27,9 +27,9 @@
             <h1>SQL Command Line</h1>
         </div>
 
-        <form id="form" action="/sql" method="post">
+        <form id="form" action="/sql" method="post" style="width: 600px;">
             <p>Enter SQL Command</p>
-            <input name="q"><br>
+            <textarea id="sql_text" name="q"></textarea><br>
             <input id="submit_button" value="Submit" type=submit>
         </form>
 

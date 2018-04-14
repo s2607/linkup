@@ -249,6 +249,18 @@ a:hover
     font-size: 28px;
 }
 
+#sql_text
+{
+    width: 600px;
+    height: 150px;
+    resize: none;
+}
+
+textarea:focus
+{
+    outline: none;
+}
+
 #succ_msg
 {
     text-align: center;
