@@ -192,9 +192,14 @@ func searcho_handler(w http.ResponseWriter, r *http.Request) {
 
 //SQL Command Interface
 func sql_handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("sql" + r.FormValue("q"))
-	s := Sql_injector(r.FormValue("q"))
-	fmt.Println(s)
-	t := template.Must(template.ParseFiles("sql.html.tpl"))
-	t.Execute(w, s)
+    if curop(r) != nil {
+        fmt.Println("sql" + r.FormValue("q"))
+        s := Sql_injector(r.FormValue("q"))
+        fmt.Println(s)
+        t := template.Must(template.ParseFiles("sql.html.tpl"))
+        t.Execute(w, s)
+    }else{
+        w.Header().Set("Content-Type", "text/html")
+        w.Write([]byte("<body>Bad Session</body>.\n"))
+    }
 }
