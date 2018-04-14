@@ -1,0 +1,91 @@
+#user
+{
+    margin-bottom: 8px;
+}
+
+#new_login
+{
+    font-size: 15px;
+    transition: 0s; /*Couteracts style for a elements in other stylesheet*/
+}
+
+#start_interview
+{
+    font-size: 25px;
+    transition: 0s;
+}
+
+#content_container
+{
+    width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#left_container
+{
+    float: left;
+    width: 50%;
+    text-align: center;
+    margin-top: 20px;
+    animation: list_fade_in;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+}
+
+#right_container
+{
+    float: left;
+    width: 50%;
+    text-align: center;
+    margin-top: 20px;
+    animation: list_fade_in;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+}
+
+
+/*Animation*/
+
+@keyframes list_fade_in
+{
+    from
+    {
+        opacity: 0;
+        margin-top: 0;
+    }
+
+    to
+    {
+        opacity: 1;
+        margin-top: 20px;
+    }
+
+}
+
+/** FOR SMALL SCREEN SIZES **/
+
+@media only screen and (max-width: 800px){
+
+    #content_container
+    {
+        width: 100%;
+    }
+
+    #left_container
+    {
+        float: none;
+        width: 100%;
+        height: auto;
+    }
+
+
+    #right_container
+    {
+        float: none;
+        width: 100%;
+        height: auto;
+    }
+
+}
+

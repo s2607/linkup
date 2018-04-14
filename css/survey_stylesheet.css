@@ -1,7 +1,7 @@
 body
 {
     height: 100vh;
-    width: 100vw;
+    width: 100%;
     margin: 0;
     padding: 0;
     background: #AAA;
@@ -17,24 +17,49 @@ body
 #top_bar
 {
     height: 120px;
-    background: #333;
+    background: #111;
 }
 
 #logo
 {
-    height: 300px;
-    width: 300px;
-    margin-top: -85px;
+    float: left;
+    height: 110px;
+    width: 246px;
+    margin-left: 20px;
+    margin-top: 6px;
+}
+
+#home_button
+{
+    box-sizing: border-box;
+    padding-top: 45px;
+    padding-left: 63px;
+    float: right;
+    width: 180px;
+    height: 120px;
+    font-size: 20px;
+    color: white;
+    background: #19396D;
+}
+
+#home_button:hover
+{
+    color: #19396D;
+    background: white;
 }
 
 #title
 {
+    float: none;
     width: 350px;
     margin-left: auto;
     margin-right: auto;
     margin-top: 50px;
     text-align: center;
     color: #19396D;
+    animation: form_fade_in;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
 }
 
 #form
@@ -44,6 +69,14 @@ body
     margin-right: auto;
     margin-top: 50px;
     text-align: center;
+    animation: form_fade_in;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+}
+
+h3
+{
+    color: #19396D;
 }
 
 p
@@ -73,6 +106,33 @@ input:focus
     outline: none;
 }
 
+.checkbox
+{
+    width: 15px;
+    height: 15px;
+    background: #DDD;
+}
+
+select
+{
+    background: #DDD;
+    border-radius: 5px;
+    height: 25px;
+}
+
+select:focus
+{
+    outline: none;
+}
+
+/*For Edge*/
+select:hover
+{
+    outline: none;
+    background: #DDD;
+}
+
+
 #submit_button
 {
     height: 35px;
@@ -92,33 +152,86 @@ input:focus
     cursor: pointer;
 }
 
-.responder_entry
+.responder_entry, .service_sug, .no_questions
 {
     width: 300px;
     margin-left: auto;
     margin-right: auto;
     text-align: center;
+    animation: fade_in;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
 }
 
 #qlist
 {
-    width: 300px;
+    width: 400px;
     margin-left: auto;
     margin-right: auto;
     margin-top: 50px;
     text-align: center;
+    animation: form_fade_in;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+}
+
+#serv_name
+{
+    animation: fade_in;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
 }
 
 a
 {
     color: black;
     font-size: 17px;
+    text-decoration: none;
+    transition: .5s; /*For mouse leave*/
 }
 
-#sug_services_button
+a:hover
 {
-    text-decoration: none;
+    font-size: 20px;
+    color: #19396D;
+    transition: .5s;
+}
+
+#sug_services_button, #return_button
+{
+    height: 29px;
+    width: 180px;
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 6px;
+    background: #19396D;
+    border-radius: 12px;
+    border: none;
+    color: white;
+    font-size: 15px;
     text-align: center;
+    text-decoration: none;
+}
+
+#sug_services_button:hover, #return_button:hover
+{
+    color: #19396D;
+    background: white;
+}
+
+.button_anim
+{
+    animation: form_fade_in;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+}
+
+#slist
+{
+    animation: fade_in;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
 }
 
 #suggestion
@@ -126,6 +239,81 @@ a
     text-align: center;
 }
 
+.sug_link
+{
+    font-size: 25px;
+}
+
+.sug_link:hover
+{
+    font-size: 28px;
+}
+
+#succ_msg
+{
+    text-align: center;
+    color: green;
+}
+
+
+/** ANIMATIONS **/
+
+@keyframes fade_in
+{
+    from
+    {
+        opacity: 0;
+    }
+
+    to
+    {
+        opacity: 1;
+    }
+
+}
+
+@keyframes form_fade_in
+{
+    from
+    {
+        opacity: 0;
+        margin-top: 0;
+    }
+
+    to
+    {
+        opacity: 1;
+        margin-top: 50px;
+    }
+
+}
+
+@keyframes extend_bar
+{
+    from
+    {
+        opacity: 0;
+        width: 0%;
+    }
+
+    to
+    {
+        opacity: 1;
+        width: 100%;
+    }
+}
+
+/*For Small Screens*/
+
+@media only screen and (max-width: 470px)
+{
+    #home_button
+    {
+        width: 100%;
+        padding-left: 45%;
+        margin-bottom: 20px;
+    }
+}
 
 /*FONTS
 font-family: 'Roboto Condensed', sans-serif;

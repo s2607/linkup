@@ -22,11 +22,11 @@ func sometestdata() {
 	p.clist=append(p.clist,m)
 	fmt.Println(m)
 	Init(q)
-	q.prompt = "What is your mothers madin name"
+	q.prompt = "What is your mother's maiden name?"
 	fmt.Println(q)
 	checkErr(Sstore(q))
 	Init(p)
-	p.prompt = "What is your fathers madin name"
+	p.prompt = "What is your father's maiden name?"
 	fmt.Println(p)
 	Init(l)
 	l.q=q
@@ -72,8 +72,10 @@ func main() {//main always feels ugly and hacky
 	http.HandleFunc("/delq", delq_handler)
 	http.HandleFunc("/searchq", searchq_handler)
 	http.HandleFunc("/searchs", searchs_handler)
-	http.HandleFunc("/searcho", searchs_handler)
+	http.HandleFunc("/searcho", searcho_handler)
 	http.HandleFunc("/sql", sql_handler)
+	//Home Button
+	http.HandleFunc("/home", home_handler)
 	rand.Seed(4)//a random number
 	fmt.Println("start")
 	go Dbwriter()

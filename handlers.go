@@ -145,9 +145,46 @@ func outpage(f string , w http.ResponseWriter, d map[string]string){
 	t := template.Must(template.ParseFiles(f))
 	t.Execute(w,d)
 }
-func qlist(w http.ResponseWriter, q []question){
+func qlist(w http.ResponseWriter, r *http.Request){
+
+    empty := false
+    err, servArr := Getallservices()
+    var serv *service
+
+    checkErr(err)
+
+    //get form value and set the services questions to display
+    if r.FormValue("service") == "" {
+        serv = new(service)
+    }else {
+        for _, n := range servArr {
+            if r.FormValue("service") == n.name {
+                serv = n
+            }
+        }
+    }
+
+    //if no questions
+    if len(serv.qlist) == 0 {
+        empty = true
+    }
+
+    //pack data to pass to template
+    data := struct{
+        Empty bool
+        Q []question
+        S []*service
+        Name string
+    }{
+        empty,
+        serv.qlist,
+        servArr,
+        serv.name,
+    }
+
     t := template.Must(template.ParseFiles("disp_qlist.html.tpl"))
-    t.Execute(w,q)
+    err = t.Execute(w,data)
+    checkErr(err)
 
     /*t,err := template.New("dispt").Parse(`
 	<div id="qlist">
@@ -176,7 +213,8 @@ func qdisp(w http.ResponseWriter, k int64) {
 	<input type=submit></form>
 	</div>
 	`)//TODO: different form types*/
-	t.Execute(w,q)
+	err = t.Execute(w,q)
+    checkErr(err)
 
 }
 func qanswer(k int64, s string, ur *responder) error {//TODO: error checking this whole function
@@ -199,12 +237,29 @@ func showsug(w http.ResponseWriter, r responder){
 	<a href="/qprompt">return</a>
 	`)
 	checkErr(err)*/
+    empty := false
+
+    if r.suggestions == nil {
+        empty = true
+    }
+
+    data := struct {
+        Empty bool
+        S []service
+    }{
+        empty,
+        r.suggestions,
+    }
 
     t := template.Must(template.ParseFiles("disp_sugs.html.tpl"))
+    t.Execute(w,data)
 
-    err := t.Execute(w,r.suggestions)
+}
+
+func home_handler(w http.ResponseWriter, r *http.Request) {
+    uc, err := r.Cookie("uname")
     checkErr(err)
-
+    outpage("actions.html.tpl",w,map[string]string{"wel":"Welcome " + uc.Value})
 }
 
 func Authhandler(w http.ResponseWriter, r *http.Request) {
@@ -227,41 +282,7 @@ func Authhandler(w http.ResponseWriter, r *http.Request) {
 			http.SetCookie(w, &uc)
 			http.SetCookie(w, &sc)
 
-
-            w.Header().Set("Content-Type", "text/html")
-            w.Write([]byte(`<html><head>
-            <title>LinkUp</title>
-            <link rel="icon" href="imgs/chevron.png" type="image/x-icon">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-            <meta charset="UTF-8">
-            <meta name="description" content="">
-            <meta name="keywords" content="">
-
-            <!-- Fonts -->
-            <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed|Nunito+Sans" rel="stylesheet">
-
-            <!-- Stylesheet -->
-            <link href="css/survey_stylesheet.css" rel="stylesheet">
-
-            </head>
-            <body><div id="container"><div id="top_bar">
-            <img id="logo" src="imgs/logo.svg" alt="LinkUp">
-            </div>
-
-            <div id="title">
-                <h1>Select An Action</h1>
-            </div><br /><br />
-            <div style="text-align: center;">
-				<a href="/addresponder.html">Add A Responder</a><br /><br />
-				<a href="/newop">Add An Operator</a><br /><br />
-				<a href="/newserv">Add A Service Program</a><br /><br />
-				<a href="/newq">Add A Question</a><br /><br />
-				<a href="/searchq">Search For A Question</a><br /><br />
-				<a href="/searcho">Search For An Operator</a><br /><br />
-				<a href="/searchs">Search For A Service Program</a><br />
-            </div>
-            </div>
-			</body>`))
+			outpage("actions.html.tpl",w,map[string]string{"wel":"Welcome " + uc.Value})
 			Sstore(o)
 		}else {
 			outpage("auth.html.tpl",w,map[string]string{"err":"Invalid Password",})
@@ -323,7 +344,7 @@ func Ursession_handler(w http.ResponseWriter, r *http.Request) {
 		checkErr(err)
 
 		w.Header().Set("Content-Type", "text/html")
-		w.Write([]byte("<head><title>LinkUp</title> <link rel='icon' href='imgs/chevron.png' type='image/x-icon'> <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed|Nunito+Sans' rel='stylesheet'> <link href='css/survey_stylesheet.css' rel='stylesheet'></head><body><div id='top_bar'>         <img id='logo' src='imgs/logo.svg' alt='LinkUp'></div><div id='title'><h1>Select A Responder</h1></div>"))
+		w.Write([]byte("<head><title>LinkUp</title> <link rel='icon' href='imgs/chevron.png' type='image/x-icon'> <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed|Nunito+Sans' rel='stylesheet'> <link href='css/survey_stylesheet.css' rel='stylesheet'></head><body><div id='top_bar'>         <img id='logo' src='imgs/logo.png' alt='LinkUp'><a href='/home'><div id='home_button'>Home</div></a></div><div id='title'><h1>Select A Responder</h1></div>"))
 
         if rs == nil{
             w.Write([]byte("<div class='responder_entry'>No Matching Entries </div><br>"))
@@ -382,10 +403,8 @@ func qprompt_handler(w http.ResponseWriter, r *http.Request) {
 					+qlist(o.cser.qlist)
 					+"or whatever</body></html>"))
 		*/
-		fmt.Println(o)
-		fmt.Println(o.cser)
-		fmt.Println(o.cser.qlist)
-			qlist(w,o.cser.qlist)//Note that curop calls Sget
+
+            qlist(w,r)//Note that curop calls Sget
 
 		}else {
 			if r.FormValue("qanswer") == "" {
@@ -424,28 +443,28 @@ func validateResponderId(w http.ResponseWriter, r *http.Request) bool {
     //Validate Input
     if r.FormValue("fname") == "" || r.FormValue("lname") == "" ||
         r.FormValue("dob") == "" || r.FormValue("zip") == "" {
-         outpage("addresponder.html.tpl",w,map[string]string{"err":"Please Complete All Fields"})
+         outpage("addresponder.html.tpl",w,map[string]string{"err":"Please Complete All Fields", "fname":r.FormValue("fname"), "lname":r.FormValue("lname"), "dob":r.FormValue("dob"), "zip":r.FormValue("zip")})
         return false
     }
 
     if !checkTextInput(r.FormValue("fname")){
-        outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid First Name"})
+        outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid First Name", "fname":r.FormValue("fname"), "lname":r.FormValue("lname"), "dob":r.FormValue("dob"), "zip":r.FormValue("zip")})
         return false
     }
 
     if !checkTextInput(r.FormValue("lname")){
-        outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid Last Name"})
+        outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid Last Name", "fname":r.FormValue("fname"), "lname":r.FormValue("lname"), "dob":r.FormValue("dob"), "zip":r.FormValue("zip")})
         return false
     }
 
     //Add this after type for DOB is correct
     if !checkDOBInput(r.FormValue("dob")){
-        outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid Date Of Birth"})
+        outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid Date Of Birth", "fname":r.FormValue("fname"), "lname":r.FormValue("lname"), "dob":r.FormValue("dob"), "zip":r.FormValue("zip")})
         return false
     }
 
     if !checkNumberInput(r.FormValue("zip")) || len(r.FormValue("zip")) != 5 {
-        outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid ZIP Code"})
+        outpage("addresponder.html.tpl",w,map[string]string{"err":"Invalid ZIP Code", "fname":r.FormValue("fname"), "lname":r.FormValue("lname"), "dob":r.FormValue("dob"), "zip":r.FormValue("zip")})
         return false
     }
 

@@ -18,7 +18,8 @@
 <body>
     <div id="container">
         <div id="top_bar">
-            <img id="logo" src="../imgs/logo.svg" alt="LinkUp">
+            <img id="logo" src="../imgs/logo.png" alt="LinkUp">
+            <a href="/home"><div id="home_button">Home</div></a>
         </div>
 
         <div id="title">
@@ -28,7 +29,7 @@
         <form id="form" method="post">
             <div>{{.Pprompt}}</div>
             <br>
-            <input name="qanswer" value="">
+            <input name="qanswer" value="" spellcheck="true">
             <br>
             <input id="submit_button" type=submit value="Submit">
         </form>

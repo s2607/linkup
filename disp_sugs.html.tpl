@@ -18,22 +18,25 @@
 <body>
     <div id="container">
         <div id="top_bar">
-            <img id="logo" src="../imgs/logo.svg" alt="LinkUp">
+            <img id="logo" src="../imgs/logo.png" alt="LinkUp">
+            <a href="/home"><div id="home_button">Home</div></a>
         </div>
 
         <div id="title">
             <h1>Suggested Services</h1>
         </div>
 
-
-
+        {{if .Empty}}
+        <div class="service_sug">No Matching Service Programs</div>
+        {{else}}
         <div id="slist">
-	       {{range .}}
-	       <div id="suggestion"> <a href="{{.Purl}}">{{.Pname}}</a><p>{{.Pdesc}}</p> </div><br>
+	       {{range .S}}
+	       <div id="suggestion"> <a class="sug_link" href="{{.Purl}}">{{.Pname}}</a><p>{{.Pdesc}}</p> </div><br>
 	       {{end}}
 	   </div>
+        {{end}}
 
-	   <a href="/qprompt" id="sug_services_button"><div id="submit_button" style="width: 180px; padding-top: 6px; height: 29px; margin-left: auto; margin-right: auto; margin-top: 50px;">Return</div></a>
+	   <a href="/qprompt"><div id="return_button" class="button_anim">Return</div></a>
 
     </div>
 

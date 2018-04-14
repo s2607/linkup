@@ -13,25 +13,56 @@
 
     <!-- Stylesheet -->
     <link href="css/survey_stylesheet.css" rel="stylesheet">
+    <link href="css/qlist_stylesheet.css" rel="stylesheet">
 
 </head>
 <body>
     <div id="container">
         <div id="top_bar">
-            <img id="logo" src="imgs/logo.svg" alt="LinkUp">
+            <img id="logo" src="imgs/logo.png" alt="LinkUp">
+            <a href="/home"><div id="home_button">Home</div></a>
         </div>
 
-        <div id="title">
-            <h1>Select Question</h1>
+        <div id="left_container">
+
+            <div id="left_title">
+                <h1>Find Questions</h1>
+            </div>
+
+            <form id="form" action="" method="post">
+                <p>Select Service Program</p>
+                <select name="service" value="select">
+                    <option value=""></option>
+                    {{range .S}}
+                    <option value="{{.Pname}}">{{.Pname}}</option>
+                    {{end}}
+                </select><br />
+                <input id="find_button" value="Find Questions" type="submit">
+            </form>
+
+            <a href="/sugs"><div id="sug_services_button" class="button_anim">Suggest Services</div></a>
+
         </div>
 
-        <div id="qlist">
-	       {{range .}}
-	       <a href="/qprompt/{{.Pkey}}">{{.Pprompt}}</a><br><br>
-	       {{end}}
+        <div id="right_container">
+
+            <div id="right_title">
+                <h1>Select Question</h1>
+                <h3 id="serv_name">{{.Name}}</h3>
+            </div>
+
+            {{if .Empty}}
+            <div class="no_questions">No Questions To Answer</div>
+            {{else}}
+            <div id="qlist">
+                {{range .Q}}
+                <a href="/qprompt/{{.Pkey}}">{{.Pprompt}}</a><br><br>
+	           {{end}}
+            </div>
+            {{end}}
+
         </div>
 
-        <a href="/sugs" id="sug_services_button"><div id="submit_button" style="width: 180px; padding-top: 6px; height: 29px; margin-left: auto; margin-right: auto;">Suggest Services</div></a>
 
     </div>
 </body>

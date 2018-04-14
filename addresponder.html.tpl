@@ -18,24 +18,25 @@
 <body>
     <div id="container">
         <div id="top_bar">
-            <img id="logo" src="imgs/logo.svg" alt="LinkUp">
+            <img id="logo" src="imgs/logo.png" alt="LinkUp">
+            <a href="/home"><div id="home_button">Home</div></a>
         </div>
 
-        <div id="title">
+        <div id="title" style="animation: none;">
             <h1>Identifying Questions</h1>
         </div>
 
         <div id="error" style="color:red; text-align: center; margin-bottom: -20px;">{{.err}}</div>
 
-        <form id="form" action="/newr" method="post">
+        <form id="form" action="/newr" method="post" style="animation: none;">
             <p>First Name</p>
-            <input name="fname">
+            <input name="fname" value="{{.fname}}">
             <p>Last Name</p>
-            <input name="lname">
+            <input name="lname" value="{{.lname}}">
             <p>Date Of Birth <span id="dob_format">(MM/DD/YYYY)</span></p>
-		    <input name="dob">
+		    <input name="dob" value="{{.dob}}">
             <p>Zip Code</p>
-            <input name="zip"><br>
+            <input name="zip" value="{{.zip}}"><br>
 		  <input id="submit_button" type=submit value="Submit">
         </form>
 

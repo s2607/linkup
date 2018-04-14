@@ -13,34 +13,26 @@
 
     <!-- Stylesheet -->
     <link href="css/survey_stylesheet.css" rel="stylesheet">
+
 </head>
 <body>
-
     <div id="container">
+
         <div id="top_bar">
             <img id="logo" src="imgs/logo.png" alt="LinkUp">
             <a href="/home"><div id="home_button" style="animation: fade_in; animation-duration: 1s; animation-timing-function: ease-in-out;">Home</div></a>
         </div>
 
         <div id="title">
-            <h1>Add Interviewer</h1>
+            <h1>SQL Command Line</h1>
         </div>
 
-
-        <div id="succ_msg">{{.succ}}</div>
-
-        <form id="form" action="/newop" method="post">
-            <p>New Username</p>
-            <input name="uname">
-            <p>New Password</p>
-            <input type="password" name="pw">
-            <p>Service Key</p>
-            <input name="skey"><br>
+        <form id="form" action="/sql" method="post">
+            <p>Enter SQL Command</p>
+            <input name="q"><br>
             <input id="submit_button" value="Submit" type=submit>
         </form>
 
     </div>
-
-
 </body>
 </html>
