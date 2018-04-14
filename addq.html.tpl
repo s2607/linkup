@@ -59,9 +59,9 @@
             </select></p><br>
             <p>isnil:</p>
             <input type="checkbox" value="1" class="checkbox" name="isnil">
-            <p>inv</p>
+            <p>Invert</p>
             <input type="checkbox" class="checkbox" value="1" name="inv">
-            <p>conj</p>
+            <p>Conjunctive</p>
             <input type="checkbox" name="conj" value="1" class="checkbox">
             <input type="hidden" name="nqkey" value="{{.O.Pkey}}"><br>
             <input id="submit_button" value="Submit" type=submit>
