@@ -13,6 +13,7 @@
 
     <!-- Stylesheet -->
     <link href="css/survey_stylesheet.css" rel="stylesheet">
+    <link href="css/qlist_stylesheet.css" rel="stylesheet">
 
 </head>
 <body>
@@ -22,23 +23,45 @@
             <a href="/home"><div id="home_button">Home</div></a>
         </div>
 
-        <div id="title">
-            <h1>Select Question</h1>
+        <div id="left_container">
+
+            <div id="left_title">
+                <h1>Find Questions</h1>
+            </div>
+
+            <form id="form" action="/qprompt" method="post">
+                <p>Select Service Program</p>
+                <select>
+                    <option></option>
+                    <option>Test</option>
+                    <option>Test2</option>
+                    <option>Test3</option>
+                </select><br />
+                <input id="find_button" value="Find Questions" type="submit">
+            </form>
+
+            <a href="/sugs"><div id="sug_services_button" class="button_anim">Suggest Services</div></a>
+
         </div>
 
-        <!-- TODO: Box on left with services (make dropdown in top left) -->
+        <div id="right_container">
 
-        {{if .Empty}}
-        <div class="no_questions">No Questions To Answer</div>
-        {{else}}
-        <div id="qlist">
-	       {{range .Q}}
-            <a href="/qprompt/{{.Pkey}}">{{.Pprompt}}</a><br><br>
-	       {{end}}
+            <div id="right_title">
+                <h1>Select Question</h1>
+            </div>
+
+            {{if .Empty}}
+            <div class="no_questions">No Questions To Answer</div>
+            {{else}}
+            <div id="qlist">
+                {{range .Q}}
+                <a href="/qprompt/{{.Pkey}}">{{.Pprompt}}</a><br><br>
+	           {{end}}
+            </div>
+            {{end}}
+
         </div>
-        {{end}}
 
-        <a href="/sugs"><div id="sug_services_button" class="button_anim">Suggest Services</div></a>
 
     </div>
 </body>
