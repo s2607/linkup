@@ -45,14 +45,17 @@
 
             {{range .}}
             <div id="title">
-                {{.Pprompt}} @ {{.Pkey}}
+                {{.Pprompt}} <br>
+                <div id="id">ID: {{.Pkey}}</div>
             </div>
 
-            <form id="form" action="/newq" method="post">
-                <p>Edit</p>
-                <input name="nqkey" value="{{.Pkey}}" spellcheck="true"><br>
-                <input id="submit_button" value="Submit" type=submit>
-            </form><hr>
+            <form id="result_form" action="/newq" method="post">
+                <input name="nqkey" type="hidden" value="{{.Pkey}}" spellcheck="true">
+                <input id="submit_button" value="Edit" type=submit>
+            </form>
+
+            <div id="horiz_bar"></div>
+
             {{end}}
 
         </div>

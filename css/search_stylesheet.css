@@ -47,6 +47,33 @@
     color: #19396D;
 }
 
+#id
+{
+    color: black;
+}
+
+#result_form
+{
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    text-align: center;
+    animation: fade_in;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+}
+
+#horiz_bar
+{
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    border-top: 1px solid black;
+    animation: fade_in;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+}
 
 /** FOR SMALL SCREEN SIZES **/
 
@@ -71,6 +98,21 @@
         float: none;
         width: 100%;
         height: auto;
+    }
+
+}
+
+/*ANIMATIONS*/
+@keyframes fade_in
+{
+    from
+    {
+        opacity: 0;
+    }
+
+    to
+    {
+        opacity: 1;
     }
 
 }
