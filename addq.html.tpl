@@ -75,19 +75,6 @@
            <input id="submit_button" value="Submit" type=submit>
         </form><hr>
         {{end}}
-	<!--From stephen -->
-	<form action="newq" method="post"> add a criterion 
-			regex:<input name="regex"><br>
-			aval:<input name="aval"><br>
-			bval:<input name="bval"><br>
-			lval:<input name="lval"><br>
-			isnil:<input name="isnil"><br>
-			inv:<input name="inv"><br>
-			conj:<input name="conj"><br>
-			<input type="hidden" name="nqkey" value="{{.O.Pkey}}">
-			<input type=submit>
-	</form>
-	<!--<<From stephen -->
 
 
 

@@ -49,9 +49,10 @@
         {{end}}
 
         <form id="form" action="/newserv">
-            <p>Add A Question (Type The Prompt Here)</p>
+            <p>Associate Question To Service (Type The ID Here)</p>
             <input name="nprompt" spellcheck="true"><br>
             <input id="submit_button" value="Submit" type=submit>
+            <!-- TODO: Add link to searchq -->
         </form><hr>
 
         <div id="title">
