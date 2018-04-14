@@ -45,7 +45,7 @@
 
             {{range .}}
             <div id="title">
-                {{.Pprompt}} <br>
+                <div id="result">{{.Pprompt}}</div>
                 <div id="id">ID: {{.Pkey}}</div>
             </div>
 

@@ -42,18 +42,21 @@
         </div>
         {{range .O.Pqlist}}
         <form id="form" action="delc" method="post">{{.Pprompt}}
-            <p>Delete</p>
-            <input name="nckey" value="{{.Pkey}}"><br>
-            <input id="submit_button" value="Submit" type=submit>
+            <input name="nckey" type="hidden" value="{{.Pkey}}"><br>
+            <input id="submit_button" value="Delete" type=submit>
         </form><hr>
         {{end}}
 
         <form id="form" action="/newserv">
-            <p>Associate Question To Service (Type The ID Here)</p>
-            <input name="nprompt" spellcheck="true"><br>
+            <h3>Associate Question To Service</h3>
+            <p>Question ID</p>
+            <input name="nprompt" type="number" spellcheck="true"><br>
             <input id="submit_button" value="Submit" type=submit>
+        </form>
+
             <!-- TODO: Add link to searchq -->
-        </form><hr>
+
+        <hr>
 
         <div id="title">
             <h2>Criteria</h2>

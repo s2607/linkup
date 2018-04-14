@@ -47,6 +47,11 @@
     color: #19396D;
 }
 
+#result
+{
+    font-size: 20px;
+}
+
 #id
 {
     color: black;
