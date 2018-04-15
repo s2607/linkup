@@ -254,6 +254,7 @@ a:hover
     width: 600px;
     height: 150px;
     resize: none;
+    background: #DDD;
 }
 
 textarea:focus

@@ -13,6 +13,7 @@
 
     <!-- Stylesheet -->
     <link href="css/survey_stylesheet.css" rel="stylesheet">
+
 </head>
 <body>
 
@@ -50,11 +51,11 @@
         <form id="form" action="/newserv">
             <h3>Associate Question To Service</h3>
             <p>Question ID</p>
-            <input name="nprompt" type="number" spellcheck="true"><br>
+            <input name="nprompt" type="number" spellcheck="true">
+            <a href="/searchq"><div>Search For Question's ID</div></a>
             <input id="submit_button" value="Submit" type=submit>
         </form>
 
-            <!-- TODO: Add link to searchq -->
 
         <hr>
 
