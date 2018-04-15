@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>LinkUp</title>
-    <link rel="icon" href="imgs/chevron.png" type="image/x-icon">
+    <link rel="icon" href="{{.P}}imgs/chevron.png" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta charset="UTF-8">
     <meta name="description" content="">
@@ -12,14 +12,14 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed|Nunito+Sans" rel="stylesheet">
 
     <!-- Stylesheet -->
-    <link href="css/survey_stylesheet.css" rel="stylesheet">
-    <link href="css/qlist_stylesheet.css" rel="stylesheet">
+    <link href="{{.P}}css/survey_stylesheet.css" rel="stylesheet">
+    <link href="{{.P}}css/qlist_stylesheet.css" rel="stylesheet">
 
 </head>
 <body>
     <div id="container">
         <div id="top_bar">
-            <img id="logo" src="imgs/logo.png" alt="LinkUp">
+            <img id="logo" src="{{.P}}imgs/logo.png" alt="LinkUp">
             <a href="/home"><div id="home_button">Home</div></a>
         </div>
 
@@ -29,7 +29,7 @@
                 <h1>Find Questions</h1>
             </div>
 
-            <form id="form" action="" method="post">
+            <form id="form" action="/qprompt" method="post">
                 <p>Select Service Program</p>
                 <select name="service" value="select">
                     <option value=""></option>

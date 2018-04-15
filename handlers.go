@@ -145,7 +145,7 @@ func outpage(f string , w http.ResponseWriter, d map[string]string){
 	t := template.Must(template.ParseFiles(f))
 	t.Execute(w,d)
 }
-func qlist(w http.ResponseWriter, r *http.Request){
+func qlist(w http.ResponseWriter, r *http.Request, path string){
 
     empty := false
     err, servArr := Getallservices()
@@ -175,11 +175,13 @@ func qlist(w http.ResponseWriter, r *http.Request){
         Q []question
         S []*service
         Name string
+        P string    //Used to indicate whether to move up a directory in HTML file
     }{
         empty,
         serv.qlist,
         servArr,
         serv.name,
+        path,
     }
 
     t := template.Must(template.ParseFiles("disp_qlist.html.tpl"))
@@ -404,7 +406,7 @@ func qprompt_handler(w http.ResponseWriter, r *http.Request) {
 					+"or whatever</body></html>"))
 		*/
 
-            qlist(w,r)//Note that curop calls Sget
+            qlist(w,r,"")
 
 		}else {
 			if r.FormValue("qanswer") == "" {
@@ -416,8 +418,7 @@ func qprompt_handler(w http.ResponseWriter, r *http.Request) {
 				}else {
 					err := Sstore(o)
 					checkErr(err)
-					w.Header().Set("Content-Type", "text/html")
-					w.Write([]byte("<body>Response stored!</body>\n"))
+                    qlist(w,r,"../")
 				}
 			}
 		}
