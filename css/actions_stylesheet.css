@@ -12,7 +12,13 @@
 #start_interview
 {
     font-size: 25px;
-    transition: 0s;
+    transition: .5s;
+}
+
+#start_interview:hover
+{
+    font-size: 28px;
+    transition: .5s;
 }
 
 #content_container
