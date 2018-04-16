@@ -68,11 +68,12 @@
         </form>
         <hr>
 
+        <p>Delete A Criterion</p>
+
         {{range .O.Pclist}}
 	   <form id="form" action="delc" method="post">
-           <p>Delete A Criterion</p>
-           <input name="nckey" value="{{.Pkey}}"><br>
-           <input id="submit_button" value="Submit" type=submit>
+           <input name="nckey" type="hidden" value="{{.Pkey}}"><br>
+           <input id="submit_button" value="Delete" type=submit>
         </form><hr>
         {{end}}
 
