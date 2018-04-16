@@ -53,9 +53,9 @@
                     <input name="nprompt" type="number" value="{{.Qid}}"><br>
                     <input id="submit_button" value="Submit" type=submit>
                 </form>
-                <form action="/searchqid" method="post">
+                <form id="qid_form" action="/searchqid" method="post">
                         <input name="skey" type="hidden" value="{{.O.Pkey}}">
-                        <input type='submit' value="Search For Question's ID">
+                        <input id="submit_button_qid" type='submit' value="Search For Question's ID">
                 </form>
                 <hr>
 
