@@ -73,6 +73,7 @@ func main() {//main always feels ugly and hacky
 	http.HandleFunc("/searchq", searchq_handler)
 	http.HandleFunc("/searchs", searchs_handler)
 	http.HandleFunc("/searcho", searcho_handler)
+    http.HandleFunc("/searchqid", searchqid_handler)
 	http.HandleFunc("/sql", sql_handler)
 	//Home Button
 	http.HandleFunc("/home", home_handler)

@@ -25,7 +25,7 @@
         </div>
 
         <div id="title">
-            <h1>Add Service Program</h1>
+            <h1>{{.T}} Service Program</h1>
         </div>
 
         <form id="form" action="/newserv" method="post">
@@ -49,9 +49,13 @@
                 <form id="form" action="/newserv">
                     <h3>Associate Question To Service</h3>
                     <p>Question ID</p>
-                    <input name="nprompt" type="number" spellcheck="true">
-                    <a href="/searchq"><div>Search For Question's ID</div></a>
+                    <input name="nskey" type="hidden" value="{{.O.Pkey}}">
+                    <input name="nprompt" type="number" value="{{.Qid}}"><br>
                     <input id="submit_button" value="Submit" type=submit>
+                </form>
+                <form action="/searchqid" method="post">
+                        <input name="skey" type="hidden" value="{{.O.Pkey}}">
+                        <input type='submit' value="Search For Question's ID">
                 </form>
                 <hr>
 
@@ -90,7 +94,7 @@
                     <input type="checkbox" name="conj" value="1" class="checkbox">
                     <p>isnil:</p>
                     <input type="checkbox" value="1" class="checkbox" name="isnil">
-                    <input type="hidden" name="nqkey" value="{{.O.Pkey}}"><br>
+                    <input name="nskey" type="hidden" value="{{.O.Pkey}}"><br>
                     <input id="submit_button" value="Submit" type=submit>
                 </form><hr>
 

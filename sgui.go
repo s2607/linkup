@@ -37,6 +37,9 @@ func opcreate_handler(w http.ResponseWriter, r *http.Request) {
 func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
         o := curop(r)
 	ns := new(service)
+    qid := r.FormValue("nqkey") //gets qid to put in nprompt when add is clicked on searchqid
+    title := "Add" //Sets default title to add
+    fmt.Println("Service Key is: " + r.FormValue("nskey"))
         if o == nil {
                 webmessage(w,"Bad Session")
         } else if r.FormValue("name") != "" {
@@ -64,9 +67,10 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
 		if r.FormValue("nskey") != "" {
 			ns.key,_ = strconv.ParseInt(r.FormValue("nskey"),10,64)
 			Sget(ns)
+            title = "Edit"
 		}
 		t := template.Must(template.ParseFiles("addserv.html.tpl"))
-        t.Execute(w,struct{ A string; O *service}{"/newserv",ns})
+        t.Execute(w,struct{T string; Qid string; A string; O *service}{title, qid,"/newserv",ns})
 	}
 }
 
@@ -166,28 +170,67 @@ func delq_handler(w http.ResponseWriter, r *http.Request) {
 //search
 
 func searchq_handler(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("searchq"+r.FormValue("q"))
+
+    if curop(r) != nil {
+        fmt.Println("searchq"+r.FormValue("q"))
 		err,s := Getallqbyname(r.FormValue("q"))
 		fmt.Println(s)
 		checkErr(err)
 		t := template.Must(template.ParseFiles("searchq.html.tpl"))
 		t.Execute(w,s)
+    }else{
+        w.Header().Set("Content-Type", "text/html")
+        w.Write([]byte("<body>Bad Session</body>.\n"))
+    }
 }
 func searchs_handler(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("searchs"+r.FormValue("q"))
+    if curop(r) != nil {
+        fmt.Println("searchs"+r.FormValue("q"))
 		err,s := Getallsbyname(r.FormValue("q"))
 		fmt.Println(s)
 		checkErr(err)
 		t := template.Must(template.ParseFiles("searchs.html.tpl"))
 		t.Execute(w,s)
+    }else{
+        w.Header().Set("Content-Type", "text/html")
+        w.Write([]byte("<body>Bad Session</body>.\n"))
+    }
+
 }
 func searcho_handler(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("searchq"+r.FormValue("q"))
+    if curop(r) != nil {
+        fmt.Println("searchq"+r.FormValue("q"))
 		err,s := Getallobyname(r.FormValue("q"))
 		fmt.Println(s)
 		checkErr(err)
 		t := template.Must(template.ParseFiles("searcho.html.tpl"))
 		t.Execute(w,s)
+    }else{
+        w.Header().Set("Content-Type", "text/html")
+        w.Write([]byte("<body>Bad Session</body>.\n"))
+    }
+}
+
+func searchqid_handler(w http.ResponseWriter, r *http.Request) {
+    if curop(r) != nil {
+        fmt.Println("searchq"+r.FormValue("q"))
+        fmt.Println("Service Key is: " + r.FormValue("skey"))
+		err,q := Getallqbyname(r.FormValue("q"))
+		fmt.Println(q)
+		checkErr(err)
+        data := struct{
+            Q []*question
+            K string
+        }{
+            q,
+            r.FormValue("skey"),
+        }
+		t := template.Must(template.ParseFiles("searchqid.html.tpl"))
+		t.Execute(w,data)
+    }else{
+        w.Header().Set("Content-Type", "text/html")
+        w.Write([]byte("<body>Bad Session</body>.\n"))
+    }
 }
 
 //SQL Command Interface
@@ -203,3 +246,4 @@ func sql_handler(w http.ResponseWriter, r *http.Request) {
         w.Write([]byte("<body>Bad Session</body>.\n"))
     }
 }
+
