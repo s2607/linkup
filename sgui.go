@@ -24,14 +24,14 @@ func opcreate_handler(w http.ResponseWriter, r *http.Request) {
 		no.setpss(r.FormValue("pw"))
 		Sstore(no)
         t := template.Must(template.ParseFiles("addop.html.tpl"))
-        t.Execute(w,map[string]string{"succ":"Interviewer Successfully Added"})
+            t.Execute(w,struct{Succ string; Anim string}{"Interviewer Successfully Added", "none"})
         }else {
 		if r.FormValue("nokey") != "" {
 			no.key,_ = strconv.ParseInt(r.FormValue("nokey"),10,64)
 			Sget(no)
 		}
 		t := template.Must(template.ParseFiles("addop.html.tpl"))
-        t.Execute(w,map[string]string{"succ":""})
+            t.Execute(w,struct{Succ string; Anim string}{"", "fade_in"})
 	}
 }
 func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
