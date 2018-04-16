@@ -41,7 +41,7 @@
                 </div>
 
                 <div id="right_container">
-                    <h2>Search</h2>
+                    <h2>Search To Edit</h2>
 				    <a href="/searchq">Search For A Question</a><br /><br />
 				    <a href="/searcho">Search For An Interviewer</a><br /><br />
 				    <a href="/searchs">Search For A Service Program</a><br /><br />

@@ -26,7 +26,6 @@
             <h1>Add Interviewer</h1>
         </div>
 
-
         <div id="succ_msg">{{.Succ}}</div>
 
         <form id="form" action="/newop" method="post" style="animation: form_{{.Anim}}; animation-duration: 1s; animation-timing-function: ease-in-out;">
@@ -34,8 +33,7 @@
             <input name="uname">
             <p>New Password</p>
             <input type="password" name="pw">
-            <p>Service Key</p>
-            <input name="skey"><br>
+            <br>
             <input id="submit_button" value="Submit" type=submit>
         </form>
 

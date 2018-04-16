@@ -41,11 +41,11 @@
         </form><hr>
 
         <div id="title">
-            <h2>Criteria</h2>
+            <h2>Validation Criteria</h2>
         </div>
 
         <form id="form" action="newq" method="post">
-            <h3>Add Eligibility Criterion</h3>
+            <h3>Add Possible Answer</h3>
             <p>Text Answer</p>
             <input name="regex" spellcheck="true">
             <p>Lower Limit</p>

@@ -72,11 +72,13 @@
             <div id="right_container">
 
                 <div id="title">
-                    <h2>Criteria</h2>
+                    <h2>Eligibility Criteria</h2>
                 </div>
 
                 <form id="form" action="/newserv" method="post">
-                    <h3>Add Eligibility Criterion</h3>
+                    <h3>Add Criterion</h3>
+                    <p>Question ID</p>
+                    <input name="qid" value="{{.Qid}}">
                     <p>Text Answers</p>
                     <input name="regex" spellcheck="true">
                     <p>Lower Limit</p>
@@ -94,7 +96,7 @@
                     <input type="checkbox" name="conj" value="1" class="checkbox">
                     <p>isnil:</p>
                     <input type="checkbox" value="1" class="checkbox" name="isnil">
-                    <input name="nskey" type="hidden" value="{{.O.Pkey}}"><br>
+                    <input name="nqkey" type="hidden" value="{{.O.Pkey}}"><br>
                     <input id="submit_button" value="Submit" type=submit>
                 </form><hr>
 
