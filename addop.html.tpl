@@ -22,14 +22,14 @@
             <a href="/home"><div id="home_button" style="animation: {{.Anim}}; animation-duration: 1s; animation-timing-function: ease-in-out;">Home</div></a>
         </div>
 
-        <div id="title" style="animation: {{.Anim}}; animation-duration: 1s; animation-timing-function: ease-in-out;">
+        <div id="title" style="animation: form_{{.Anim}}; animation-duration: 1s; animation-timing-function: ease-in-out;">
             <h1>Add Interviewer</h1>
         </div>
 
 
         <div id="succ_msg">{{.Succ}}</div>
 
-        <form id="form" action="/newop" method="post" style="animation: {{.Anim}}; animation-duration: 1s; animation-timing-function: ease-in-out;">
+        <form id="form" action="/newop" method="post" style="animation: form_{{.Anim}}; animation-duration: 1s; animation-timing-function: ease-in-out;">
             <p>New Username</p>
             <input name="uname">
             <p>New Password</p>
