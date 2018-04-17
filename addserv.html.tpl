@@ -34,7 +34,7 @@
             <p>Description</p>
             <input name="description" value="{{.O.Pdescription}}" spellcheck="true">
             <p>Website URL</p>
-            <input name="url" value="{{.O.Purl}}">
+            <input name="url" type="url" value="{{.O.Purl}}">
             <input name="nskey" type="hidden" value="{{.O.Pkey}}"><br>
             <input id="submit_button" value="Submit" type=submit>
         </form>
