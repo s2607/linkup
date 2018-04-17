@@ -1,0 +1,149 @@
+body
+{
+    color: #333333;
+    background: #aaa;
+}
+
+.wrap
+{
+    padding: 40px;
+    text-align: center;
+}
+
+.popup-content
+{
+    margin: 0px;
+}
+
+.btn
+{
+    background: #19396D;
+    border-radius: 12px;
+    color: white;
+    display: inline-block;
+    font-size: 14px;
+    padding: 8px 15px;
+    text-decoration: none;
+    text-align: center;
+    min-width: 60px;
+    position: relative;
+    transition: color .1s ease;
+}
+
+.btn:hover
+{
+    background: white;
+    color: #19396D;
+}
+
+.popup_icon
+{
+    height: 15px;
+    width: 15px;
+    margin-left: 10px;
+    transition: .5s;
+}
+
+.popup_icon:hover
+{
+    height: 20px;
+    width: 20px;
+}
+
+.btn-close
+{
+    color: #555;
+    font-size: 30px;
+    text-decoration: none;
+    position: absolute;
+    right: 5px;
+    top: 0;
+    transition: .3s
+}
+
+.btn-close:hover
+{
+    color: #222;
+    font-size: 35px;
+    right: 4px;
+    top: -3px;
+}
+
+.popup:before
+{
+    content: "";
+    display: none;
+    background: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+}
+
+.popup:target:before
+{
+    display: block;
+}
+
+.popup:target .popup-dialog
+{
+    -webkit-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    transform: translate(0, 0);
+    top: 20vh;
+}
+
+.popup-dialog {
+    background: #AAA;
+    border: #111 solid 2px;
+    border-radius: 10px;
+    margin-left: -200px;
+    position: fixed;
+    left: 50%;
+    top: -100vh;
+    z-index: 11;
+    width: 360px;
+    -webkit-transform: scale(2);
+	-moz-transform: scale(2);
+	-ms-transform: scale(2);
+	transform: scale(2);
+    -webkit-transition: -webkit-transform 0.3s ease-out;
+    -moz-transition: -moz-transform 0.3s ease-out;
+    -o-transition: -o-transform 0.3s ease-out;
+    transition: transform 0.3s ease-out;
+}
+
+.popup-body
+{
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+}
+
+.popup-header
+{
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.popup-header h2
+{
+    font-size: 20px;
+
+}
+.popup-footer
+{
+    text-align: right;
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+}
+
+#close
+{
+    display: none;
+}
