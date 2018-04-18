@@ -270,6 +270,16 @@ textarea:focus
     color: green;
 }
 
+hr
+{
+    width: 70%;
+    background-color: black;
+    height: 1px;
+    border: 0;
+    animation: fade_in;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+}
 
 /** ANIMATIONS **/
 

@@ -1,9 +1,5 @@
-body
-{
-    color: #333333;
-    background: #aaa;
-}
 
+/*Remove this when popup.html is removed*/
 .wrap
 {
     padding: 40px;
@@ -34,21 +30,43 @@ body
 {
     background: white;
     color: #19396D;
+    /* This is to reverse effects of other stylesheets */
+    font-size: 14px;
+    transition: background .1s ease;
 }
 
-.popup_icon
+h1 > a > .popup_icon
 {
+    position: absolute;
+    margin-top: 5px;
     height: 15px;
     width: 15px;
     margin-left: 10px;
     transition: .5s;
 }
 
-.popup_icon:hover
+h1 > a > .popup_icon:hover
 {
     height: 20px;
     width: 20px;
 }
+
+h3 > a > .popup_icon
+{
+    position: absolute;
+    margin-top: 2px;
+    height: 13px;
+    width: 13px;
+    margin-left: 10px;
+    transition: .5s;
+}
+
+h3 > a > .popup_icon:hover
+{
+    height: 15px;
+    width: 15px;
+}
+
 
 .btn-close
 {
@@ -92,7 +110,7 @@ body
     -webkit-transform: translate(0, 0);
     -ms-transform: translate(0, 0);
     transform: translate(0, 0);
-    top: 20vh;
+    top: 30vh;
 }
 
 .popup-dialog {
@@ -105,9 +123,9 @@ body
     top: -100vh;
     z-index: 11;
     width: 360px;
-    -webkit-transform: scale(2);
-	-moz-transform: scale(2);
-	-ms-transform: scale(2);
+    -webkit-transform: scale(.5);
+	-moz-transform: scale(.5);
+	-ms-transform: scale(.5);
 	transform: scale(2);
     -webkit-transition: -webkit-transform 0.3s ease-out;
     -moz-transition: -moz-transform 0.3s ease-out;
@@ -128,6 +146,7 @@ body
     padding-top: 10px;
     padding-left: 20px;
     padding-right: 20px;
+    color: #19396D;
 }
 .popup-header h2
 {

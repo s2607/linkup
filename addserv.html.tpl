@@ -14,6 +14,7 @@
     <!-- Stylesheet -->
     <link href="css/survey_stylesheet.css" rel="stylesheet">
     <link href="css/add_stylesheet.css" rel="stylesheet">
+    <link href="css/popup_stylesheet.css" rel="stylesheet">
 
 </head>
 <body>
@@ -25,14 +26,14 @@
         </div>
 
         <div id="title">
-            <h1>{{.T}} Service Program</h1>
+            <h1>{{.T}} Service Program<a href="#popup-one"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h1>
         </div>
 
         <form id="form" action="/newserv" method="post">
             <p>Name</p>
-            <input name="name" value="{{.O.Pname}}">
+            <input name="name" value="{{.O.Pname}}" required>
             <p>Description</p>
-            <input name="description" value="{{.O.Pdescription}}" spellcheck="true">
+            <input name="description" value="{{.O.Pdescription}}" spellcheck="true" required>
             <p>Website URL</p>
             <input name="url" type="url" value="{{.O.Purl}}">
             <input name="nskey" type="hidden" value="{{.O.Pkey}}"><br>
@@ -47,19 +48,19 @@
                 </div>
 
                 <form id="form" action="/newserv">
-                    <h3>Associate Question To Service</h3>
+                    <h3>Associate Question To Service<a href="#popup-two"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h3>
                     <p>Question ID</p>
                     <input name="nskey" type="hidden" value="{{.O.Pkey}}">
-                    <input name="nprompt" type="number" value="{{.Qid}}"><br>
+                    <input name="nprompt" type="number" value="{{.Qid}}" required><br>
                     <input id="submit_button" value="Submit" type=submit>
                 </form>
                 <form id="qid_form" action="/searchqid" method="post">
                         <input name="skey" type="hidden" value="{{.O.Pkey}}">
-                        <input id="submit_button_qid" type='submit' value="Search For Question's ID">
+                        <input id="submit_button_qid" type='submit' value="Search For Question ID">
                 </form>
                 <hr>
 
-                <h3>Remove Question From Service</h3>
+                <h3>Remove Question From Service<a href="#popup-three"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h3>
                 {{range .O.Pqlist}}
                 <form id="form" action="delc" method="post">
                     {{.Pprompt}}
@@ -111,6 +112,58 @@
             </div><!--End right_container -->
         </div><!--End sub_container -->
     </div><!-- End container-->
+
+    <!-- Pop up 1 -->
+    <div class="popup" id="popup-one" aria-hidden="true">
+        <div class="popup-dialog">
+            <div class="popup-header">
+                <h2>{{.T}} Service Program</h2>
+                <a href="#close" class="btn-close" aria-hidden="true">×</a>
+            </div>
+            <div class="popup-body">
+                <p class="popup-content">Enter the name of your charity, organization, or non-profit and provide a short description of it. If you wish to include a link to your webpage, include the full web address including the 'http://'.</p>
+            </div>
+            <div class="popup-footer">
+                <a href="#close" class="btn">Close</a>
+            </div>
+        </div>
+    </div>
+    <!-- End Pop up 1 -->
+    <!-- Pop up 2 -->
+    <div class="popup" id="popup-two" aria-hidden="true">
+        <div class="popup-dialog">
+            <div class="popup-header">
+                <h2>Associate A Question</h2>
+                <a href="#close" class="btn-close" aria-hidden="true">×</a>
+            </div>
+            <div class="popup-body">
+                <p class="popup-content"><b>Steps:</b></p>
+                <p class="popup-content">1. Click the Search For Question ID Button.</p>
+                <p class="popup-content">2. Search for the question and click Add</p>
+                <p class="popup-content">3. Click Submit</p>
+            </div>
+            <div class="popup-footer">
+                <a href="#close" class="btn">Close</a>
+            </div>
+        </div>
+    </div>
+    <!-- End Pop up 2 -->
+    <!-- Pop up 3 -->
+    <div class="popup" id="popup-three" aria-hidden="true">
+        <div class="popup-dialog">
+            <div class="popup-header">
+                <h2>Remove A Question</h2>
+                <a href="#close" class="btn-close" aria-hidden="true">×</a>
+            </div>
+            <div class="popup-body">
+                <p class="popup-content">Click the Remove button to unassociate the question with this service.</p>
+            </div>
+            <div class="popup-footer">
+                <a href="#close" class="btn">Close</a>
+            </div>
+        </div>
+    </div>
+    <!-- End Pop up 2 -->
 
 </body>
 </html>
