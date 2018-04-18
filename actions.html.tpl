@@ -14,6 +14,7 @@
             <!-- Stylesheet -->
             <link href="css/survey_stylesheet.css" rel="stylesheet">
             <link href="css/actions_stylesheet.css" rel="stylesheet">
+            <link href="css/popup_stylesheet.css" rel="stylesheet">
 
     </head>
     <body>
@@ -33,7 +34,7 @@
             <div id="content_container">
 
                 <div id="left_container">
-                    <h2>Add</h2>
+                    <h2>Add<a href="#popup-one"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h2>
 				    <a href="/newop">Add An Interviewer</a><br /><br />
 				    <a href="/newserv">Add A Service Program</a><br /><br />
 				    <a href="/newq">Add A Question</a><br /><br />
@@ -41,13 +42,46 @@
                 </div>
 
                 <div id="right_container">
-                    <h2>Search To Edit</h2>
+                    <h2>Search To Edit<a href="#popup-two"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h2>
 				    <a href="/searchq">Search For A Question</a><br /><br />
 				    <a href="/searcho">Search For An Interviewer</a><br /><br />
 				    <a href="/searchs">Search For A Service Program</a><br /><br />
 
                 </div>
             </div>
+        </div><!--End container -->
+
+        <!-- Pop up 1 -->
+    <div class="popup" id="popup-one" aria-hidden="true">
+        <div class="popup-dialog">
+            <div class="popup-header">
+                <h2>Add</h2>
+                <a href="#close" class="btn-close" aria-hidden="true">×</a>
+            </div>
+            <div class="popup-body">
+                <p class="popup-content">Add new interviewers, services, or questions.</p>
+            </div>
+            <div class="popup-footer">
+                <a href="#close" class="btn">Close</a>
+            </div>
         </div>
+    </div>
+    <!-- End Pop up 1 -->
+    <!-- Pop up 2 -->
+    <div class="popup" id="popup-two" aria-hidden="true">
+        <div class="popup-dialog">
+            <div class="popup-header">
+                <h2>Search</h2>
+                <a href="#close" class="btn-close" aria-hidden="true">×</a>
+            </div>
+            <div class="popup-body">
+                <p class="popup-content">Edit existing interviewers, services, or questions by searching for them and clicking Edit.</p>
+            </div>
+            <div class="popup-footer">
+                <a href="#close" class="btn">Close</a>
+            </div>
+        </div>
+    </div>
+    <!-- End Pop up 2 -->
 </body>
 </html>

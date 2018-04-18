@@ -51,6 +51,22 @@ h1 > a > .popup_icon:hover
     width: 20px;
 }
 
+h2 > a > .popup_icon
+{
+    position: absolute;
+    margin-top: 2px;
+    height: 15px;
+    width: 15px;
+    margin-left: 10px;
+    transition: .5s;
+}
+
+h2 > a > .popup_icon:hover
+{
+    height: 20px;
+    width: 20px;
+}
+
 h3 > a > .popup_icon
 {
     position: absolute;
@@ -123,9 +139,9 @@ h3 > a > .popup_icon:hover
     top: -100vh;
     z-index: 11;
     width: 360px;
-    -webkit-transform: scale(.5);
-	-moz-transform: scale(.5);
-	-ms-transform: scale(.5);
+    -webkit-transform: scale(2);
+	-moz-transform: scale(2);
+	-ms-transform: scale(2);
 	transform: scale(2);
     -webkit-transition: -webkit-transform 0.3s ease-out;
     -moz-transition: -moz-transform 0.3s ease-out;
