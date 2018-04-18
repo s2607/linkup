@@ -13,6 +13,7 @@
 
     <!-- Stylesheet -->
     <link href="css/survey_stylesheet.css" rel="stylesheet">
+    <link href="css/popup_stylesheet.css" rel="stylesheet">
 
 </head>
 <body>
@@ -24,7 +25,7 @@
         </div>
 
         <div id="title">
-            <h1>SQL Command Line</h1>
+            <h1>SQL Command Line<a href="#popup-one"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h1>
         </div>
 
         <form id="form" action="/sql" method="post" style="width: 600px;">
@@ -34,5 +35,24 @@
         </form>
 
     </div>
+
+    <!-- Pop up 1 -->
+    <div class="popup" id="popup-one" aria-hidden="true">
+        <div class="popup-dialog">
+            <div class="popup-header">
+                <h2>SQL Command Line</h2>
+                <a href="#close" class="btn-close" aria-hidden="true">×</a>
+            </div>
+            <div class="popup-body">
+                <p class="popup-content"><b><em>Only use this if you know SQL commands.</em></b> </p>
+                <p class="popup-content">Enter a SQL command to modify the database. Currently, there is no error checking. The only way to see that the modifications were made is to use the search functionality.</p>
+            </div>
+            <div class="popup-footer">
+                <a href="#close" class="btn">Close</a>
+            </div>
+        </div>
+    </div>
+    <!-- End Pop up 1 -->
+
 </body>
 </html>
