@@ -13,6 +13,8 @@
 
     <!-- Stylesheet -->
     <link href="css/survey_stylesheet.css" rel="stylesheet">
+    <link href="css/popup_stylesheet.css" rel="stylesheet">
+
 </head>
 <body>
 
@@ -23,21 +25,38 @@
         </div>
 
         <div id="title" style="animation: form_{{.Anim}}; animation-duration: 1s; animation-timing-function: ease-in-out;">
-            <h1>Add Interviewer</h1>
+            <h1>Add Interviewer<a href="#popup-one"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h1>
         </div>
 
         <div id="succ_msg">{{.Succ}}</div>
 
         <form id="form" action="/newop" method="post" style="animation: form_{{.Anim}}; animation-duration: 1s; animation-timing-function: ease-in-out;">
             <p>New Username</p>
-            <input name="uname">
+            <input name="uname" required>
             <p>New Password</p>
-            <input type="password" name="pw">
+            <input type="password" name="pw" required>
             <br>
             <input id="submit_button" value="Submit" type=submit>
         </form>
 
+    </div><!-- End container -->
+
+     <!-- Pop up 1 -->
+    <div class="popup" id="popup-one" aria-hidden="true">
+        <div class="popup-dialog">
+            <div class="popup-header">
+                <h2>Add Interviewer</h2>
+                <a href="#close" class="btn-close" aria-hidden="true">×</a>
+            </div>
+            <div class="popup-body">
+                <p class="popup-content">Create a new account for a person to interview other people.</p>
+            </div>
+            <div class="popup-footer">
+                <a href="#close" class="btn">Close</a>
+            </div>
+        </div>
     </div>
+    <!-- End Pop up 1 -->
 
 
 </body>

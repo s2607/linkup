@@ -30,7 +30,7 @@
         <form id="form" action="/newq" method="post">
             <!--TODO:oldvals-->
             <p>Question Prompt</p>
-            <input name="prompt" value="{{.O.Pprompt}}" spellcheck="true">
+            <input name="prompt" value="{{.O.Pprompt}}" spellcheck="true" required>
             <p>Answer Type <br><span>
                 <input type="radio" name="qtype" value="0">Text
                 <input type="radio" name="qtype" value="1">Number
