@@ -199,7 +199,7 @@ func searchs_handler(w http.ResponseWriter, r *http.Request) {
 }
 func searcho_handler(w http.ResponseWriter, r *http.Request) {
     if curop(r) != nil {
-        fmt.Println("searchq"+r.FormValue("q"))
+        fmt.Println("searcho"+r.FormValue("q"))
 		err,s := Getallobyname(r.FormValue("q"))
 		fmt.Println(s)
 		checkErr(err)
