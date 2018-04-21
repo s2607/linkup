@@ -47,7 +47,7 @@ func Getallobyname (p string) (error, []*operator){
 	var r []*operator
 	DBchan <- func(Db *sql.DB)func() {
 
-		rows, err := Db.Query("select key from service")
+		rows, err := Db.Query("select key from operator")
 		checkErr(err)
 		defer rows.Close()
 		i :=0
