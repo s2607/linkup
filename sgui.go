@@ -12,6 +12,7 @@ func opcreate_handler(w http.ResponseWriter, r *http.Request) {
 	    no := new(operator)
         msg := ""
         title := "Add"
+        editing := false //used to know which popup text to use
         if o == nil {
                 webmessage(w,"Bad Session")
         } else if r.FormValue("uname") != "" {
@@ -23,6 +24,7 @@ func opcreate_handler(w http.ResponseWriter, r *http.Request) {
                msg = "Interviewer Successfully Added"
         }
         title = "Edit"
+        editing = true
 		no.uname=r.FormValue("uname")
 		no.cser = new(service)
 		no.cser.key,_ = strconv.ParseInt(r.FormValue("skey"),10,64)
@@ -36,15 +38,16 @@ func opcreate_handler(w http.ResponseWriter, r *http.Request) {
             http.SetCookie(w, uc)
         }
         t := template.Must(template.ParseFiles("addop.html.tpl"))
-        t.Execute(w,struct{I *operator; T string; Succ string; Anim string}{no, title, msg, "none"})
+        t.Execute(w,struct{E bool; I *operator; T string; Succ string; Anim string}{editing, no, title, msg, "none"})
         }else {
 		if r.FormValue("nokey") != "" {
 			no.key,_ = strconv.ParseInt(r.FormValue("nokey"),10,64)
 			Sget(no)
             title = "Edit"
+            editing = true
 		}
 		t := template.Must(template.ParseFiles("addop.html.tpl"))
-            t.Execute(w,struct{I *operator; T string; Succ string; Anim string}{no, title, msg, "fade_in"})
+            t.Execute(w,struct{E bool; I *operator; T string; Succ string; Anim string}{editing, no, title, msg, "fade_in"})
 	}
 }
 func servicecreate_handler(w http.ResponseWriter, r *http.Request) {

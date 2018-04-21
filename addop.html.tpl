@@ -50,7 +50,11 @@
                 <a href="#close" class="btn-close" aria-hidden="true">×</a>
             </div>
             <div class="popup-body">
+                {{if .E}}
+                <p class="popup-content">Change either the username and/or the password.</p>
+                {{else}}
                 <p class="popup-content">Create a new account for a person to interview other people.</p>
+                {{end}}
             </div>
             <div class="popup-footer">
                 <a href="#close" class="btn">Close</a>
