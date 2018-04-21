@@ -328,7 +328,7 @@ func curop(r *http.Request) *operator {
 func Ursession_handler(w http.ResponseWriter, r *http.Request) {
 	o := curop(r)
 	if o == nil {
-		webmessage(w,"Bad Session")
+        outpage("auth.html.tpl",w,map[string]string{"err":"Bad Session"})
         return
 	}
 
@@ -393,7 +393,7 @@ func Ursession_handler(w http.ResponseWriter, r *http.Request) {
 func qprompt_handler(w http.ResponseWriter, r *http.Request) {
 	o := curop(r)
 	if o == nil {
-		webmessage(w,"Bad Session")
+		outpage("auth.html.tpl",w,map[string]string{"err":"Bad Session"})
 	} else {
 		var k int64
 		var err error
@@ -431,7 +431,7 @@ func qprompt_handler(w http.ResponseWriter, r *http.Request) {
 func sugg_handler(w http.ResponseWriter, r *http.Request) {
 	o := curop(r)
 	if o == nil {
-		webmessage(w,"Bad Session")
+		outpage("auth.html.tpl",w,map[string]string{"err":"Bad Session"})
 	} else {
 		o.cresp.update_suggestions()
 		showsug(w,*(o.cresp))

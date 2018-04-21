@@ -14,7 +14,7 @@ func opcreate_handler(w http.ResponseWriter, r *http.Request) {
         title := "Add"
         editing := false //used to know which popup text to use
         if o == nil {
-                webmessage(w,"Bad Session")
+                outpage("auth.html.tpl",w,map[string]string{"err":"Bad Session"})
         } else if r.FormValue("uname") != "" {
 		if r.FormValue("nokey") != "0" {
 			no.key,_ = strconv.ParseInt(r.FormValue("nokey"),10,64)
@@ -57,7 +57,7 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
     title := "Add" //Sets default title to add
     fmt.Println("Service Key is: " + r.FormValue("nskey"))
         if o == nil {
-                webmessage(w,"Bad Session")
+                outpage("auth.html.tpl",w,map[string]string{"err":"Bad Session"})
         } else if r.FormValue("name") != "" {
 		if r.FormValue("nskey") != "" {
 			ns.key,_ = strconv.ParseInt(r.FormValue("nskey"),10,64)
@@ -98,7 +98,7 @@ func questioncreate_handler(w http.ResponseWriter, r *http.Request) {
         o := curop(r)
 	nq := new(question)
         if o == nil {
-                webmessage(w,"Bad Session")
+                outpage("auth.html.tpl",w,map[string]string{"err":"Bad Session"})
         } else if r.FormValue("prompt") != "" {
 		if r.FormValue("nqkey") != "" {
 			nq.key,_ = strconv.ParseInt(r.FormValue("nqkey"),10,64)
@@ -139,7 +139,7 @@ func criterioncreate_handler(w http.ResponseWriter, r *http.Request) {
         o := curop(r)
 	nc := new(criterion)
         if o == nil {
-                webmessage(w,"Bad Session")
+                outpage("auth.html.tpl",w,map[string]string{"err":"Bad Session"})
         } else if r.FormValue("uname") != "" {
 		if r.FormValue("nckey") != "" {
 			nc.key,_ = strconv.ParseInt(r.FormValue("nckey"),10,64)
@@ -195,8 +195,7 @@ func searchq_handler(w http.ResponseWriter, r *http.Request) {
 		t := template.Must(template.ParseFiles("searchq.html.tpl"))
 		t.Execute(w,s)
     }else{
-        w.Header().Set("Content-Type", "text/html")
-        w.Write([]byte("<body>Bad Session</body>.\n"))
+        outpage("auth.html.tpl",w,map[string]string{"err":"Bad Session"})
     }
 }
 func searchs_handler(w http.ResponseWriter, r *http.Request) {
@@ -208,8 +207,7 @@ func searchs_handler(w http.ResponseWriter, r *http.Request) {
 		t := template.Must(template.ParseFiles("searchs.html.tpl"))
 		t.Execute(w,s)
     }else{
-        w.Header().Set("Content-Type", "text/html")
-        w.Write([]byte("<body>Bad Session</body>.\n"))
+        outpage("auth.html.tpl",w,map[string]string{"err":"Bad Session"})
     }
 
 }
@@ -222,8 +220,7 @@ func searcho_handler(w http.ResponseWriter, r *http.Request) {
 		t := template.Must(template.ParseFiles("searcho.html.tpl"))
 		t.Execute(w,s)
     }else{
-        w.Header().Set("Content-Type", "text/html")
-        w.Write([]byte("<body>Bad Session</body>.\n"))
+        outpage("auth.html.tpl",w,map[string]string{"err":"Bad Session"})
     }
 }
 
@@ -244,8 +241,7 @@ func searchqid_handler(w http.ResponseWriter, r *http.Request) {
 		t := template.Must(template.ParseFiles("searchqid.html.tpl"))
 		t.Execute(w,data)
     }else{
-        w.Header().Set("Content-Type", "text/html")
-        w.Write([]byte("<body>Bad Session</body>.\n"))
+        outpage("auth.html.tpl",w,map[string]string{"err":"Bad Session"})
     }
 }
 
@@ -258,8 +254,7 @@ func sql_handler(w http.ResponseWriter, r *http.Request) {
         t := template.Must(template.ParseFiles("sql.html.tpl"))
         t.Execute(w, s)
     }else{
-        w.Header().Set("Content-Type", "text/html")
-        w.Write([]byte("<body>Bad Session</body>.\n"))
+        outpage("auth.html.tpl",w,map[string]string{"err":"Bad Session"})
     }
 }
 
