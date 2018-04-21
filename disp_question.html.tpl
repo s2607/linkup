@@ -29,7 +29,7 @@
         <form id="form" method="post">
             <div>{{.Pprompt}}</div>
             <br>
-            <input name="qanswer" value="" spellcheck="true">
+            <input name="qanswer" value="" spellcheck="true" required>
             <br>
             <input id="submit_button" type=submit value="Submit">
         </form>
