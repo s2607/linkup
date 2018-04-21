@@ -48,7 +48,7 @@
             </div>
 
             <form id="result_form" action="/newop" method="post">
-                <input name="nskey" type="hidden" value="{{.Pkey}}">
+                <input name="nokey" type="hidden" value="{{.Pkey}}">
                 <input id="submit_button" value="Edit" type=submit>
             </form>
 

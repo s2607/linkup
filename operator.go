@@ -183,6 +183,9 @@ func (o *operator) Readynchan() {
 func (o *operator) Pkey() int64{
 	return o.key
 }
+func (o *operator) Puname() string{
+    return o.uname
+}
 func (o *operator) Zkey(){
 	o.key=0
 }

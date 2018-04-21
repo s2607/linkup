@@ -10,28 +10,41 @@ import (
 func opcreate_handler(w http.ResponseWriter, r *http.Request) {
         o := curop(r)
 	    no := new(operator)
+        msg := ""
+        title := "Add"
         if o == nil {
                 webmessage(w,"Bad Session")
         } else if r.FormValue("uname") != "" {
-		if r.FormValue("nokey") != "" {
+		if r.FormValue("nokey") != "0" {
 			no.key,_ = strconv.ParseInt(r.FormValue("nokey"),10,64)
 			Sget(no)
-		}else { Init(no) }
+            msg = "Information Successfully Changed"
+		}else { Init(no)
+               msg = "Interviewer Successfully Added"
+        }
+        title = "Edit"
 		no.uname=r.FormValue("uname")
 		no.cser = new(service)
 		no.cser.key,_ = strconv.ParseInt(r.FormValue("skey"),10,64)
 		Sget(no.cser)
 		no.setpss(r.FormValue("pw"))
 		Sstore(no)
+        //This if statement updates the cookie uname if the interviewer edited themself to keep session good and update name on home page
+        if o.key == no.key {
+            uc,_ := r.Cookie("uname")
+            uc.Value = no.uname
+            http.SetCookie(w, uc)
+        }
         t := template.Must(template.ParseFiles("addop.html.tpl"))
-            t.Execute(w,struct{Succ string; Anim string}{"Interviewer Successfully Added", "none"})
+        t.Execute(w,struct{I *operator; T string; Succ string; Anim string}{no, title, msg, "none"})
         }else {
 		if r.FormValue("nokey") != "" {
 			no.key,_ = strconv.ParseInt(r.FormValue("nokey"),10,64)
 			Sget(no)
+            title = "Edit"
 		}
 		t := template.Must(template.ParseFiles("addop.html.tpl"))
-            t.Execute(w,struct{Succ string; Anim string}{"", "fade_in"})
+            t.Execute(w,struct{I *operator; T string; Succ string; Anim string}{no, title, msg, "fade_in"})
 	}
 }
 func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
