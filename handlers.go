@@ -346,7 +346,7 @@ func Ursession_handler(w http.ResponseWriter, r *http.Request) {
 		checkErr(err)
 
 		w.Header().Set("Content-Type", "text/html")
-		w.Write([]byte("<head><title>LinkUp</title> <link rel='icon' href='imgs/chevron.png' type='image/x-icon'> <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed|Nunito+Sans' rel='stylesheet'> <link href='css/survey_stylesheet.css' rel='stylesheet'></head><body><div id='top_bar'>         <img id='logo' src='imgs/logo.png' alt='LinkUp'><a href='/home'><div id='home_button'>Home</div></a></div><div id='title'><h1>Select A Responder</h1></div>"))
+		w.Write([]byte("<head><title>LinkUp</title> <link rel='icon' href='imgs/chevron.png' type='image/x-icon'> <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed|Nunito+Sans' rel='stylesheet'><link href='css/survey_stylesheet.css' rel='stylesheet'><link href='css/popup_stylesheet.css' rel='stylesheet'></head><body><div id='top_bar'>         <img id='logo' src='imgs/logo.png' alt='LinkUp'><a href='/home'><div id='home_button'>Home</div></a></div><div id='title'><h1>Select A Responder<a href='#popup-one'><img class='popup_icon' src='imgs/popup_icon.png'/></a></h1></div>"))
 
         if rs == nil{
             w.Write([]byte("<div class='responder_entry'>No Matching Entries </div><br>"))
@@ -362,7 +362,11 @@ func Ursession_handler(w http.ResponseWriter, r *http.Request) {
 		s+="<input type=\"hidden\" name=\"zip\" value=\"" +r.FormValue("zip")+"\">"
 		s+="<input type=\"hidden\" name=\"rkey\" value=\"0\">"
         s+="<input type=submit id='submit_button' value='Create New Entry' style='width: 140px;'></form>"
-		w.Write([]byte(s))
+        w.Write([]byte(s))
+
+        //popup stuff
+        w.Write([]byte("<!-- Pop up 1 --><div class='popup' id='popup-one' aria-hidden='true'><div class='popup-dialog'><div class='popup-header'><h2>Select Responder</h2><a href='#close' class='btn-close' aria-hidden='true'>x</a></div>   <div class='popup-body'> <p class='popup-content'>If the interviewee has already completed the interview process before, select their name to edit their answers or complete more questions. Otherwise, create a new entry into the system.</p></div><div class='popup-footer'><a href='#close' class='btn'>Close</a></div></div></div><!-- End Pop up 1 -->"))
+
     } else {
 		if r.FormValue("rkey") == "0" {
 
