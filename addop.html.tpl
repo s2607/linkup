@@ -46,7 +46,7 @@
     <div class="popup" id="popup-one" aria-hidden="true">
         <div class="popup-dialog">
             <div class="popup-header">
-                <h2>Add Interviewer</h2>
+                <h2>{{.T}} Interviewer</h2>
                 <a href="#close" class="btn-close" aria-hidden="true">×</a>
             </div>
             <div class="popup-body">
