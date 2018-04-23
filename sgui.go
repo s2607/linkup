@@ -52,90 +52,74 @@ func opcreate_handler(w http.ResponseWriter, r *http.Request) {
 }
 func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
         o := curop(r)
+	if o == nil {
+                outpage("auth.html.tpl",w,map[string]string{"err":"Bad Session"})
+		return
+        }
 	ns := new(service)
     qid := r.FormValue("nqkey") //gets qid to put in nprompt when add is clicked on searchqid
     title := "Add" //Sets default title to add
     fmt.Println("Service Key is: " + r.FormValue("nskey"))
-        if o == nil {
-                outpage("auth.html.tpl",w,map[string]string{"err":"Bad Session"})
-        } else if r.FormValue("name") != "" {
-		if r.FormValue("nskey") != "" {
-			ns.key,_ = strconv.ParseInt(r.FormValue("nskey"),10,64)
-			Sget(ns)
-		}else { Init(ns)}
+	if r.FormValue("nskey") != "" {
+		ns.key,_ = strconv.ParseInt(r.FormValue("nskey"),10,64)
+		Sget(ns)
+	}else { Init(ns)}
+        if r.FormValue("name") != "" {
 		ns.name=r.FormValue("name")
 		ns.url=r.FormValue("url")
 		ns.description=r.FormValue("description")
-		if r.FormValue("inv") !="" {
-			c:= new (criterion)
-			createc(c,r)
-			ns.criteria = append(ns.criteria,c)
+        }
+	if r.FormValue("nprompt") != "" {
+		q :=Get1q(r.FormValue("nprompt"))
+		if q != nil {
+			ns.qlist= append(ns.qlist,*q)
 		}
-		if r.FormValue("nprompt") != "" {
-			q :=Get1q(r.FormValue("nprompt"))
-			if q != nil {
-				ns.qlist= append(ns.qlist,*q)
-			}
-		}
-		Sstore(ns)
-        webmessage(w,"ok")
-        }else {
-		if r.FormValue("nskey") != "" {
-			ns.key,_ = strconv.ParseInt(r.FormValue("nskey"),10,64)
-			Sget(ns)
-            title = "Edit"
-		}
-		t := template.Must(template.ParseFiles("addserv.html.tpl"))
-        t.Execute(w,struct{T string; Qid string; A string; O *service}{title, qid,"/newserv",ns})
 	}
+	if r.FormValue("vrkey") !="" {
+		c:= new (validresponse)
+		c.key,_= strconv.ParseInt(r.FormValue("vrkey"),10,64)
+		Sget(ns)
+		ns.criteria = append(ns.criteria,c)
+	}
+	Sstore(ns)
+	t := template.Must(template.ParseFiles("addserv.html.tpl"))
+        t.Execute(w,struct{T string; Qid string; A string; O *service}{title, qid,"/newserv",ns})
 }
 
 func cquestion(nq *question, r *http.Request) {
 		nq.prompt=r.FormValue("prompt")
-		nq.qtype,_=strconv.Atoi(r.FormValue("qtype"))
 }
 func questioncreate_handler(w http.ResponseWriter, r *http.Request) {
         o := curop(r)
 	nq := new(question)
         if o == nil {
                 outpage("auth.html.tpl",w,map[string]string{"err":"Bad Session"})
-        } else if r.FormValue("prompt") != "" {
-		if r.FormValue("nqkey") != "" {
-			nq.key,_ = strconv.ParseInt(r.FormValue("nqkey"),10,64)
-			Sget(nq)
-		}else { Init(nq)}
-
-		cquestion(nq,r)
-		if r.FormValue("inv") !="" {
-			c:= new (criterion)
-			createc(c,r)
-			nq.clist = append(nq.clist,c) //NOTE: questions being updated will not create multiple entries
-		}
-		Sstore(nq)
-		webmessage(w,"ok")
-        }else {
-		if r.FormValue("nqkey") != "" {
-			nq.key,_ = strconv.ParseInt(r.FormValue("nqkey"),10,64)
-			Sget(nq)
-		}
-		t := template.Must(template.ParseFiles("addq.html.tpl"))
-		t.Execute(w,struct{A string; O *question}{"/newq",nq})
+		return
 	}
+	nq.key,_ = strconv.ParseInt(r.FormValue("nqkey"),10,64)
+	fmt.Println(nq.key)
+	if(nq.key==0) {Init(nq);checkErr(Sstore(nq));fmt.Println("New question")}
+	checkErr(Sget(nq))
+
+	fmt.Println(nq.key)
+	if r.FormValue("prompt") != "" { cquestion(nq,r)}
+	if r.FormValue("vrtext") !="" {
+		c:= new (validresponse)
+		Init(c)
+		c.text = r.FormValue("vrtext")
+		c.qkey = nq.key
+//			c.key,_= strconv.ParseInt(r.FormValue("vrkey"),10,64)
+		nq.clist = append(nq.clist,c) //NOTE: questions being updated will not create multiple entries
+	}
+	t := template.Must(template.ParseFiles("addq.html.tpl"))
+	t.Execute(w,struct{A string; O *question}{"/newq",nq})
+	Sstore(nq)
 }
 func ist(s string) bool{
 	return s=="true"
 }
-func createc(nc *criterion,r *http.Request)error{
-		nc.regex=r.FormValue("regex")//The one string
-		nc.aval,_=strconv.Atoi(r.FormValue("aval"))
-		nc.bval,_=strconv.Atoi(r.FormValue("bval"))
-		nc.lval=ist(r.FormValue("lval"))
-		nc.isnl=ist(r.FormValue("isnil"))
-		nc.inv=ist(r.FormValue("inv"))
-		nc.conj=ist(r.FormValue("conj"))
-		return nil
-}
 func criterioncreate_handler(w http.ResponseWriter, r *http.Request) {
+/*
         o := curop(r)
 	nc := new(criterion)
         if o == nil {
@@ -155,7 +139,7 @@ func criterioncreate_handler(w http.ResponseWriter, r *http.Request) {
 		}
 		t := template.Must(template.ParseFiles("addc.html.tpl"))
 		t.Execute(w,nc)
-	}
+	}*/
 }
 func delc_handler(w http.ResponseWriter, r *http.Request) {
 	nchan := make (chan error)

@@ -29,6 +29,7 @@
             <h1>{{.T}} Service Program<a href="#popup-one"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h1>
         </div>
 
+	<p>key: {{ .O.Pkey }}</p>
         <form id="form" action="/newserv" method="post">
             <p>Name</p>
             <input name="name" value="{{.O.Pname}}" required>
@@ -47,11 +48,11 @@
                     <h2>Questions</h2>
                 </div>
 
-                <form id="form" action="/newserv">
+                <form id="form" action="/newserv" method="post">
                     <h3>Associate Question To Service<a href="#popup-two"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h3>
                     <p>Question ID</p>
                     <input name="nskey" type="hidden" value="{{.O.Pkey}}">
-                    <input name="nprompt" type="number" value="{{.Qid}}" required><br>
+                    <input name="nprompt" type="number" value="" required><br>
                     <input id="submit_button" value="Submit" type=submit>
                 </form>
                 <form id="qid_form" action="/searchqid" method="post">

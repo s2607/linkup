@@ -27,15 +27,12 @@
             <h1>Add Question</h1>
         </div>
 
+	{{.O.Pkey}}
         <form id="form" action="/newq" method="post">
             <!--TODO:oldvals-->
             <p>Question Prompt</p>
             <input name="prompt" value="{{.O.Pprompt}}" spellcheck="true" required>
-            <p>Answer Type <br><span>
-                <input type="radio" name="qtype" value="0">Text
-                <input type="radio" name="qtype" value="1">Number
-                <input type="radio" name="qtype" value="2">Yes/No
-                </span>
+            <input name="nqkey" value="{{.O.Pkey}}" type="hidden">
             </p><br>
             <input id="submit_button" value="Submit" type=submit>
         </form><hr>
@@ -46,24 +43,8 @@
 
         <form id="form" action="newq" method="post">
             <h3>Add Possible Answer</h3>
-            <p>Text Answer</p>
-            <input name="regex" spellcheck="true">
-            <p>Lower Limit</p>
-            <input type="number" name="aval">
-            <p>Upper Limit</p>
-            <input type="number" name="bval">
-            <p>Yes/No Questions <br><select name="lval">
-                <option></option>
-                <option value="1">Yes</option>
-                <option value="0">No</option>
-            </select></p><br>
-            <p>isnil:</p>
-            <input type="checkbox" value="1" class="checkbox" name="isnil">
-            <p>Invert</p>
-            <input type="checkbox" class="checkbox" value="1" name="inv">
-            <p>Conjunctive</p>
-            <input type="checkbox" name="conj" value="1" class="checkbox">
-            <input type="hidden" name="nqkey" value="{{.O.Pkey}}"><br>
+            <p>label</p><input name="vrtext" spellcheck="true">
+            <input name="nqkey" value="{{.O.Pkey}}" type="hidden">
             <input id="submit_button" value="Submit" type=submit>
         </form>
         <hr>
@@ -76,6 +57,7 @@
            <input id="submit_button" value="Delete" type=submit>
         </form><hr>
         {{end}}
+	end
 
 
 

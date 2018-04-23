@@ -8,7 +8,7 @@ import (
 
 type service struct {
 	key int64
-	criteria []*criterion
+	criteria []*validresponse
 	qlist []question
 	name string
 	description string
@@ -22,7 +22,7 @@ func (s *service) check(rid  int) bool {
 func (s *service) Pdesc() string {
 	return s.description
 }
-func (s *service) Pclist() []*criterion {
+func (s *service) Pclist() []*validresponse{
 	return s.criteria
 }
 func (s *service) Pqlist() []question{
@@ -174,7 +174,7 @@ func (o *service) sclist(Db *sql.DB) error {
 			return err
 		}
 		fmt.Println("service lelc")
-		stmt, err := Db.Prepare("replace into servicescriterion(okey,ikey) values(?,?)")
+		stmt, err := Db.Prepare("replace into servicesvalidresponse(okey,ikey) values(?,?)")
 		checkErr(err)
 		res, err := stmt.Exec(o.key,r.key)
 		checkErr(err)
@@ -203,13 +203,13 @@ func (o *service) getqlist(Db *sql.DB) error {
 	return nil
 }
 func (o *service) getclist(Db *sql.DB) error {
-	rows, err := Db.Query("select ikey from servicescriterion where okey = ?", o.key)
+	rows, err := Db.Query("select ikey from servicesvalidresponse where okey = ?", o.key)
 	checkErr(err)
 	defer rows.Close()
 	i :=0
 	for rows.Next() {
 		var k int64
-		q := new(criterion)
+		q := new(validresponse)
 		err := rows.Scan(&k)
 		checkErr(err)
 		o.criteria=append(o.criteria,q)

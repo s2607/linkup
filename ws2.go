@@ -12,27 +12,6 @@ func Statichandler(w http.ResponseWriter, r *http.Request) {//Should we really k
 	fmt.Print(r.URL.Path)
 }
 func sometestdata() {
-	q := new(question)
-	p := new(question)
-	l := new(criterion)
-	m := new(criterion)
-	Init(m)
-	m.q=nil//implies same question to prevent infinitely nested get calls
-	m.regex="mom"
-	p.clist=append(p.clist,m)
-	fmt.Println(m)
-	Init(q)
-	q.prompt = "What is your mother's maiden name?"
-	fmt.Println(q)
-	checkErr(Sstore(q))
-	Init(p)
-	p.prompt = "What is your father's maiden name?"
-	fmt.Println(p)
-	Init(l)
-	l.q=q
-	l.regex="dad"
-	fmt.Println(l)
-	checkErr(Sstore(p))
 	o := new(operator)
 	var op storable
 	o.Getbyname("swiley")//hehhhhhh
@@ -45,10 +24,6 @@ func sometestdata() {
 		o.cser.name = "cfaw"
 		o.cser.url= "http://www.liberty.edu"
 		o.cser.description= "college for a weekend"
-		Init(o.cser)
-		o.cser.qlist=append(o.cser.qlist,*p)
-		o.cser.qlist=append(o.cser.qlist,*q)
-		o.cser.criteria=append(o.cser.criteria,l)
 		Sstore(o)
 	}
 	op = o

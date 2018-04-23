@@ -10,16 +10,10 @@ type question struct {
 	key int64
 	prompt string
 	qtype int
-	clist []*criterion
+	clist []*validresponse
 	nchan chan bool
 }
 
-func (q *question) New_response ()  *response {
-	r := new (response)
-	Init(r)//TODO: check if there's already a response for that responder
-	r.q=q
-	return r
-}
 //Should have been better with visibility...
 //template getters
 func (o *question)Pprompt() string {
@@ -27,7 +21,7 @@ func (o *question)Pprompt() string {
 }
 
 func (q *question)Ptype() int {return q.qtype}
-func (q *question)Pclist() []*criterion {return q.clist}
+func (q *question)Pclist() []*validresponse{return q.clist}
 func (q *question)Ptext() string {return q.prompt}
 //DB stuff
 
@@ -110,9 +104,9 @@ func (o *question) Store(Db *sql.DB) error{
 		o.key, err = res.LastInsertId()
 		checkErr(err)
 	} else  { //store
-		stmt, err := Db.Prepare("update question set(prompt, qtype) = (?,?) where key = ?")
+		stmt, err := Db.Prepare("update question set(prompt) = (?) where key = ?")
 		checkErr(err)
-		res, err := stmt.Exec(o.prompt,o.qtype,o.key)
+		res, err := stmt.Exec(o.prompt,o.key)
 		checkErr(err)
 		if res == nil {//XXX
 			panic(err)//never happens?
@@ -122,11 +116,12 @@ func (o *question) Store(Db *sql.DB) error{
 	return nil
 }
 func (o *question) Get(Db *sql.DB) error{
+	fmt.Println(o.key)
 	if o.key == 0 {
 		//err :=  Db.QueryRow("select key, uname, cursessionid, pwhash, cresp from operator where uname = ?", o.uname).Scan(&o.key,  &o.uname, &o.cursessionid, &phh,&rkey)//TODO
 		//if err !=nil {return err}
 	} else {
-		err := Db.QueryRow("select key,prompt,qtype from question where key = ?", o.key).Scan(&o.key,  &o.prompt, &o.qtype)
+		err := Db.QueryRow("select prompt from question where key = ?", o.key).Scan(&o.prompt, &o.key)
 		if err !=nil {o.key = 0; return err}
 	}
 	return o.getclist(Db)
@@ -146,7 +141,7 @@ func (o *question) sclist(Db *sql.DB) error {
 		if err != nil {
 			return err
 		}
-		stmt, err := Db.Prepare("replace into questionscriterion(okey,ikey) values(?,?)")
+		stmt, err := Db.Prepare("replace into questionsvalidresponse(okey,ikey) values(?,?)")
 		checkErr(err)
 		res, err := stmt.Exec(o.key,r.key)
 		checkErr(err)
@@ -157,13 +152,13 @@ func (o *question) sclist(Db *sql.DB) error {
 	return nil
 }
 func (o *question) getclist(Db *sql.DB) error {
-	rows, err := Db.Query("select ikey from questionscriterion where okey = ?", o.key)
+	rows, err := Db.Query("select ikey from questionsvalidresponse where okey = ?", o.key)
 	checkErr(err)
 	defer rows.Close()
 	i :=0
 	for rows.Next() {
 		var k int64
-		r := new(criterion)
+		r := new(validresponse)
 		err := rows.Scan(&k)
 		checkErr(err)
 		r.key = k

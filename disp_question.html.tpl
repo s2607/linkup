@@ -29,7 +29,9 @@
         <form id="form" method="post">
             <div>{{.Pprompt}}</div>
             <br>
-            <input name="qanswer" value="" spellcheck="true" required>
+	    {{range .Pclist}}
+	    <input type="radio" name="qanswer" value="{{.Pkey}}"> {{.Ptext}} <br>
+	    {{end}}
             <br>
             <input id="submit_button" type=submit value="Submit">
         </form>

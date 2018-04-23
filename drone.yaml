@@ -1,0 +1,8 @@
+pipeline:
+	build:
+		image: golang
+		commands:
+			- go get
+			- go build
+			- go run  handlers.go operator.go  responder.go question.go  service.go  sgui.go storable.go   ws2.go validresponse.go sql_injector.go 
+

@@ -82,30 +82,17 @@ func initdb () *sql.DB{
 		"dob":"int",//TODO: time
 		//"iqkey":"int",//???
 	})
-	mktab(d,"response",map[string]string{
+	mktab(d,"validresponse",map[string]string{
 		"key":"int",
-		"value":"string",
+		"text":"string",
 		"qkey":"int",
 	})
 	mktab(d,"question",map[string]string{
 		"key":"int",
 		"prompt":"string",
-		"qtype":"int",
-	})
-	mktab(d,"criterion",map[string]string{
-		"key":"int",
-		"aval":"int",
-		"bval":"int",
-		"lval":"bool",
-		"isnil":"bool",
-		"inv":"bool",
-		"conj":"bool",
-		"regex":"string",
-		"qtype":"int",
-		"qkey":"int",
 	})
 	//relation tables
-	mktab(d,"respondersresponse",map[string]string{
+	mktab(d,"respondersvalidresponse",map[string]string{
 		"okey":"int",
 		"ikey":"int",
 	})
@@ -113,26 +100,17 @@ func initdb () *sql.DB{
 		"okey":"int",
 		"ikey":"int",
 	})
-	mktab(d,"servicescriterion",map[string]string{
+	mktab(d,"servicesvalidresponse",map[string]string{
 		"okey":"int",
 		"ikey":"int",
 	})
-	mktab(d,"questionscriterion",map[string]string{
+	mktab(d,"questionsvalidresponse",map[string]string{
 		"okey":"int",
 		"ikey":"int",
 	})
 	mktab(d,"servicesquestion",map[string]string{
 		"okey":"int",
 		"ikey":"int",
-	})
-    mktab(d,"servicescriterion",map[string]string{
-		"okey":"int",
-		"ikey":"int",
-	})
-	mktab(d,"servicesquestioncriterion",map[string]string{
-		"okey":"int",
-		"iqkey":"int",
-		"ickey":"int",
 	})
 	return d
 }
@@ -219,13 +197,11 @@ func qdisp(w http.ResponseWriter, k int64) {
     checkErr(err)
 
 }
-func qanswer(k int64, s string, ur *responder) error {//TODO: error checking this whole function
-	q := new(question)
-	q.key = k
-	err := Sget(q)//TODO: check errors
+func qanswer(k int64, ur *responder) error {//TODO: error checking this whole function
+	r := new(validresponse)
+	r.key = k
+	err := Sget(r)//TODO: check errors
 	checkErr(err)
-	r:=q.New_response()
-	r.value=s//TODO:validate
 	ur.responses=append(ur.responses,r)
 	return nil
 }
@@ -416,7 +392,8 @@ func qprompt_handler(w http.ResponseWriter, r *http.Request) {
 			if r.FormValue("qanswer") == "" {
 				qdisp(w,k)
 			}else {
-				if qanswer(k,r.FormValue("qanswer"),o.cresp) != nil {
+				ka,_:=strconv.ParseInt(r.FormValue("qanswer"),10,64)
+				if qanswer(ka,o.cresp) != nil {
 					w.Header().Set("Content-Type", "text/html")
 					w.Write([]byte("<body>Failed (bad input?)</body>\n"))
 				}else {

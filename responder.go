@@ -8,7 +8,7 @@ import (
 
 type responder struct {
 	key int64
-	responses []*response
+	responses []*validresponse
 	fname string
 	lname string
 	dob int//TODO: time
@@ -18,6 +18,27 @@ type responder struct {
 
 
 }
+
+func Validate(a []*validresponse, v []*validresponse) bool {
+	vals := make(map[int64] int)//yes, for the conjunctive critria
+	for _,n := range v {
+		vals[n.qkey] = -1
+	}
+	for _,n := range v {
+		for _,h := range a {
+			if n.key == h.key {
+				vals[n.qkey] =1
+			}
+		}
+	}
+	for k,_ := range vals {
+		if vals[k] != 1 {
+			return false
+		}
+	}
+	return true
+}
+
 
 func (r *responder) update_suggestions() error {
 	err,se :=Getallservices()
@@ -95,7 +116,7 @@ func (o *responder) sresponces(Db *sql.DB) error {
 		if err != nil {
 			return err
 		}
-		stmt, err := Db.Prepare("replace into respondersresponse(okey,ikey) values(?,?)")
+		stmt, err := Db.Prepare("replace into respondersvalidresponse(okey,ikey) values(?,?)")
 		checkErr(err)
 		res, err := stmt.Exec(o.key,r.key)
 		checkErr(err)
@@ -106,13 +127,13 @@ func (o *responder) sresponces(Db *sql.DB) error {
 	return nil
 }
 func (o *responder) getresponses(Db *sql.DB) error {
-	rows, err := Db.Query("select ikey from respondersresponse where okey = ?", o.key)
+	rows, err := Db.Query("select ikey from respondersvalidresponse where okey = ?", o.key)
 	checkErr(err)
 	defer rows.Close()
 	i :=0
 	for rows.Next() {
 		var k int64
-		r := new(response)
+		r := new(validresponse)
 		err := rows.Scan(&k)
 		checkErr(err)
 		r.key = k
