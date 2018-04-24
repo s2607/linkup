@@ -22,7 +22,7 @@ func Sql_injector(p string, m *string) error {
 		}()
 		Db.Exec(p)
 		//checkErr(err)
-        *m = "Submitted"
+        *m = "Submitted" //For message
         fmt.Println("msg: " + *m)
 		return func() {
 			nchan <- nil
