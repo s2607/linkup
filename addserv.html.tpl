@@ -70,7 +70,7 @@
                     <form id="form" action="delq" method="post">
                         <div id="prompt">{{.Pprompt}}</div>
                         <div id="qid">ID: {{.Pkey}}</div>
-                        <input name="nckey" type="hidden" value="{{.Pkey}}">
+                        <input name="qkey" type="hidden" value="{{.Pkey}}">
                         <input id="submit_button" value="Remove" type=submit>
                     </form>
                     {{end}}
