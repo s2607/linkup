@@ -22,14 +22,16 @@
     <div id="container">
         <div id="top_bar">
             <img id="logo" src="imgs/logo.png" alt="LinkUp">
-            <a href="/home"><div id="home_button" style="animation: fade_in; animation-duration: 1s; animation-timing-function: ease-in-out;">Home</div></a>
+            <a href="/home"><div id="home_button" style="animation: fade_in; {{.A}}; animation-duration: 1s; animation-timing-function: ease-in-out;">Home</div></a>
         </div>
 
-        <div id="title">
+        <div id="title" style="{{.A}}">
             <h1>{{.T}} Service Program<a href="#popup-one"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h1>
         </div>
 
-        <form id="form" action="/newserv" method="post">
+        <div id="succ_msg">{{.M}}</div>
+
+        <form id="form" action="/newserv" method="post" style="{{.A}};">
             <p>Name</p>
             <input name="name" value="{{.O.Pname}}" required>
             <p>Description</p>
@@ -43,7 +45,7 @@
         <div id="sub_container">
 
             <div id="left_container">
-                <div id="title">
+                <div id="title" style="{{.A}};">
                     <h2>Questions</h2>
                 </div>
 
@@ -51,14 +53,14 @@
                 <a href="/newq"><div id="newq">Add A New Question</div></a>
 
 
-                <form id="form" action="/newserv">
+                <form id="form" action="/newserv" style="{{.A}};">
                     <h3>Associate Question To Service<a href="#popup-two"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h3>
                     <p>Question ID</p>
                     <input name="nskey" type="hidden" value="{{.O.Pkey}}">
                     <input name="nprompt" type="number" value="{{.Qid}}" required><br>
                     <input id="submit_button" value="Submit" type=submit>
                 </form>
-                <form id="qid_form" action="/searchqid" method="post">
+                <form id="qid_form" action="/searchqid" method="post" style="{{.A}};">
                         <input name="skey" type="hidden" value="{{.O.Pkey}}">
                         <input id="submit_button_qid" type='submit' value="Search For Question ID">
                 </form>
@@ -66,8 +68,9 @@
 
                 <h3>Remove Question From Service<a href="#popup-three"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h3>
                 <div class="remove">
+                    {{$Animation := .A}}
                     {{range .O.Pqlist}}
-                    <form id="form" action="delq" method="post">
+                    <form id="form" action="delq" method="post" style="{{$Animation}};">
                         <div id="prompt">{{.Pprompt}}</div>
                         <div id="qid">ID: {{.Pkey}}</div>
                         <input name="qkey" type="hidden" value="{{.Pkey}}">
@@ -79,11 +82,11 @@
             </div><!--End left_container-->
             <div id="right_container">
 
-                <div id="title">
+                <div id="title" style="{{.A}};">
                     <h2>Eligibility Criteria</h2>
                 </div>
 
-                <form id="form" action="/newserv" method="post">
+                <form id="form" action="/newserv" method="post" style="{{.A}};">
                     <h3>Add Criterion</h3>
                     <p>Question ID</p>
                     <input name="qid" value="">
@@ -111,7 +114,7 @@
                 <h3>Remove Criterion From Service</h3>
                 <div class="remove">
                     {{range .O.Pclist}}
-                    <form id="form" action="delc" method="post">
+                    <form id="form" action="delc" method="post" style="{{$Animation}};">
                         ID: {{.Pkey}}
                         <input name="nckey" type="hidden" value="{{.Pkey}}"><br>
                         <input id="submit_button" value="Delete" type=submit>

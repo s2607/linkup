@@ -55,6 +55,8 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
 	ns := new(service)
     qid := r.FormValue("nqkey") //gets qid to put in nprompt when add is clicked on searchqid
     title := "Add" //Sets default title to add
+    msg := "" //Success message
+    anim := "" //to stop animation
     fmt.Println(r.FormValue("name"))
         if o == nil {
                 outpage("auth.html.tpl",w,map[string]string{"err":"Bad Session"})
@@ -69,12 +71,16 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
 			ns.name=r.FormValue("name")
 			ns.url=r.FormValue("url")
 			ns.description=r.FormValue("description")
+            msg = "Service Created"
+            anim = "animation: none"
 		}
         fmt.Println(ns)
         if r.FormValue("qid") !="" {
 			c:= new (criterion)
 			createc(c,r)
 			ns.criteria = append(ns.criteria,c)
+            msg = "Criterion Created"
+            anim = "animation: none"
 		}
 		if r.FormValue("nprompt") != "" {
 			q :=new(question)
@@ -84,12 +90,29 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
 			if q != nil {
 				ns.qlist= append(ns.qlist,*q)
 			}
+            msg = "Question Associated"
+            anim = "animation: none"
 		}
 		if ns.key != 0 {
             Sstore(ns)
         }
 		t := template.Must(template.ParseFiles("addserv.html.tpl"))
-		t.Execute(w,struct{T string; Qid string; A string; O *service}{title, qid,"/newserv",ns})
+
+        data := struct{
+            M string
+            T string
+            Qid string
+            A string
+            O *service
+        }{
+            msg,
+            title,
+            qid,
+            anim,
+            ns,
+        }
+
+		t.Execute(w,data)
         }
 }
 
@@ -138,28 +161,7 @@ func createc(nc *criterion,r *http.Request)error{
 		nc.conj=ist(r.FormValue("conj"))
 		return nil
 }
-func criterioncreate_handler(w http.ResponseWriter, r *http.Request) {
-        o := curop(r)
-	nc := new(criterion)
-        if o == nil {
-                outpage("auth.html.tpl",w,map[string]string{"err":"Bad Session"})
-        } else if r.FormValue("uname") != "" {
-		if r.FormValue("nckey") != "" {
-			nc.key,_ = strconv.ParseInt(r.FormValue("nckey"),10,64)
-			Sget(nc)
-		}else { Init(nc)}
-		createc(nc,r)
-		Sstore(nc)
-		webmessage(w,"ok")
-        }else {
-		if r.FormValue("nckey") != "" {
-			nc.key,_ = strconv.ParseInt(r.FormValue("nckey"),10,64)
-			Sget(nc)
-		}
-		t := template.Must(template.ParseFiles("addc.html.tpl"))
-		t.Execute(w,nc)
-	}
-}
+
 func delc_handler(w http.ResponseWriter, r *http.Request) {
 	nchan := make (chan error)
 	DBchan <- func(DB *sql.DB) func() {
