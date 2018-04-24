@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func Sql_injector(p string) error {
+func Sql_injector(p string, m *string) error {
 
 	fmt.Println("got:" + p)
 	if p == "" {
@@ -17,10 +17,13 @@ func Sql_injector(p string) error {
 		defer func() {
 			if err := recover(); err != nil {
 				fmt.Println("Error with SQL STATEMENT! - ", err)
+                *m = "Error With SQL Statement"
 			}
 		}()
 		Db.Exec(p)
 		//checkErr(err)
+        *m = "Submitted"
+        fmt.Println("msg: " + *m)
 		return func() {
 			nchan <- nil
 		}

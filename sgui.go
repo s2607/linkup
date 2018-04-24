@@ -251,11 +251,33 @@ func searchqid_handler(w http.ResponseWriter, r *http.Request) {
 //SQL Command Interface
 func sql_handler(w http.ResponseWriter, r *http.Request) {
     if curop(r) != nil {
+        msg := ""
+        anim := ""
+        color := ""
         fmt.Println("sql" + r.FormValue("q"))
-        s := Sql_injector(r.FormValue("q"))
+        s := Sql_injector(r.FormValue("q"), &msg)
         fmt.Println(s)
         t := template.Must(template.ParseFiles("sql.html.tpl"))
-        t.Execute(w, s)
+
+        //used for ui messages and animations
+        if msg != "" {
+            anim = "animation: none"
+            if msg != "Submitted" {
+                color = "color: red"
+            }
+        }
+
+        data := struct{
+            M string
+            A string
+            C string
+        }{
+            msg,
+            anim,
+            color,
+        }
+
+        t.Execute(w, data)
     }else{
         outpage("auth.html.tpl",w,map[string]string{"err":"Bad Session"})
     }

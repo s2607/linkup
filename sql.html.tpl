@@ -21,14 +21,16 @@
 
         <div id="top_bar">
             <img id="logo" src="imgs/logo.png" alt="LinkUp">
-            <a href="/home"><div id="home_button" style="animation: fade_in; animation-duration: 1s; animation-timing-function: ease-in-out;">Home</div></a>
+            <a href="/home"><div id="home_button" style="animation: fade_in; {{.A}}; animation-duration: 1s; animation-timing-function: ease-in-out;">Home</div></a>
         </div>
 
-        <div id="title">
+        <div id="title" style="{{.A}};">
             <h1>SQL Command Line<a href="#popup-one"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h1>
         </div>
 
-        <form id="form" action="/sql" method="post" style="width: 600px;">
+        <div id="succ_msg" style="{{.C}};">{{.M}}</div>
+
+        <form id="form" action="/sql" method="post" style="width: 600px; {{.A}};">
             <p>Enter SQL Command</p>
             <textarea id="sql_text" name="q"></textarea><br>
             <input id="submit_button" value="Submit" type=submit>
@@ -45,7 +47,7 @@
             </div>
             <div class="popup-body">
                 <p class="popup-content"><b><em>Only use this if you know SQL commands.</em></b> </p>
-                <p class="popup-content">Enter a SQL command to modify the database. Currently, there is no error checking. The only way to see that the modifications were made is to use the search functionality.</p>
+                <p class="popup-content">Enter a SQL command to modify the database. Currently, there is no error checking for valid commands. The only way to see that the modifications were made is to use the search functionality.</p>
             </div>
             <div class="popup-footer">
                 <a href="#close" class="btn">Close</a>
