@@ -47,6 +47,10 @@
                     <h2>Questions</h2>
                 </div>
 
+
+                <a href="/newq"><div id="newq">Add A New Question</div></a>
+
+
                 <form id="form" action="/newserv">
                     <h3>Associate Question To Service<a href="#popup-two"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h3>
                     <p>Question ID</p>
