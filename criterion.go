@@ -62,6 +62,7 @@ func Validate(re []*response, cr []*criterion) bool {
 				switch r.q.qtype {
 					case 0: xj = c.checkstr(r.value)
 					case 1: xj = c.checkint(r.value)
+					case 2: xj,_ = strconv.ParseBool(r.value)
 					default: panic("nope")
 				}
 				if c.conj&&(vals[c.key]!=0) {
@@ -128,6 +129,8 @@ func (o *criterion) Get(Db *sql.DB) error{
 		return errors.New("not implemented")
 	} else {
 		err := Db.QueryRow("select key , aval, bval, regex, lval, isnil, inv, conj, qkey from criterion where key = ?", o.key).Scan(&o.key,&o.aval,&o.bval,&o.regex,&o.lval,&o.isnl,&o.inv,&o.conj,&qkey)
+		fmt.Print("retrived ")
+		fmt.Println(o)
 		if err !=nil {o.key = 0; return err}
 		if qkey != 0 {
 			o.q = new(question)
