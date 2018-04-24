@@ -42,7 +42,8 @@ func (o *response) Store(Db *sql.DB) error{
 			panic(err)//never happens?
 		}
 		if o.q!= nil {
-			return o.q.Store(Db)
+			//return o.q.Store(Db) //why ever?
+			return nil
 		}else {
 			return nil
 		}
