@@ -54,6 +54,12 @@ h3
     cursor: pointer;
 }
 
+#url_format
+{
+    color: #333;
+    font-size: 15px;
+}
+
 
 /** ANIMATIONS **/
 

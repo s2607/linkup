@@ -34,7 +34,7 @@
             <input name="name" value="{{.O.Pname}}" required>
             <p>Description</p>
             <input name="description" value="{{.O.Pdescription}}" spellcheck="true" required>
-            <p>Website URL</p>
+            <p>Website URL <span id="url_format">(http://)</span></p>
             <input name="url" type="url" value="{{.O.Purl}}">
             <input name="nskey" type="hidden" value="{{.O.Pkey}}"><br>
             <input id="submit_button" value="Submit" type=submit>
