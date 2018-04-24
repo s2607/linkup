@@ -262,6 +262,7 @@ func sql_handler(w http.ResponseWriter, r *http.Request) {
         //used for ui messages and animations
         if msg != "" {
             anim = "animation: none"
+            //if the message is an error message
             if msg != "Submitted" {
                 color = "color: red"
             }
