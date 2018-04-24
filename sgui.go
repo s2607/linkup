@@ -186,8 +186,8 @@ func delq_handler(w http.ResponseWriter, r *http.Request) {
 	}
 	checkErr(<-nchan)
 }
-//search
 
+//search
 func searchq_handler(w http.ResponseWriter, r *http.Request) {
 
     if curop(r) != nil {
