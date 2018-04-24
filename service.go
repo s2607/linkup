@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"database/sql"
-	"regexp"
+//	"regexp"
 )
 
 type service struct {
@@ -38,12 +38,12 @@ func (s *service)Purl() string {return s.url}
 func Getallsbyname (p string) (error, []*service){
 	fmt.Println("got:"+p)
 	if p=="" {return nil,nil}
-	regex, _ := regexp.Compile(p)
 
 	nchan := make(chan error)
 	var r []*service
 	DBchan <- func(Db *sql.DB)func() {
-
+		//p="\"%"+p+"\"%"
+		//rows, err := Db.Query("select key from service where name like \"%?%\"",p)
 		rows, err := Db.Query("select key from service")
 		checkErr(err)
 		defer rows.Close()
@@ -54,10 +54,6 @@ func Getallsbyname (p string) (error, []*service){
 			rows.Scan(&k)
 			//checkErr(err)
 			if k == 0 {continue}
-			if !regex.MatchString(s.name){
-				fmt.Println("skip")
-				continue
-			}
 			r=append(r,s)
 			r[i].key = k
 			r[i].Get(Db)
@@ -209,13 +205,17 @@ func (o *service) getclist(Db *sql.DB) error {
 	i :=0
 	for rows.Next() {
 		var k int64
+		k = 0
 		q := new(criterion)
-		err := rows.Scan(&k)
-		checkErr(err)
+		//err := rows.Scan(&k)
+		rows.Scan(&k)
+		fmt.Println(k)
+		//checkErr(err)
+		if(k==0){continue}
 		o.criteria=append(o.criteria,q)
 		o.criteria[i].key = k
 		err = o.criteria[i].Get(Db)
-		checkErr(err)
+		//checkErr(err)//XXX XXX
 		i=i+1
 	}
 	return nil
