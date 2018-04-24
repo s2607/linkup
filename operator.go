@@ -127,9 +127,6 @@ func (o *operator) Store(Db *sql.DB) error{
 				return err
 			}
 		}
-		if o.cser != nil {
-			return o.cser.Store(Db)
-		}
 		return nil
 	}
 	return nil
