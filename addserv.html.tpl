@@ -62,7 +62,7 @@
 
                 <h3>Remove Question From Service<a href="#popup-three"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h3>
                 {{range .O.Pqlist}}
-                <form id="form" action="delc" method="post">
+                <form id="form" action="delq" method="post">
                     {{.Pprompt}}
                     <input name="nckey" type="hidden" value="{{.Pkey}}"><br>
                     <input id="submit_button" value="Remove" type=submit>
