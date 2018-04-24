@@ -3,7 +3,6 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"regexp"
 )
 
 type question struct {
@@ -34,13 +33,12 @@ func (q *question)Ptext() string {return q.prompt}
 func Getallqbyname (p string) (error, []*question){
 	fmt.Println("got:"+p)
 	if p=="" {return nil,nil}
-	regex, _ := regexp.Compile(p)
 
 	nchan := make(chan error)
 	var r []*question
 	DBchan <- func(Db *sql.DB)func() {
 
-		rows, err := Db.Query("select key from question")
+		rows, err := Db.Query("select key from question where prompt like '%?%'",p)
 		checkErr(err)
 		defer rows.Close()
 		i :=0
@@ -50,10 +48,6 @@ func Getallqbyname (p string) (error, []*question){
 			rows.Scan(&k)
 			//checkErr(err)
 			if k == 0 {continue}
-			if !regex.MatchString(s.prompt){
-				fmt.Println("skip")
-				continue
-			}
 			r=append(r,s)
 			r[i].key = k
 			r[i].Get(Db)
