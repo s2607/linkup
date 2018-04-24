@@ -34,7 +34,7 @@
             <p>New Username</p>
             <input name="uname" value="{{.I.Puname}}" required>
             <p>New Password</p>
-            <input type="password" name="pw" required>
+            <input type="password" name="pw" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 6 or more characters" required>
             <input type="hidden" name="nokey" value="{{.I.Pkey}}">
             <br>
             <input id="submit_button" value="Submit" type=submit>
