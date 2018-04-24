@@ -8,7 +8,6 @@ import (
 	"crypto/md5"
 	"strconv"
 	"errors"
-	"regexp"
 )
 
 type operator struct {
@@ -19,6 +18,7 @@ type operator struct {
 	nchan chan bool
 	cresp *responder
 	cser *service
+	interviewonly bool
 }
 func (o *operator) setpss(pw string) error {
 	o.pwhash=md5.Sum([]byte(pw))
@@ -39,14 +39,12 @@ func (o *operator) Checksesh(sesh int) bool{
 }
 
 func Getallobyname (p string) (error, []*operator){
-	fmt.Println("got:"+p)
 	if p=="" {return nil,nil}
-	regex, _ := regexp.Compile(p)
-
+	fmt.Println("got:"+p)
 	nchan := make(chan error)
 	var r []*operator
 	DBchan <- func(Db *sql.DB)func() {
-
+		fmt.Println("DB"+p)
 		rows, err := Db.Query("select key from operator")
 		checkErr(err)
 		defer rows.Close()
@@ -56,11 +54,8 @@ func Getallobyname (p string) (error, []*operator){
 			s := new(operator)
 			rows.Scan(&k)
 			//checkErr(err)
+			fmt.Println(k)
 			if k == 0 {continue}
-			if !regex.MatchString(s.uname){
-				fmt.Println("skip")
-				continue
-			}
 			r=append(r,s)
 			r[i].key = k
 			r[i].Get(Db)
