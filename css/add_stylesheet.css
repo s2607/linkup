@@ -16,8 +16,10 @@
 
 #right_container
 {
+    box-sizing: border-box;
     float: left;
     width: 50%;
+    border-left: 1px solid black;
 }
 
 h3
@@ -70,6 +72,17 @@ h3
     color: black;
 }
 
+.remove
+{
+    height: 500px;
+    overflow-y: scroll;
+}
+
+.remove::-webkit-scrollbar {
+  /* Only works for Chrome and Safari */
+  display: none;
+}
+
 /** ANIMATIONS **/
 
 @keyframes fade_in
@@ -84,4 +97,21 @@ h3
         opacity: 1;
     }
 
+}
+
+
+/* FOR SMALL SCREENS */
+@media only screen and (max-width: 720px)
+{
+    #left_container
+    {
+        width: 100%;
+    }
+
+    #right_container
+    {
+        width: 100%;
+        border-left: none;
+        border-top: 1px solid black;
+    }
 }

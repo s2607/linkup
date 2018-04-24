@@ -61,14 +61,16 @@
                 <hr>
 
                 <h3>Remove Question From Service<a href="#popup-three"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h3>
-                {{range .O.Pqlist}}
-                <form id="form" action="delq" method="post">
-                    <div id="prompt">{{.Pprompt}}</div>
-                    <div id="qid">ID: {{.Pkey}}</div>
-                    <input name="nckey" type="hidden" value="{{.Pkey}}">
-                    <input id="submit_button" value="Remove" type=submit>
-                </form>
-                {{end}}
+                <div class="remove">
+                    {{range .O.Pqlist}}
+                    <form id="form" action="delq" method="post">
+                        <div id="prompt">{{.Pprompt}}</div>
+                        <div id="qid">ID: {{.Pkey}}</div>
+                        <input name="nckey" type="hidden" value="{{.Pkey}}">
+                        <input id="submit_button" value="Remove" type=submit>
+                    </form>
+                    {{end}}
+                </div>
 
             </div><!--End left_container-->
             <div id="right_container">
@@ -80,7 +82,7 @@
                 <form id="form" action="/newserv" method="post">
                     <h3>Add Criterion</h3>
                     <p>Question ID</p>
-                    <input name="qid">
+                    <input name="qid" value="">
                     <p>Text Answers</p>
                     <input name="regex" spellcheck="true">
                     <p>Lower Limit</p>
@@ -103,13 +105,15 @@
                 </form><hr>
 
                 <h3>Remove Criterion From Service</h3>
-                {{range .O.Pclist}}
-                <form id="form" action="delc" method="post">
-                    ID: {{.Pkey}}
-                    <input name="nckey" type="hidden" value="{{.Pkey}}"><br>
-                    <input id="submit_button" value="Delete" type=submit>
-                </form><hr>
-                {{end}}
+                <div class="remove">
+                    {{range .O.Pclist}}
+                    <form id="form" action="delc" method="post">
+                        ID: {{.Pkey}}
+                        <input name="nckey" type="hidden" value="{{.Pkey}}"><br>
+                        <input id="submit_button" value="Delete" type=submit>
+                    </form><hr>
+                    {{end}}
+                </div>
             </div><!--End right_container -->
         </div><!--End sub_container -->
     </div><!-- End container-->
