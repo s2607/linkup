@@ -80,7 +80,7 @@
                 <form id="form" action="/newserv" method="post">
                     <h3>Add Criterion</h3>
                     <p>Question ID</p>
-                    <input name="qid" value="{{.Qid}}">
+                    <input name="qid">
                     <p>Text Answers</p>
                     <input name="regex" spellcheck="true">
                     <p>Lower Limit</p>
@@ -98,7 +98,7 @@
                     <input type="checkbox" name="conj" value="1" class="checkbox">
                     <p>isnil:</p>
                     <input type="checkbox" value="1" class="checkbox" name="isnil">
-                    <input name="nqkey" type="hidden" value="{{.O.Pkey}}"><br>
+                    <input name="nskey" type="hidden" value="{{.O.Pkey}}"><br>
                     <input id="submit_button" value="Submit" type=submit>
                 </form><hr>
 
