@@ -55,39 +55,42 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
 	ns := new(service)
     qid := r.FormValue("nqkey") //gets qid to put in nprompt when add is clicked on searchqid
     title := "Add" //Sets default title to add
-    fmt.Println("Service Key is: " + r.FormValue("nskey"))
+    fmt.Println(r.FormValue("name"))
         if o == nil {
                 outpage("auth.html.tpl",w,map[string]string{"err":"Bad Session"})
-        } else if r.FormValue("name") != "" {
-		if r.FormValue("nskey") != "" {
+        }else {
+		if r.FormValue("nskey") != "" && r.FormValue("nskey") != "0"{
 			ns.key,_ = strconv.ParseInt(r.FormValue("nskey"),10,64)
 			Sget(ns)
+            title = "Edit"
+			fmt.Println("editing older service"+ns.name)
 		}else { Init(ns)}
-		ns.name=r.FormValue("name")
-		ns.url=r.FormValue("url")
-		ns.description=r.FormValue("description")
-		if r.FormValue("inv") !="" {
+		if r.FormValue("name") != "" {
+			ns.name=r.FormValue("name")
+			ns.url=r.FormValue("url")
+			ns.description=r.FormValue("description")
+		}
+        fmt.Println(ns)
+        if r.FormValue("qid") !="" {
 			c:= new (criterion)
 			createc(c,r)
 			ns.criteria = append(ns.criteria,c)
 		}
 		if r.FormValue("nprompt") != "" {
-			q :=Get1q(r.FormValue("nprompt"))
+			q :=new(question)
+			q.key,_=strconv.ParseInt(r.FormValue("nprompt"),10,64)
+			Sget(q)
+			//q :=Get1q(r.FormValue("nprompt"))
 			if q != nil {
 				ns.qlist= append(ns.qlist,*q)
 			}
 		}
-		Sstore(ns)
-        webmessage(w,"ok")
-        }else {
-		if r.FormValue("nskey") != "" {
-			ns.key,_ = strconv.ParseInt(r.FormValue("nskey"),10,64)
-			Sget(ns)
-            title = "Edit"
-		}
+		if ns.key != 0 {
+            Sstore(ns)
+        }
 		t := template.Must(template.ParseFiles("addserv.html.tpl"))
-        t.Execute(w,struct{T string; Qid string; A string; O *service}{title, qid,"/newserv",ns})
-	}
+		t.Execute(w,struct{T string; Qid string; A string; O *service}{title, qid,"/newserv",ns})
+        }
 }
 
 func cquestion(nq *question, r *http.Request) {
