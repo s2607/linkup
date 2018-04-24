@@ -60,6 +60,15 @@ h3
     font-size: 15px;
 }
 
+#prompt
+{
+    font-size: 20px;
+}
+
+#qid
+{
+    color: black;
+}
 
 /** ANIMATIONS **/
 
