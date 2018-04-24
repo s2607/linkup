@@ -26,13 +26,37 @@
             <h1>Answer Question</h1>
         </div>
 
+        {{if .B}}
         <form id="form" method="post">
-            <div>{{.Pprompt}}</div>
+            <div>{{.Q.Pprompt}}</div>
             <br>
-            <input name="qanswer" value="" spellcheck="true" required>
+            <select style="width: 75px;" name="qanswer" required>
+                <option></option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+            <br><br>
+            <input id="submit_button" type=submit value="Submit">
+        </form>
+        {{else}}
+        {{if .N}}
+        <form id="form" method="post">
+            <div>{{.Q.Pprompt}}</div>
+            <br>
+            <input name="qanswer" type="number" pattern="[0-9]" value="" spellcheck="true" required>
             <br>
             <input id="submit_button" type=submit value="Submit">
         </form>
+        {{else}}
+        <form id="form" method="post">
+            <div>{{.Q.Pprompt}}</div>
+            <br>
+            <input name="qanswer" type="text" value="" spellcheck="true" required>
+            <br>
+            <input id="submit_button" type=submit value="Submit">
+        </form>
+        {{end}}
+        {{end}}
 
     </div>
 </body>

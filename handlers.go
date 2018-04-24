@@ -201,21 +201,34 @@ func qlist(w http.ResponseWriter, r *http.Request, path string){
 }
 func qdisp(w http.ResponseWriter, k int64) {
 	q := new(question)
+    numAnswer := false
+    boolAnswer := false
+
 	q.key = k
 	err := Sget(q)//TODO: check errors
 	checkErr(err)
 
+
+    //TODO: Check q.type and only accept those answers
+    switch q.qtype {
+        case 0: //Do nothing as it defaults to text
+		case 1: numAnswer = true
+        case 2: boolAnswer = true
+    }
+
     t := template.Must(template.ParseFiles("disp_question.html.tpl"))
 
-	/*t,err := template.New("dispt").Parse(`
-	<div id="question">
-	<form method="post">
-	{{.Pprompt}}
-	<input name="qanswer" value="" >
-	<input type=submit></form>
-	</div>
-	`)//TODO: different form types*/
-	err = t.Execute(w,q)
+    data := struct{
+        Q *question
+        N bool
+        B bool
+    }{
+        q,
+        numAnswer,
+        boolAnswer,
+    }
+
+	err = t.Execute(w,data)
     checkErr(err)
 
 }
