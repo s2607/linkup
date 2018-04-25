@@ -3,6 +3,25 @@
     margin-bottom: 8px;
 }
 
+#help_button
+{
+    box-sizing: border-box;
+    padding-top: 45px;
+    padding-left: 63px;
+    float: right;
+    width: 180px;
+    height: 120px;
+    font-size: 20px;
+    color: white;
+    background: #555;
+}
+
+#help_button:hover
+{
+    color: #555;
+    background: white;
+}
+
 #new_login
 {
     font-size: 15px;

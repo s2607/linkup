@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-            <title>LinkUp</title>
+            <title>LinkUP</title>
             <link rel="icon" href="imgs/chevron.png" type="image/x-icon">
             <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
             <meta charset="UTF-8">
@@ -21,7 +21,7 @@
         <div id="container">
             <div id="top_bar" style="animation: extend_bar; animation-duration: 1s; animation-timing-function: ease-in-out;">
                 <img id="logo" src="imgs/logo.png" alt="LinkUp">
-
+                <a href="help.html"><div id="help_button" style="animation: fade_in; animation-duration: 2s; animation-timing-function: ease-in-out;">Help</div></a>
             </div>
 
             <div id="title">
@@ -84,5 +84,6 @@
         </div>
     </div>
     <!-- End Pop up 2 -->
+
 </body>
 </html>
