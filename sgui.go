@@ -123,6 +123,8 @@ func cquestion(nq *question, r *http.Request) {
 func questioncreate_handler(w http.ResponseWriter, r *http.Request) {
         o := curop(r)
 	nq := new(question)
+    msg := ""
+    anim := ""
         if o == nil {
                 outpage("auth.html.tpl",w,map[string]string{"err":"Bad Session"})
         } else if r.FormValue("prompt") != "" {
@@ -132,21 +134,37 @@ func questioncreate_handler(w http.ResponseWriter, r *http.Request) {
 		}else { Init(nq)}
 
 		cquestion(nq,r)
+        msg = "Question Created With ID: " + strconv.FormatInt(nq.key, 10)
+        anim = "animation: none;"
 		if r.FormValue("inv") !="" {
 			c:= new (criterion)
 			createc(c,r)
 			nq.clist = append(nq.clist,c) //NOTE: questions being updated will not create multiple entries
+            msg = "Criterion Created"
 		}
 		Sstore(nq)
-		webmessage(w,"ok")
+
         }else {
 		if r.FormValue("nqkey") != "" {
 			nq.key,_ = strconv.ParseInt(r.FormValue("nqkey"),10,64)
 			Sget(nq)
 		}
-		t := template.Must(template.ParseFiles("addq.html.tpl"))
-		t.Execute(w,struct{A string; O *question}{"/newq",nq})
+
 	}
+
+    t := template.Must(template.ParseFiles("addq.html.tpl"))
+
+    data := struct{
+        A string
+        M string
+        O *question
+    }{
+        anim,
+        msg,
+        nq,
+    }
+
+	t.Execute(w,data)
 }
 func ist(s string) bool{
 	return s=="true"
@@ -178,9 +196,11 @@ func delc_handler(w http.ResponseWriter, r *http.Request) {
 func delq_handler(w http.ResponseWriter, r *http.Request) {
 	nchan := make (chan error)
 	DBchan <- func(DB *sql.DB) func() {
-		stmt,err := DB.Prepare("delete from servicesquestion where ikey = ? and okey = ?")
+		stmt,err := DB.Prepare("delete from servicesquestion where okey = ? and ikey = ?")
 		if err != nil { nchan <- err }
-		_,err =stmt.Exec(r.FormValue("qkey"))
+        okey, _ := strconv.Atoi(r.FormValue("okey"))
+        ikey, _ := strconv.Atoi(r.FormValue("ikey"))
+        _,err = stmt.Exec(okey, ikey)
 		if err != nil { nchan <- err }
 		return func() {
 			nchan <- err

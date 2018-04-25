@@ -20,14 +20,16 @@
     <div id="container">
         <div id="top_bar">
             <img id="logo" src="imgs/logo.png" alt="LinkUp">
-            <a href="/home"><div id="home_button" style="animation: fade_in; animation-duration: 1s; animation-timing-function: ease-in-out;">Home</div></a>
+            <a href="/home"><div id="home_button" style="animation: fade_in; {{.A}} animation-duration: 1s; animation-timing-function: ease-in-out;">Home</div></a>
         </div>
 
-        <div id="title">
+        <div id="title" style="{{.A}}">
             <h1>Add Question</h1>
         </div>
 
-        <form id="form" action="/newq" method="post">
+        <div id="succ_msg">{{.M}}</div>
+
+        <form id="form" action="/newq" method="post" style="{{.A}}">
             <!--TODO:oldvals-->
             <p>Question Prompt</p>
             <input name="prompt" value="{{.O.Pprompt}}" spellcheck="true" required>
@@ -40,11 +42,11 @@
             <input id="submit_button" value="Submit" type=submit>
         </form><hr>
 
-        <div id="title">
+        <div id="title" style="{{.A}}">
             <h2>Validation Criteria</h2>
         </div>
 
-        <form id="form" action="newq" method="post">
+        <form id="form" action="/newq" method="post" style="{{.A}}">
             <h3>Add Possible Answer</h3>
             <p>Text Answer</p>
             <input name="regex" spellcheck="true">
@@ -68,10 +70,13 @@
         </form>
         <hr>
 
-        <p>Delete A Criterion</p>
+        <div id="title" style="{{.A}}">
+            <h3>Delete A Criterion</h3>
+        </div>
 
+        {{$Animation := .A}}
         {{range .O.Pclist}}
-	   <form id="form" action="delc" method="post">
+	   <form id="form" action="delc" method="post" style="{{$Animation}}">
            <input name="nckey" type="hidden" value="{{.Pkey}}"><br>
            <input id="submit_button" value="Delete" type=submit>
         </form><hr>
