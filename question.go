@@ -89,6 +89,36 @@ func Getallprompts (p string) (error, []*question){
 	}
 	return <-nchan,r
 }
+
+func Getallqbynamefuzz (p string) (error, []*question){
+	fmt.Println("got:"+p)
+	if p=="" {return nil,nil}
+	var r []*question
+	search := "%" + p + "%"
+	nchan := make(chan error)
+	DBchan <- func(Db *sql.DB)func() {
+		rows, err := Db.Query("select key from question where prompt like ?", search)
+		checkErr(err)
+		defer rows.Close()
+		for i := 0; rows.Next(); i++ {
+			var k int64
+			rows.Scan(&k)
+			if k == 0 {continue}
+			r = append(r, new(question))
+			r[i].key = k
+			err = r[i].Get(Db)
+			if err != nil {
+				fmt.Println("error")
+				nchan <- err
+			}
+		}
+		return func() {
+			nchan <- nil
+		}
+	}
+	return <-nchan, r
+}
+
 func Get1q(p string) (*question) {
 	err,qs := Getallprompts(p)
 	if err != nil || len(qs)<1{return nil} else{
