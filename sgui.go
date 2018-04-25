@@ -253,7 +253,7 @@ func searchqid_handler(w http.ResponseWriter, r *http.Request) {
     if curop(r) != nil {
         fmt.Println("searchq"+r.FormValue("q"))
         fmt.Println("Service Key is: " + r.FormValue("skey"))
-		err,s := Getallqbynamefuzz(r.FormValue("q"))
+		err,q := Getallqbynamefuzz(r.FormValue("q"))
 		fmt.Println(q)
 		checkErr(err)
         data := struct{
