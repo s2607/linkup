@@ -17,16 +17,15 @@ body
 #top_bar
 {
     height: 120px;
-    background: #111;
+    background: #222;
 }
 
 #logo
 {
     float: left;
     height: 110px;
-    width: 246px;
     margin-left: 20px;
-    margin-top: 6px;
+    margin-top: 3px;
 }
 
 #home_button
@@ -39,12 +38,12 @@ body
     height: 120px;
     font-size: 20px;
     color: white;
-    background: #19396D;
+    background: #00AFF0;
 }
 
 #home_button:hover
 {
-    color: #19396D;
+    color: #00AFF0;
     background: white;
 }
 
@@ -56,7 +55,7 @@ body
     margin-right: auto;
     margin-top: 50px;
     text-align: center;
-    color: #19396D;
+    color: black;
     animation: form_fade_in;
     animation-duration: 1s;
     animation-timing-function: ease-in-out;
@@ -76,7 +75,7 @@ body
 
 h3
 {
-    color: #19396D;
+    color: #00AFF0;
 }
 
 p
@@ -138,7 +137,7 @@ select:hover
     height: 35px;
     width: 90px;
     margin-top: 20px;
-    background: #19396D;
+    background: #00AFF0;
     border-radius: 12px;
     border: none;
     color: white;
@@ -147,7 +146,7 @@ select:hover
 
 #submit_button:hover
 {
-    color: #19396D;
+    color: #00AFF0;
     background: white;
     cursor: pointer;
 }
@@ -193,7 +192,7 @@ a
 a:hover
 {
     font-size: 20px;
-    color: #19396D;
+    color: #00AFF0;
     transition: .5s;
 }
 
@@ -205,7 +204,7 @@ a:hover
     margin-left: auto;
     margin-right: auto;
     padding-top: 6px;
-    background: #19396D;
+    background: #00AFF0;
     border-radius: 12px;
     border: none;
     color: white;
@@ -216,7 +215,7 @@ a:hover
 
 #sug_services_button:hover, #return_button:hover
 {
-    color: #19396D;
+    color: #00AFF0;
     background: white;
 }
 
@@ -346,7 +345,7 @@ font-family: 'Nunito Sans', sans-serif;
 
 
 COLORS
-#19396D
+#00AFF0
 #AAA
 #DDD
 #333

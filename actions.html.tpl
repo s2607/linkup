@@ -21,6 +21,7 @@
         <div id="container">
             <div id="top_bar" style="animation: extend_bar; animation-duration: 1s; animation-timing-function: ease-in-out;">
                 <img id="logo" src="imgs/logo.png" alt="LinkUp">
+
             </div>
 
             <div id="title">

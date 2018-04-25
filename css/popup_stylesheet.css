@@ -13,7 +13,7 @@
 
 .btn
 {
-    background: #19396D;
+    background: #00AFF0;
     border-radius: 12px;
     color: white;
     display: inline-block;
@@ -29,7 +29,7 @@
 .btn:hover
 {
     background: white;
-    color: #19396D;
+    color: #00AFF0;
     /* This is to reverse effects of other stylesheets */
     font-size: 14px;
     transition: background .1s ease;
@@ -162,7 +162,7 @@ h3 > a > .popup_icon:hover
     padding-top: 10px;
     padding-left: 20px;
     padding-right: 20px;
-    color: #19396D;
+    color: #00AFF0;
 }
 .popup-header h2
 {

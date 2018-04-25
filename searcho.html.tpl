@@ -43,7 +43,7 @@
 
             {{range .}}
             <div id="title">
-                {{.Puname}} <br>
+                <div id="result">{{.Puname}}</div>
                 <div id="id">ID: {{.Pkey}}</div>
             </div>
 

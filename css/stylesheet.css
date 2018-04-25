@@ -22,7 +22,7 @@ body
     width: 50vw;
     height: inherit;
     min-height: 550px;
-    background: #111;
+    background: #222;
     visibility: hidden;
 }
 
@@ -49,7 +49,6 @@ body
     font-size: 45px;
     font-style: italic;
     line-height: 1.5;
-    border: 2px #AAA solid;
 }
 
 #right_container
@@ -69,11 +68,11 @@ body
 
 #title
 {
-    margin-top: 220px;
+    margin-top: 210px;
     margin-bottom: 10%;
     font-weight: bold; 
     letter-spacing: 1px;
-    color: #19396D;
+    color: #00AFF0;
     font-size: 2.5em;
     visibility: hidden;
 }
@@ -125,7 +124,7 @@ input:focus
     height: 35px;
     width: 90px;
     margin-top: 20%;
-    background: #19396D;
+    background: #00AFF0;
     border-radius: 12px;
     border: none;
     color: white;
@@ -135,7 +134,7 @@ input:focus
 
 #submit_button:hover
 {
-    color: #19396D;
+    color: #00AFF0;
     background: white;
     cursor: pointer;
 }
@@ -204,7 +203,7 @@ input:focus
 {
     #logo
     {
-        margin-top: 75px;
+        margin-top: 70px;
     }
 
     #title
@@ -295,7 +294,7 @@ font-family: 'Nunito Sans', sans-serif;
 
 
 COLORS
-#19396D
+#00AFF0
 #AAA
 #DDD
 #111
