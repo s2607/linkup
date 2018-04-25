@@ -125,46 +125,52 @@ func questioncreate_handler(w http.ResponseWriter, r *http.Request) {
 	nq := new(question)
     msg := ""
     anim := ""
+    title := "Add"
         if o == nil {
                 outpage("auth.html.tpl",w,map[string]string{"err":"Bad Session"})
-        } else if r.FormValue("prompt") != "" {
+        } else {
+
 		if r.FormValue("nqkey") != "" {
 			nq.key,_ = strconv.ParseInt(r.FormValue("nqkey"),10,64)
 			Sget(nq)
+            title = "Edit"
 		}else { Init(nq)}
 
-		cquestion(nq,r)
-        msg = "Question Created With ID: " + strconv.FormatInt(nq.key, 10)
-        anim = "animation: none;"
+        if r.FormValue("prompt") != "" {
+            cquestion(nq,r)
+            msg = "Question Created With ID: " + strconv.FormatInt(nq.key, 10)
+            anim = "animation: none"
+            title = "Edit"
+        }
 		if r.FormValue("inv") !="" {
 			c:= new (criterion)
 			createc(c,r)
 			nq.clist = append(nq.clist,c) //NOTE: questions being updated will not create multiple entries
             msg = "Criterion Created"
-		}
-		Sstore(nq)
-
-        }else {
-		if r.FormValue("nqkey") != "" {
-			nq.key,_ = strconv.ParseInt(r.FormValue("nqkey"),10,64)
-			Sget(nq)
+            anim = "animation: none"
+            title = "Edit"
 		}
 
-	}
+        if nq.key != 0 {
+            Sstore(nq)
+        }
 
-    t := template.Must(template.ParseFiles("addq.html.tpl"))
+        t := template.Must(template.ParseFiles("addq.html.tpl"))
 
-    data := struct{
-        A string
-        M string
-        O *question
-    }{
-        anim,
-        msg,
-        nq,
+        data := struct{
+            A string
+            M string
+            O *question
+            T string
+        }{
+            anim,
+            msg,
+            nq,
+            title,
+        }
+
+	   t.Execute(w,data)
     }
-
-	t.Execute(w,data)
 }
 func ist(s string) bool{
 	return s=="true"
