@@ -34,7 +34,7 @@
                 <select name="service" value="select">
                     <option value=""></option>
                     {{range .S}}
-                    <option value="{{.Pname}}">{{.Pname}}</option>
+                    <option value="{{.Pkey}}">{{.Pname}}</option>
                     {{end}}
                 </select><br />
                 <input id="find_button" value="Find Questions" type="submit">

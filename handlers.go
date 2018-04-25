@@ -158,7 +158,7 @@ func qlist(w http.ResponseWriter, r *http.Request, path string){
         serv = new(service)
     }else {
         for _, n := range servArr {
-            if r.FormValue("service") == n.name {
+            if r.FormValue("service") == strconv.FormatInt(n.key, 10) {
                 serv = n
             }
         }
