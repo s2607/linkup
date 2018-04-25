@@ -1,0 +1,9 @@
+pipeline:
+        build:
+                image: docker
+                commands:
+                    - docker build . -t linkup
+                    - docker tag "linkup" "registry.cscapstone.us/linkup"
+                    - docker login -u $DOCKER_USERNAME -P $DOCKER_PASSWORD
+                    - docker push "registry.cscapstone.us/linkup"
+                    - docker logout
