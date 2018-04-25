@@ -66,6 +66,35 @@ func Getallsbyname (p string) (error, []*service){
 	}
 	return <-nchan,r
 }
+func Getallsbynamefuzz (p string) (error, []*service){
+	fmt.Println("got:"+p)
+	if p=="" {return nil,nil}
+	var r []*service
+	search := "%" + p + "%"
+	nchan := make(chan error)
+	DBchan <- func(Db *sql.DB)func() {
+		rows, err := Db.Query("select key from service where name or description like ?", search)
+		checkErr(err)
+		defer rows.Close()
+		for i := 0; rows.Next(); i++ {
+			var k int64
+			rows.Scan(&k)
+			if k == 0 {continue}
+			r = append(r, new(service))
+			r[i].key = k
+			err = r[i].Get(Db)
+			if err != nil {
+				fmt.Println("error")
+				nchan <- err
+			}
+		}
+		return func() {
+			nchan <- nil
+		}
+	}
+	return <-nchan, r
+}
+
 //DB stuff
 
 func Getallservices() (error, []*service){
