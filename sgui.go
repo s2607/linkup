@@ -214,7 +214,7 @@ func searchq_handler(w http.ResponseWriter, r *http.Request) {
 
     if curop(r) != nil {
         fmt.Println("searchq"+r.FormValue("q"))
-		err,s := Getallqbyname(r.FormValue("q"))
+		err,s := Getallqbynamefuzz(r.FormValue("q"))
 		fmt.Println(s)
 		checkErr(err)
 		t := template.Must(template.ParseFiles("searchq.html.tpl"))
@@ -226,7 +226,7 @@ func searchq_handler(w http.ResponseWriter, r *http.Request) {
 func searchs_handler(w http.ResponseWriter, r *http.Request) {
     if curop(r) != nil {
         fmt.Println("searchs"+r.FormValue("q"))
-		err,s := Getallsbyname(r.FormValue("q"))
+		err,s := Getallsbynamefuzz(r.FormValue("q"))
 		fmt.Println(s)
 		checkErr(err)
 		t := template.Must(template.ParseFiles("searchs.html.tpl"))
@@ -239,7 +239,7 @@ func searchs_handler(w http.ResponseWriter, r *http.Request) {
 func searcho_handler(w http.ResponseWriter, r *http.Request) {
     if curop(r) != nil {
         fmt.Println("searcho"+r.FormValue("q"))
-		err,s := Getallobyname(r.FormValue("q"))
+		err,s := Getallobynamefuzz(r.FormValue("q"))
 		fmt.Println(s)
 		checkErr(err)
 		t := template.Must(template.ParseFiles("searcho.html.tpl"))
@@ -253,7 +253,7 @@ func searchqid_handler(w http.ResponseWriter, r *http.Request) {
     if curop(r) != nil {
         fmt.Println("searchq"+r.FormValue("q"))
         fmt.Println("Service Key is: " + r.FormValue("skey"))
-		err,q := Getallqbyname(r.FormValue("q"))
+		err,s := Getallqbynamefuzz(r.FormValue("q"))
 		fmt.Println(q)
 		checkErr(err)
         data := struct{
