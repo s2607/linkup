@@ -107,7 +107,7 @@
             </div><!--End left_container-->
 
             {{if or .C .Nec}}
-            <!-- Make two column layout appear -->
+            <!-- Make two column layout appear as well as the title-->
             <style>
                 #left_container
                 {
@@ -124,22 +124,22 @@
                 {{if .C}}<!--Shows adding criterion form if "Add A Criterion" button clicked -->
                 <form id="form" action="/newserv" method="post" style="{{.A}};">
                     <h3>Add Criterion To Question: <br>
-                        {{.Q.Pprompt}}</h3>
+                        {{.Q.Pprompt}}<a href="#popup-five"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h3>
                     <input name="qid" value="{{.Q.Pkey}}" type="hidden">
 
                     {{if .BoolQ}} <!-- if yes/no question -->
-                    <p>Yes/No Question <br><select name="lval" required>
+                    <p>Yes or No <br><select name="lval" required>
                         <option></option>
                         <option value="1">Yes</option>
                         <option value="0">No</option>
                     </select></p>
                     {{else}}
                         {{if .NumQ}} <!-- if number type -->
-                        <p>Lower Limit</p>
+                        <p>Lower Limit<a href="#popup-six"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
                         <input type="number" name="aval" required>
-                        <p>Upper Limit</p>
+                        <p>Upper Limit<a href="#popup-seven"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
                         <input type="number" name="bval" required>
-                        <p>Invert Range</p>
+                        <p>Invert Range<a href="#popup-eight"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
                         <input type="checkbox" class="checkbox" value="1" name="inv">
 
                         {{else}} <!--Would then have to be a text type -->
@@ -247,6 +247,71 @@
         </div>
     </div>
     <!-- End Pop up 4 -->
+    <!-- Pop up 5 Yes/No-->
+    <div class="popup" id="popup-five" aria-hidden="true">
+        <div class="popup-dialog">
+            <div class="popup-header">
+                <h2>Add Criterion To Question</h2>
+                <a href="#close" class="btn-close" aria-hidden="true">×</a>
+            </div>
+            <div class="popup-body">
+                <p class="popup-content">Input the response that a person must have in order to qualify for this service.</p><br>
+            </div>
+            <div class="popup-footer">
+                <a href="#close" class="btn">Close</a>
+            </div>
+        </div>
+    </div>
+    <!-- End Pop up 5 -->
+    <!-- Pop up 6 Lower Limit-->
+    <div class="popup" id="popup-six" aria-hidden="true">
+        <div class="popup-dialog">
+            <div class="popup-header">
+                <h2>Lower Limit</h2>
+                <a href="#close" class="btn-close" aria-hidden="true">×</a>
+            </div>
+            <div class="popup-body">
+                <p class="popup-content">Enter the lowest value that would allow a person to qualify. If the answer must be an exact value. Enter the same number in the <b><em>Upper Limit</em></b>.</p><br>
+            </div>
+            <div class="popup-footer">
+                <a href="#close" class="btn">Close</a>
+            </div>
+        </div>
+    </div>
+    <!-- End Pop up 6 -->
+    <!-- Pop up 7 Upper Limit-->
+    <div class="popup" id="popup-seven" aria-hidden="true">
+        <div class="popup-dialog">
+            <div class="popup-header">
+                <h2>Upper Limit</h2>
+                <a href="#close" class="btn-close" aria-hidden="true">×</a>
+            </div>
+            <div class="popup-body">
+                <p class="popup-content">Enter the highest value that would allow a person to qualify. If the answer must be an exact value. Enter the same number as the <b><em>Lower Limit</em></b>.</p><br>
+            </div>
+            <div class="popup-footer">
+                <a href="#close" class="btn">Close</a>
+            </div>
+        </div>
+    </div>
+    <!-- End Pop up 7 -->
+    <!-- Pop up 8 Invert Range-->
+    <div class="popup" id="popup-eight" aria-hidden="true">
+        <div class="popup-dialog">
+            <div class="popup-header">
+                <h2>Invert Range</h2>
+                <a href="#close" class="btn-close" aria-hidden="true">×</a>
+            </div>
+            <div class="popup-body">
+                <p class="popup-content">Check this box to make the qualifying values to be everything outside the given range.</p><br>
+                <p class="popup-content">Ex: A range of 5-10 would become anything less than 5 or greater than 10.</p><br>
+            </div>
+            <div class="popup-footer">
+                <a href="#close" class="btn">Close</a>
+            </div>
+        </div>
+    </div>
+    <!-- End Pop up 8 -->
 
 
 </body>

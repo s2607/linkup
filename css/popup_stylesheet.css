@@ -83,6 +83,22 @@ h3 > a > .popup_icon:hover
     width: 15px;
 }
 
+p > a > .popup_icon
+{
+    position: absolute;
+    margin-top: 2px;
+    height: 13px;
+    width: 13px;
+    margin-left: 10px;
+    transition: .5s;
+}
+
+p > a > .popup_icon:hover
+{
+    height: 15px;
+    width: 15px;
+}
+
 
 .btn-close
 {
