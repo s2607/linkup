@@ -130,8 +130,8 @@
                     {{if .BoolQ}} <!-- if yes/no question -->
                     <p>Yes or No <br><select name="lval" required>
                         <option></option>
-                        <option value="1">Yes</option>
-                        <option value="0">No</option>
+                        <option value="true">Yes</option>
+                        <option value="false">No</option>
                     </select></p>
                     {{else}}
                         {{if .NumQ}} <!-- if number type -->
@@ -140,7 +140,7 @@
                         <p>Upper Limit<a href="#popup-seven"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
                         <input type="number" name="bval" required>
                         <p>Invert Range<a href="#popup-eight"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
-                        <input type="checkbox" class="checkbox" value="1" name="inv">
+                        <input type="checkbox" class="checkbox" value="true" name="inv">
 
                         {{else}} <!--Would then have to be a text type -->
                         <p>Text Answer</p>
@@ -150,7 +150,7 @@
 
                     <br>
                     <p>Conjunctive<a href="#popup-nine"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
-                    <input type="checkbox" name="conj" value="1" class="checkbox" checked>
+                    <input type="checkbox" name="conj" value="true" class="checkbox" checked>
                     <input name="nskey" type="hidden" value="{{.O.Pkey}}"><br>
                     <input id="submit_button" value="Submit" type=submit>
                 </form><hr>

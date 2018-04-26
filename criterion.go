@@ -174,9 +174,9 @@ func (o *criterion) Pvalue() string{
                         s = strconv.Itoa(o.aval) + " - " + strconv.Itoa(o.bval)
                     }
             case 2: if o.lval {
-                        s = "No"
-                    }else{
                         s = "Yes"
+                    }else{
+                        s = "No"
                     }
         }
     }
