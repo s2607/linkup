@@ -208,8 +208,6 @@ func qdisp(w http.ResponseWriter, k int64) {
 	err := Sget(q)//TODO: check errors
 	checkErr(err)
 
-
-    //TODO: Check q.type and only accept those answers
     switch q.qtype {
         case 0: //Do nothing as it defaults to text
 		case 1: numAnswer = true
