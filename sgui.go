@@ -57,6 +57,14 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
     title := "Add" //Sets default title to add
     msg := "" //Success message
     anim := "" //to stop animation
+    quesID := "" //used in hidden field of adding a criterion to a question
+
+    //bools to show/hide forms
+    editing := false
+    associateQuestion := false
+    nonemptyCriterion := false
+    addCriterion := false
+
     fmt.Println(r.FormValue("name"))
         if o == nil {
                 outpage("auth.html.tpl",w,map[string]string{"err":"Bad Session"})
@@ -65,8 +73,17 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
 			ns.key,_ = strconv.ParseInt(r.FormValue("nskey"),10,64)
 			Sget(ns)
             title = "Edit"
+            editing = true //allows it to show question/service part of form
 			fmt.Println("editing older service"+ns.name)
 		}else { Init(ns)}
+
+        //shows form to associate questions if that button was clicked
+        if r.FormValue("assoc") == "true" {
+            associateQuestion = true;
+            anim = "animation: none"
+        }
+
+        //creates/updates a service of the top form was clicked
 		if r.FormValue("name") != "" {
 			ns.name=r.FormValue("name")
 			ns.url=r.FormValue("url")
@@ -75,6 +92,14 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
             anim = "animation: none"
 		}
         fmt.Println(ns)
+
+        //Shows add a criterion form
+        if r.FormValue("questionid") != "" {
+            quesID = r.FormValue("questionid")
+            addCriterion = true
+            //TODO: find qtype here and set proper bool to true
+        }
+
         if r.FormValue("qid") !="" {
 			c:= new (criterion)
 			createc(c,r)
@@ -82,6 +107,12 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
             msg = "Criterion Created"
             anim = "animation: none"
 		}
+
+        //if no criteria then hide the remove criteria form
+        if ns.criteria != nil {
+            nonemptyCriterion = true
+        }
+
 		if r.FormValue("nprompt") != "" {
 			q :=new(question)
 			q.key,_=strconv.ParseInt(r.FormValue("nprompt"),10,64)
@@ -104,12 +135,22 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
             Qid string
             A string
             O *service
+            E bool
+            Assoc bool
+            Nec bool
+            QuesID string
+            C bool
         }{
             msg,
             title,
             qid,
             anim,
             ns,
+            editing,
+            associateQuestion,
+            nonemptyCriterion,
+            quesID,
+            addCriterion,
         }
 
 		t.Execute(w,data)
@@ -204,7 +245,7 @@ func delq_handler(w http.ResponseWriter, r *http.Request) {
 	DBchan <- func(DB *sql.DB) func() {
 		stmt,err := DB.Prepare("delete from servicesquestion where okey = ? and ikey = ?")
 		if err != nil { nchan <- err }
-        okey, _ := strconv.Atoi(r.FormValue("okey"))
+        okey, _ := strconv.Atoi(r.FormValue("nskey"))
         ikey, _ := strconv.Atoi(r.FormValue("ikey"))
         _,err = stmt.Exec(okey, ikey)
 		if err != nil { nchan <- err }

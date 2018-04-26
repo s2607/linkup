@@ -10,21 +10,22 @@
 
 #left_container
 {
+    box-sizing: border-box;
     float: left;
     width: 50%;
+    border-right: 1px solid black;
 }
 
 #right_container
 {
-    box-sizing: border-box;
     float: left;
     width: 50%;
-    border-left: 1px solid black;
 }
 
 h3
 {
     text-align: center;
+    color: black;
 }
 
 #qid_form
@@ -38,7 +39,7 @@ h3
     animation-timing-function: ease-in-out;
 }
 
-#submit_button_qid
+#submit_button_qid, #submit_button_assoc
 {
     height: 35px;
     width: 180px;
@@ -49,7 +50,7 @@ h3
     font-size: 15px;
 }
 
-#submit_button_qid:hover
+#submit_button_qid:hover, #submit_button_assoc:hover
 {
     color: #00AFF0;
     background: white;

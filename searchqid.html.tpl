@@ -54,6 +54,7 @@
             <form id="result_form" action="/newserv" method="post">
                 <input name="nqkey" type="hidden" value="{{.Pkey}}">
                 <input name="nskey" type="hidden" value="{{$key}}">
+                <input name="assoc" type="hidden" value="true">
                 <input id="submit_button" value="Add" type=submit>
             </form>
 

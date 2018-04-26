@@ -42,6 +42,8 @@
             <input id="submit_button" value="Submit" type=submit>
         </form>
 
+        {{if .E}} <!-- If editing service show fields -->
+
         <div id="sub_container">
 
             <div id="left_container">
@@ -49,10 +51,7 @@
                     <h2>Questions</h2>
                 </div>
 
-
-                <a href="/newq"><div id="newq">Add A New Question</div></a>
-
-
+                {{if .Assoc}}
                 <form id="form" action="/newserv" style="{{.A}};">
                     <h3>Associate Question To Service<a href="#popup-two"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h3>
                     <p>Question ID</p>
@@ -64,6 +63,15 @@
                         <input name="skey" type="hidden" value="{{.O.Pkey}}">
                         <input id="submit_button_qid" type='submit' value="Search For Question ID">
                 </form>
+                {{else}}
+                <a href="/newq"><div id="newq">Create A New Question</div></a>
+
+                <form id="form" action="/newserv" style="{{.A}}; margin-top: 20px;">
+                    <input type="hidden" name="nskey" value="{{.O.Pkey}}">
+                    <input type="hidden" name="assoc" value="true">
+                    <input type="submit" id="submit_button_assoc" value="Associate A Question">
+                </form>
+                {{end}}
                 <hr>
 
                 <h3>Remove Question From Service<a href="#popup-three"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h3>
@@ -75,8 +83,13 @@
                         <div id="prompt">{{.Pprompt}}</div>
                         <div id="qid">ID: {{.Pkey}}</div>
                         <input name="ikey" type="hidden" value="{{.Pkey}}">
-                        <input name="okey" type="hidden" value="{{$ServiceKey}}">
+                        <input name="nskey" type="hidden" value="{{$ServiceKey}}">
                         <input id="submit_button" value="Remove" type=submit>
+                    </form>
+                    <form id="form" action="/newserv" method="post" style="{{$Animation}}; margin-top: 0px;">
+                        <input name="questionid" value="{{.Pkey}}" type="hidden">
+                        <input name="nskey" type="hidden" value="{{$ServiceKey}}">
+                        <input id="submit_button_assoc" value="Add A Criterion" type="submit">
                     </form>
                     {{end}}
                 </div>
@@ -88,10 +101,10 @@
                     <h2>Eligibility Criteria</h2>
                 </div>
 
+                {{if .C}}
                 <form id="form" action="/newserv" method="post" style="{{.A}};">
-                    <h3>Add Criterion</h3>
-                    <p>Question ID</p>
-                    <input name="qid" value="">
+                    <h3>Add Criterion To Question With ID: {{.QuesID}}</h3>
+                    <input name="qid" value="{{.QuesID}}" type="hidden">
                     <p>Text Answers</p>
                     <input name="regex" spellcheck="true">
                     <p>Lower Limit</p>
@@ -112,7 +125,9 @@
                     <input name="nskey" type="hidden" value="{{.O.Pkey}}"><br>
                     <input id="submit_button" value="Submit" type=submit>
                 </form><hr>
+                {{end}} <!--End .C -->
 
+                {{if .Nec}} <!--if there ARE criterion show this form-->
                 <h3>Remove Criterion From Service</h3>
                 <div class="remove">
                     {{range .O.Pclist}}
@@ -120,12 +135,15 @@
                         ID: {{.Pkey}}
                         <input name="nckey" type="hidden" value="{{.Pkey}}"><br>
                         <input id="submit_button" value="Delete" type=submit>
-                    </form><hr>
+                    </form>
                     {{end}}
                 </div>
+                {{end}}<!--End .Nec -->
             </div><!--End right_container -->
         </div><!--End sub_container -->
     </div><!-- End container-->
+
+    {{end}}<!--End of if .E-->
 
     <!-- Pop up 1 -->
     <div class="popup" id="popup-one" aria-hidden="true">
