@@ -83,8 +83,8 @@
                 <hr>
 
                 {{if .QList}} <!--If there ARE associated questions, show them -->
-                <h3>Remove Question From Service<a href="#popup-three"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h3>
-                <div class="remove">
+                <h3>Question List<a href="#popup-three"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h3>
+                <div id="question_list" class="remove">
                     {{$Animation := .A}}
                     {{$ServiceKey := .O.Pkey}}
                     {{range .O.Pqlist}}
@@ -145,19 +145,19 @@
                         {{else}} <!--Would then have to be a text type -->
                         <p>Text Answer</p>
                         <input name="regex" spellcheck="true" required>
-                        <p>Conjunctive</p>
-                        <input type="checkbox" name="conj" value="1" class="checkbox">
                         {{end}}<!--End .NumQ-->
                     {{end}}<!--End .BoolQ -->
 
                     <br>
+                    <p>Conjunctive<a href="#popup-nine"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
+                    <input type="checkbox" name="conj" value="1" class="checkbox" checked>
                     <input name="nskey" type="hidden" value="{{.O.Pkey}}"><br>
                     <input id="submit_button" value="Submit" type=submit>
                 </form><hr>
                 {{end}} <!--End .C -->
 
                 {{if .Nec}} <!--if there ARE criterion show this form-->
-                <h3>Remove Criterion From Service</h3>
+                <h3>Remove Criterion From Service<a href="#popup-ten"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h3>
                 {{$Animation2 := .A}}
                 <div class="remove">
                     {{range .O.Pclist}}
@@ -217,7 +217,7 @@
     <div class="popup" id="popup-three" aria-hidden="true">
         <div class="popup-dialog">
             <div class="popup-header">
-                <h2>Remove A Question</h2>
+                <h2>Question List</h2>
                 <a href="#close" class="btn-close" aria-hidden="true">×</a>
             </div>
             <div class="popup-body">
@@ -312,6 +312,39 @@
         </div>
     </div>
     <!-- End Pop up 8 -->
+    <!-- Pop up 9 Conjunctive-->
+    <div class="popup" id="popup-nine" aria-hidden="true">
+        <div class="popup-dialog">
+            <div class="popup-header">
+                <h2>Conjunctive</h2>
+                <a href="#close" class="btn-close" aria-hidden="true">×</a>
+            </div>
+            <div class="popup-body">
+                <p class="popup-content">Leave this box checked if this criterion must be met in addition to other criterion. Deselect this box if this criterion must be met OR another criterion must be met.</p><br>
+                <p class="popup-content">Ex: If a person must BOTH be over 18 AND own a car to qualify, leave this box checked for each of those criteria. But, if a person must EITHER be over 18 OR own a car to qualify, uncheck this box. </p><br>
+            </div>
+            <div class="popup-footer">
+                <a href="#close" class="btn">Close</a>
+            </div>
+        </div>
+    </div>
+    <!-- End Pop up 9 -->
+    <!-- Pop up 10 Remove A Criterion-->
+    <div class="popup" id="popup-ten" aria-hidden="true">
+        <div class="popup-dialog">
+            <div class="popup-header">
+                <h2>Remove A Criterion</h2>
+                <a href="#close" class="btn-close" aria-hidden="true">×</a>
+            </div>
+            <div class="popup-body">
+                <p class="popup-content">Click the <b><em>Remove</em></b> button to delete the criterion from its question.</p><br>
+            </div>
+            <div class="popup-footer">
+                <a href="#close" class="btn">Close</a>
+            </div>
+        </div>
+    </div>
+    <!-- End Pop up 10 -->
 
 
 </body>
