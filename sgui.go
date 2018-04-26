@@ -120,8 +120,14 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
             anim = "animation: none"
 		}
 
-        //if remove button was clicked
+        //if remove question button was clicked
         if r.FormValue("ikey") != "" {
+            msg = "Question Removed"
+            anim = "animation: none"
+        }
+
+        //if remove criterion button was clicked
+        if r.FormValue("nckey") != "" {
             msg = "Question Removed"
             anim = "animation: none"
         }
@@ -266,7 +272,7 @@ func delc_handler(w http.ResponseWriter, r *http.Request) {
 	DBchan <- func(DB *sql.DB) func() {
 		stmt,err := DB.Prepare("delete from ?scriterion where ikey = ?")
 		if err != nil { nchan <- err }
-		_,err =stmt.Exec(r.FormValue("composingtype"),r.FormValue("ckey"))
+		_,err =stmt.Exec(r.FormValue("composingtype"),r.FormValue("nckey"))
 		if err != nil { nchan <- err }
 		return func() {
 			nchan <- err
