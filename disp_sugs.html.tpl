@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>LinkUP</title>
-    <link rel="icon" href="../imgs/chevron.png" type="image/x-icon">
+    <link rel="icon" href="../imgs/logo.png" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta charset="UTF-8">
     <meta name="description" content="">

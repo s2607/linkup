@@ -357,7 +357,7 @@ func Ursession_handler(w http.ResponseWriter, r *http.Request) {
 		checkErr(err)
 
 		w.Header().Set("Content-Type", "text/html")
-		w.Write([]byte("<head><title>LinkUP</title> <link rel='icon' href='imgs/chevron.png' type='image/x-icon'> <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed|Nunito+Sans' rel='stylesheet'><link href='css/survey_stylesheet.css' rel='stylesheet'><link href='css/popup_stylesheet.css' rel='stylesheet'></head><body><div id='top_bar'>         <img id='logo' src='imgs/logo.png' alt='LinkUp'><a href='/home'><div id='home_button'>Home</div></a></div><div id='title'><h1>Select A Responder<a href='#popup-one'><img class='popup_icon' src='imgs/popup_icon.png'/></a></h1></div>"))
+		w.Write([]byte("<head><title>LinkUP</title> <link rel='icon' href='imgs/logo.png' type='image/x-icon'> <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed|Nunito+Sans' rel='stylesheet'><link href='css/survey_stylesheet.css' rel='stylesheet'><link href='css/popup_stylesheet.css' rel='stylesheet'></head><body><div id='top_bar'>         <img id='logo' src='imgs/logo.png' alt='LinkUp'><a href='/home'><div id='home_button'>Home</div></a></div><div id='title'><h1>Select A Responder<a href='#popup-one'><img class='popup_icon' src='imgs/popup_icon.png'/></a></h1></div>"))
 
         if rs == nil{
             w.Write([]byte("<div class='responder_entry'>No Matching Entries </div><br>"))
