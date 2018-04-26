@@ -159,12 +159,14 @@
                 {{if .Nec}} <!--if there ARE criterion show this form-->
                 <h3>Remove Criterion From Service<a href="#popup-ten"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h3>
                 {{$Animation2 := .A}}
+                {{$ServiceKey2 := .O.Pkey}}
                 <div class="remove">
                     {{range .O.Pclist}}
                     <form id="form" action="delc" method="post" style="{{$Animation2}};">
                         <div id="criterion">Criterion For Question With ID: {{.Qkey}}</div>
                         <div id="value">Value: {{.Pvalue}}</div>
-                        <input name="nckey" type="hidden" value="{{.Pkey}}"><br>
+                        <input name="nckey" type="hidden" value="{{.Pkey}}">
+                        <input name="nskey" type="hidden" value="{{$ServiceKey2}}"><br>
                         <input id="submit_button" value="Delete" type=submit>
                     </form>
                     {{end}}

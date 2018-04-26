@@ -120,6 +120,12 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
             anim = "animation: none"
 		}
 
+        //if remove button was clicked
+        if r.FormValue("ikey") != "" {
+            msg = "Question Removed"
+            anim = "animation: none"
+        }
+
         //if there ARE criteria then show the remove criteria form
         if ns.criteria != nil {
             nonemptyCriterion = true
@@ -267,6 +273,9 @@ func delc_handler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	checkErr(<-nchan)
+
+    //go to addserv page again
+    servicecreate_handler(w,r)
 }
 func delq_handler(w http.ResponseWriter, r *http.Request) {
 	nchan := make (chan error)
@@ -282,6 +291,9 @@ func delq_handler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	checkErr(<-nchan)
+
+    //go to addserv page again
+    servicecreate_handler(w,r)
 }
 
 //search
