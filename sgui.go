@@ -53,11 +53,11 @@ func opcreate_handler(w http.ResponseWriter, r *http.Request) {
 func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
         o := curop(r)
 	ns := new(service)
+    q := new(question)
     qid := r.FormValue("nqkey") //gets qid to put in nprompt when add is clicked on searchqid
     title := "Add" //Sets default title to add
     msg := "" //Success message
     anim := "" //to stop animation
-    quesID := "" //used in hidden field of adding a criterion to a question
 
     //bools to show/hide forms
     editing := false
@@ -98,13 +98,12 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
 
         //Shows add a criterion form
         if r.FormValue("questionid") != "" {
-            quesID = r.FormValue("questionid")
+
             anim = "animation: none"
             addCriterion = true
 
             //get question and output the specific form for its type
-            q :=new(question)
-			q.key,_=strconv.ParseInt(quesID,10,64)
+			q.key,_=strconv.ParseInt(r.FormValue("questionid"),10,64)
 			Sget(q)
             switch q.qtype {
                 case 0: //Do nothing as form will default to text
@@ -128,7 +127,6 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
 
         //if associating a question to the service, add it to the services qlist
 		if r.FormValue("nprompt") != "" {
-			q :=new(question)
 			q.key,_=strconv.ParseInt(r.FormValue("nprompt"),10,64)
 			Sget(q)
 			//q :=Get1q(r.FormValue("nprompt"))
@@ -158,7 +156,7 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
             E bool
             Assoc bool
             Nec bool
-            QuesID string
+            Q *question
             C bool
             QList bool
             NumQ bool
@@ -172,7 +170,7 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
             editing,
             associateQuestion,
             nonemptyCriterion,
-            quesID,
+            q,
             addCriterion,
             nonemptyQList,
             numQ,
@@ -250,6 +248,10 @@ func createc(nc *criterion,r *http.Request)error{
 		nc.isnl=ist(r.FormValue("isnil"))
 		nc.inv=ist(r.FormValue("inv"))
 		nc.conj=ist(r.FormValue("conj"))
+        q := new (question)
+        q.key,_ = strconv.ParseInt(r.FormValue("qid"),10,64)
+        Sget(q)
+        nc.q = q
 		return nil
 }
 
