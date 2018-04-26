@@ -34,7 +34,7 @@
         <div id="right_container">
 
             <div id="login_container">
-                <h1 id="title">Login</h1>
+                <h1 id="title">LinkUP</h1>
 		<div id="error" style="color:red;"> {{.err}} </div>
                 <form id="login" action="/auth" method="post">
                     <p id="text_username">Username</p>
