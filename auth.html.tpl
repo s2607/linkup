@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>LinkUp</title>
-    <link rel="icon" href="imgs/chevron.png" type="image/x-icon">
+    <title>LinkUP</title>
+    <link rel="icon" href="imgs/logo.png" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta charset="UTF-8">
     <meta name="description" content="LinkUp">
@@ -26,7 +26,6 @@
             <div id="logo_container">
 
                 <img id="logo" src="imgs/logo.png" alt="LinkUp"/>
-                <div id="slogan">Linking up the world of charities to the world in need</div>
 
             </div>
 
