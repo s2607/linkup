@@ -44,6 +44,14 @@
 
         {{if .E}} <!-- If editing service show editing fields -->
 
+        <!-- Make single column layout appear -->
+        <style>
+            #left_container
+            {
+                width: 100%;
+            }
+        </style>
+
         <div id="sub_container">
 
             <div id="left_container">
@@ -97,6 +105,16 @@
                 {{end}}<!--End .Qlist -->
 
             </div><!--End left_container-->
+
+            {{if or .C .Nec}}
+            <!-- Make two column layout appear -->
+            <style>
+                #left_container
+                {
+                    width: 50%;
+                }
+            </style>
+
             <div id="right_container">
 
                 <div id="title" style="{{.A}};">
@@ -153,6 +171,7 @@
                 </div>
                 {{end}}<!--End .Nec -->
             </div><!--End right_container -->
+            {{end}} <!--End or .C .Nec -->
         </div><!--End sub_container -->
         {{end}}<!--End of if .E-->
     </div><!-- End container-->
