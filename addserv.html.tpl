@@ -42,13 +42,13 @@
             <input id="submit_button" value="Submit" type=submit>
         </form>
 
-        {{if .E}} <!-- If editing service show fields -->
+        {{if .E}} <!-- If editing service show editing fields -->
 
         <div id="sub_container">
 
             <div id="left_container">
                 <div id="title" style="{{.A}};">
-                    <h2>Questions</h2>
+                    <h2>Questions<a href="#popup-four"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h2>
                 </div>
 
                 {{if .Assoc}}
@@ -74,6 +74,7 @@
                 {{end}}
                 <hr>
 
+                {{if .QList}} <!--If there ARE associated questions, show them -->
                 <h3>Remove Question From Service<a href="#popup-three"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h3>
                 <div class="remove">
                     {{$Animation := .A}}
@@ -93,6 +94,7 @@
                     </form>
                     {{end}}
                 </div>
+                {{end}}<!--End .Qlist -->
 
             </div><!--End left_container-->
             <div id="right_container">
@@ -101,27 +103,35 @@
                     <h2>Eligibility Criteria</h2>
                 </div>
 
-                {{if .C}}
+                {{if .C}}<!--Shows adding criterion form if "Add A Criterion" button clicked -->
                 <form id="form" action="/newserv" method="post" style="{{.A}};">
                     <h3>Add Criterion To Question With ID: {{.QuesID}}</h3>
                     <input name="qid" value="{{.QuesID}}" type="hidden">
-                    <p>Text Answers</p>
-                    <input name="regex" spellcheck="true">
-                    <p>Lower Limit</p>
-                    <input type="number" name="aval">
-                    <p>Upper Limit</p>
-                    <input type="number" name="bval">
-                    <p>Invert Range</p>
-                    <input type="checkbox" class="checkbox" value="1" name="inv">
-                    <p>Yes/No Questions <br><select name="lval">
+
+                    {{if .BoolQ}} <!-- if yes/no question -->
+                    <p>Yes/No Question <br><select name="lval" required>
                         <option></option>
                         <option value="1">Yes</option>
                         <option value="0">No</option>
-                    </select></p><br>
-                    <p>Conjunctive</p>
-                    <input type="checkbox" name="conj" value="1" class="checkbox">
-                    <p>isnil:</p>
-                    <input type="checkbox" value="1" class="checkbox" name="isnil">
+                    </select></p>
+                    {{else}}
+                        {{if .NumQ}} <!-- if number type -->
+                        <p>Lower Limit</p>
+                        <input type="number" name="aval" required>
+                        <p>Upper Limit</p>
+                        <input type="number" name="bval" required>
+                        <p>Invert Range</p>
+                        <input type="checkbox" class="checkbox" value="1" name="inv">
+
+                        {{else}} <!--Would then have to be a text type -->
+                        <p>Text Answer</p>
+                        <input name="regex" spellcheck="true" required>
+                        <p>Conjunctive</p>
+                        <input type="checkbox" name="conj" value="1" class="checkbox">
+                        {{end}}<!--End .NumQ-->
+                    {{end}}<!--End .BoolQ -->
+
+                    <br>
                     <input name="nskey" type="hidden" value="{{.O.Pkey}}"><br>
                     <input id="submit_button" value="Submit" type=submit>
                 </form><hr>
@@ -129,9 +139,10 @@
 
                 {{if .Nec}} <!--if there ARE criterion show this form-->
                 <h3>Remove Criterion From Service</h3>
+                {{$Animation2 := .A}}
                 <div class="remove">
                     {{range .O.Pclist}}
-                    <form id="form" action="delc" method="post" style="{{$Animation}};">
+                    <form id="form" action="delc" method="post" style="{{$Animation2}};">
                         ID: {{.Pkey}}
                         <input name="nckey" type="hidden" value="{{.Pkey}}"><br>
                         <input id="submit_button" value="Delete" type=submit>
@@ -141,11 +152,12 @@
                 {{end}}<!--End .Nec -->
             </div><!--End right_container -->
         </div><!--End sub_container -->
+        {{end}}<!--End of if .E-->
     </div><!-- End container-->
 
-    {{end}}<!--End of if .E-->
 
-    <!-- Pop up 1 -->
+
+    <!-- Pop up 1 Add/Edit Service-->
     <div class="popup" id="popup-one" aria-hidden="true">
         <div class="popup-dialog">
             <div class="popup-header">
@@ -161,7 +173,7 @@
         </div>
     </div>
     <!-- End Pop up 1 -->
-    <!-- Pop up 2 -->
+    <!-- Pop up 2 Associate Question-->
     <div class="popup" id="popup-two" aria-hidden="true">
         <div class="popup-dialog">
             <div class="popup-header">
@@ -180,7 +192,7 @@
         </div>
     </div>
     <!-- End Pop up 2 -->
-    <!-- Pop up 3 -->
+    <!-- Pop up 3 Remove A Question-->
     <div class="popup" id="popup-three" aria-hidden="true">
         <div class="popup-dialog">
             <div class="popup-header">
@@ -188,14 +200,33 @@
                 <a href="#close" class="btn-close" aria-hidden="true">×</a>
             </div>
             <div class="popup-body">
-                <p class="popup-content">Click the Remove button to unassociate the question with this service.</p>
+                <p class="popup-content">Click the <b><em>Remove</em></b> button to unassociate the question with this service.</p><br>
+                <p class="popup-content">Click the <b><em>Add A Criterion</em></b> button to create the criteria for this question in order to qualify for this service.</p>
             </div>
             <div class="popup-footer">
                 <a href="#close" class="btn">Close</a>
             </div>
         </div>
     </div>
-    <!-- End Pop up 2 -->
+    <!-- End Pop up 3 -->
+    <!-- Pop up 4 Questions-->
+    <div class="popup" id="popup-four" aria-hidden="true">
+        <div class="popup-dialog">
+            <div class="popup-header">
+                <h2>Questions</h2>
+                <a href="#close" class="btn-close" aria-hidden="true">×</a>
+            </div>
+            <div class="popup-body">
+                <p class="popup-content">Click the <b><em>Create A New Question</em></b> button to add a brand new question to the system. You then must go back and search for your service to return here.</p><br>
+                <p class="popup-content">Click the <b><em>Associate A Question</em></b> button to associate an existing question to this service.</p>
+            </div>
+            <div class="popup-footer">
+                <a href="#close" class="btn">Close</a>
+            </div>
+        </div>
+    </div>
+    <!-- End Pop up 4 -->
+
 
 </body>
 </html>

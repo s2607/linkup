@@ -64,6 +64,9 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
     associateQuestion := false
     nonemptyCriterion := false
     addCriterion := false
+    nonemptyQList := false
+    numQ := false
+    boolQ := false
 
     fmt.Println(r.FormValue("name"))
         if o == nil {
@@ -96,8 +99,18 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
         //Shows add a criterion form
         if r.FormValue("questionid") != "" {
             quesID = r.FormValue("questionid")
+            anim = "animation: none"
             addCriterion = true
-            //TODO: find qtype here and set proper bool to true
+
+            //get question and output the specific form for its type
+            q :=new(question)
+			q.key,_=strconv.ParseInt(quesID,10,64)
+			Sget(q)
+            switch q.qtype {
+                case 0: //Do nothing as form will default to text
+		        case 1: numQ = true
+                case 2: boolQ = true
+            }
         }
 
         if r.FormValue("qid") !="" {
@@ -108,11 +121,12 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
             anim = "animation: none"
 		}
 
-        //if no criteria then hide the remove criteria form
+        //if there ARE criteria then show the remove criteria form
         if ns.criteria != nil {
             nonemptyCriterion = true
         }
 
+        //if associating a question to the service, add it to the services qlist
 		if r.FormValue("nprompt") != "" {
 			q :=new(question)
 			q.key,_=strconv.ParseInt(r.FormValue("nprompt"),10,64)
@@ -124,6 +138,12 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
             msg = "Question Associated"
             anim = "animation: none"
 		}
+
+        //if services qlist is not empty, show the remove question form
+        if ns.qlist != nil {
+            nonemptyQList = true
+        }
+
 		if ns.key != 0 {
             Sstore(ns)
         }
@@ -140,6 +160,9 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
             Nec bool
             QuesID string
             C bool
+            QList bool
+            NumQ bool
+            BoolQ bool
         }{
             msg,
             title,
@@ -151,6 +174,9 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
             nonemptyCriterion,
             quesID,
             addCriterion,
+            nonemptyQList,
+            numQ,
+            boolQ,
         }
 
 		t.Execute(w,data)
