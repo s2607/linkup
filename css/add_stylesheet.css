@@ -63,7 +63,7 @@ h3
     font-size: 15px;
 }
 
-#prompt
+#prompt, #criterion
 {
     font-size: 20px;
 }

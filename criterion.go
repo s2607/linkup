@@ -154,6 +154,36 @@ func (o *criterion) Pkey() int64{
 func (o *criterion) Zkey(){
 	o.key=0
 }
+func (o *criterion) Qkey() int64{
+    if o.q == nil {
+        return 0
+    }else{
+        return o.q.key
+    }
+}
+func (o *criterion) Pvalue() string{
+    s := ""
+    if o.q == nil {
+        //do nothing to return empty string
+    }else{
+        switch o.q.qtype {
+            case 0: s = o.regex
+            case 1: if o.inv {
+                    s = "Less Than " + strconv.Itoa(o.aval) + " And Greater Than " + strconv.Itoa(o.bval)
+                    }else{
+                        s = strconv.Itoa(o.aval) + " - " + strconv.Itoa(o.bval)
+                    }
+            case 2: if o.lval {
+                        s = "No"
+                    }else{
+                        s = "Yes"
+                    }
+        }
+    }
+
+    return s
+}
+
 //DB Sync stuff
 func (o *criterion) Wait() {//NOTE: multiple threads cannot use this on the same object
 	fmt.Println("waiting...")

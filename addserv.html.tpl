@@ -105,8 +105,9 @@
 
                 {{if .C}}<!--Shows adding criterion form if "Add A Criterion" button clicked -->
                 <form id="form" action="/newserv" method="post" style="{{.A}};">
-                    <h3>Add Criterion To Question With ID: {{.QuesID}}</h3>
-                    <input name="qid" value="{{.QuesID}}" type="hidden">
+                    <h3>Add Criterion To Question: <br>
+                        {{.Q.Pprompt}}</h3>
+                    <input name="qid" value="{{.Q.Pkey}}" type="hidden">
 
                     {{if .BoolQ}} <!-- if yes/no question -->
                     <p>Yes/No Question <br><select name="lval" required>
@@ -143,7 +144,8 @@
                 <div class="remove">
                     {{range .O.Pclist}}
                     <form id="form" action="delc" method="post" style="{{$Animation2}};">
-                        ID: {{.Pkey}}
+                        <div id="criterion">Criterion For Question With ID: {{.Qkey}}</div>
+                        <div id="value">Value: {{.Pvalue}}</div>
                         <input name="nckey" type="hidden" value="{{.Pkey}}"><br>
                         <input id="submit_button" value="Delete" type=submit>
                     </form>
