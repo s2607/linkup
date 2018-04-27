@@ -388,14 +388,12 @@ func Ursession_handler(w http.ResponseWriter, r *http.Request) {
 			o.cresp.dob,_=strconv.Atoi(r.FormValue("dob"))
 			o.cresp.zip=r.FormValue("zip")
 			Sstore(o)
-			w.Header().Set("Content-Type", "text/html")
-			w.Write([]byte("<body>New responder created!<a href=\"/qprompt\">Answer questions</a></body>\n"))
+            qprompt_handler(w,r) //NOTE: this works because /newr has a length shorter than 9
         }else {
             o.cresp.key,_ = strconv.ParseInt(r.FormValue("rkey"),10,64)
 			Sget(o.cresp)
 			Sstore(o)//TODO:check errors
-			w.Header().Set("Content-Type", "text/html")
-			w.Write([]byte("<body>Responder Selected<a href=\"/qprompt\">Answer questions</a></body>\n"))
+			qprompt_handler(w,r) //NOTE: this works because /newr has a length shorter than 9
 
 	}
     }
@@ -571,8 +569,8 @@ func checkDOBInput(s string) bool{
     }
 
 
-    //Make sure year is less than current year
-    if year < 1850 || year > time.Now().Year() {
+    //Make sure year is less than current year and within 150 years
+    if year < (time.Now().Year() - 150) || year > time.Now().Year() {
         return false
     }
 
