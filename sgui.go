@@ -80,9 +80,21 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
 			fmt.Println("editing older service"+ns.name)
 		}else { Init(ns)}
 
+        //if coming back from question set the message and put id in associate question box
+        if r.FormValue("nqkey") != "" {
+            msg = "Question Created With ID: " + r.FormValue("nqkey")
+            qid = r.FormValue("nqkey")
+            associateQuestion = true
+        }
+
+        //takes to page to create new question if that button was clicked
+        if r.FormValue("createq") == "true" {
+            questioncreate_handler(w,r)
+        }
+
         //shows form to associate questions if that button was clicked
         if r.FormValue("assoc") == "true" {
-            associateQuestion = true;
+            associateQuestion = true
             anim = "animation: none"
         }
 
@@ -108,7 +120,7 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
             switch q.qtype {
                 case 0: //Do nothing as form will default to text
 		        case 1: numQ = true
-                case 2: boolQ = true
+            case 2: boolQ = true
             }
         }
 
@@ -142,7 +154,7 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
 			q.key,_=strconv.ParseInt(r.FormValue("nprompt"),10,64)
 			Sget(q)
 			//q :=Get1q(r.FormValue("nprompt"))
-			if q != nil {
+			if q != nil && q.key != 0 {
 				ns.qlist= append(ns.qlist,*q)
 			}
             msg = "Question Associated"
@@ -199,10 +211,15 @@ func cquestion(nq *question, r *http.Request) {
 }
 func questioncreate_handler(w http.ResponseWriter, r *http.Request) {
         o := curop(r)
-	nq := new(question)
-    msg := ""
-    anim := ""
-    title := "Add"
+	   nq := new(question)
+        msg := ""
+        anim := ""
+        title := "Add"
+        servKey := r.FormValue("nskey") //used to send back to editing service if came from there
+
+        //bools to show/hide forms
+        editing := false
+
         if o == nil {
                 outpage("auth.html.tpl",w,map[string]string{"err":"Bad Session"})
         } else {
@@ -211,13 +228,29 @@ func questioncreate_handler(w http.ResponseWriter, r *http.Request) {
 			nq.key,_ = strconv.ParseInt(r.FormValue("nqkey"),10,64)
 			Sget(nq)
             title = "Edit"
-		}else { Init(nq)}
+            editing = true
+
+		}else {
+            Init(nq)
+        }
 
         if r.FormValue("prompt") != "" {
             cquestion(nq,r)
-            msg = "Question Created With ID: " + strconv.FormatInt(nq.key, 10)
+
+            if r.FormValue("editing") == "Edit" {
+                msg = "Question Updated"
+            }else{
+                msg = "Question Created With ID: " + strconv.FormatInt(nq.key, 10)
+            }
+
             anim = "animation: none"
             title = "Edit"
+            //If they came directly from selecting a service, go back to it
+            if r.FormValue("nskey") != ""{
+                Sstore(nq)
+                servicecreate_handler(w,r)
+                return
+            }
         }
 		if r.FormValue("inv") !="" {
 			c:= new (criterion)
@@ -239,11 +272,15 @@ func questioncreate_handler(w http.ResponseWriter, r *http.Request) {
             M string
             O *question
             T string
+            S string
+            E bool
         }{
             anim,
             msg,
             nq,
             title,
+            servKey,
+            editing,
         }
 
 	   t.Execute(w,data)

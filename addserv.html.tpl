@@ -59,7 +59,13 @@
                     <h2>Questions<a href="#popup-four"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h2>
                 </div>
 
-                {{if .Assoc}}
+                {{if .Assoc}}<!--Show associate a question form if button clicked -->
+                <!--Scrolls 1/3 of the way down page to be at top of this form -->
+                <script>
+                    window.onload = function(){
+                        window.scrollTo(0, document.getElementById("sub_container").offsetTop);
+                    }
+                </script>
                 <form id="form" action="/newserv" style="{{.A}};">
                     <h3>Associate Question To Service<a href="#popup-two"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h3>
                     <p>Question ID</p>
@@ -72,7 +78,11 @@
                         <input id="submit_button_qid" type='submit' value="Search For Question ID">
                 </form>
                 {{else}}
-                <a href="/newq"><div id="newq">Create A New Question</div></a>
+                <form id="form" action="/newserv" style="{{.A}}; margin-top: 20px;">
+                    <input type="hidden" name="nskey" value="{{.O.Pkey}}">
+                    <input type="hidden" name="createq" value="true">
+                    <input type="submit" id="submit_button_newq" value="Create A New Question">
+                </form>
 
                 <form id="form" action="/newserv" style="{{.A}}; margin-top: 20px;">
                     <input type="hidden" name="nskey" value="{{.O.Pkey}}">
@@ -122,6 +132,12 @@
                 </div>
 
                 {{if .C}}<!--Shows adding criterion form if "Add A Criterion" button clicked -->
+                <!--Scrolls 1/3 of the way down page to be at top of this form -->
+                <script>
+                     window.onload = function(){
+                        window.scrollTo(0, document.getElementById("sub_container").offsetTop);
+                    }
+                </script>
                 <form id="form" action="/newserv" method="post" style="{{.A}};">
                     <h3>Add Criterion To Question: <br>
                         {{.Q.Pprompt}}<a href="#popup-five"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h3>
@@ -167,7 +183,7 @@
                         <div id="value">Value: {{.Pvalue}}</div>
                         <input name="nckey" type="hidden" value="{{.Pkey}}">
                         <input name="nskey" type="hidden" value="{{$ServiceKey2}}"><br>
-                        <input id="submit_button" value="Delete" type=submit>
+                        <input id="submit_button" value="Remove" type=submit>
                     </form>
                     {{end}}
                 </div>

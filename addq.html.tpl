@@ -30,7 +30,6 @@
         <div id="succ_msg">{{.M}}</div>
 
         <form id="form" action="/newq" method="post" style="{{.A}};">
-            <!--TODO:oldvals-->
             <p>Question Prompt</p>
             <input name="prompt" value="{{.O.Pprompt}}" spellcheck="true" required>
             <p>Answer Type </p>
@@ -40,9 +39,14 @@
                 <option value="1">Number</option>
                 <option value="2">Yes/No</option>
             </select>
-            <br>
+            <input name="nskey" type="hidden" value="{{.S}}">
+            <input name="nqkey" type="hidden" value="{{.O.Pkey}}">
+            <!-- The last input (with name editing) is only used for deciding which message to display by what the title is -->
+            <input name="editing" type="hidden" value="{{.T}}"><br>
             <input id="submit_button" value="Submit" type=submit>
         </form><hr>
+
+        {{if .E}}<!-- Show if editing a question -->
 
         <div id="title" style="{{.A}};">
             <h2>Validation Criteria</h2>
@@ -60,13 +64,7 @@
                 <option></option>
                 <option value="1">Yes</option>
                 <option value="0">No</option>
-            </select></p><br>
-            <p>isnil:</p>
-            <input type="checkbox" value="1" class="checkbox" name="isnil">
-            <p>Invert</p>
-            <input type="checkbox" class="checkbox" value="1" name="inv">
-            <p>Conjunctive</p>
-            <input type="checkbox" name="conj" value="1" class="checkbox">
+            </select></p>
             <input type="hidden" name="nqkey" value="{{.O.Pkey}}"><br>
             <input id="submit_button" value="Submit" type=submit>
         </form>
@@ -84,6 +82,7 @@
         </form><hr>
         {{end}}
 
+        {{end}}<!--End .E -->
 
 
     </div>
