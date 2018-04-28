@@ -194,10 +194,11 @@ func qlist(w http.ResponseWriter, r *http.Request, path string){
 	err = t.Execute(w,q)
 	checkErr(err)*/
 }
-func qdisp(w http.ResponseWriter, k int64) {
+func qdisp(w http.ResponseWriter, k int64, msg string) {
 	q := new(question)
     numAnswer := false
     boolAnswer := false
+    anim := ""
 
 	q.key = k
 	err := Sget(q)//TODO: check errors
@@ -209,16 +210,25 @@ func qdisp(w http.ResponseWriter, k int64) {
         case 2: boolAnswer = true
     }
 
+    //if there was an error message, stop animations
+    if msg != ""{
+        anim = "animation: none"
+    }
+
     t := template.Must(template.ParseFiles("disp_question.html.tpl"))
 
     data := struct{
         Q *question
         N bool
         B bool
+        M string
+        A string
     }{
         q,
         numAnswer,
         boolAnswer,
+        msg,
+        anim,
     }
 
 	err = t.Execute(w,data)
@@ -239,7 +249,7 @@ func qanswer(k int64, s string, ur *responder) error {//TODO: error checking thi
 		return nil
 	}
 	fmt.Println("validate fail")
-	return errors.New("bad input data")
+	return errors.New("Invalid Response")
 }
 func showsug(w http.ResponseWriter, r responder){
 	/*t,err := template.New("dispt").Parse(`
@@ -446,12 +456,13 @@ func qprompt_handler(w http.ResponseWriter, r *http.Request) {
 
 		}else {
 			if r.FormValue("qanswer") == "" {
-				qdisp(w,k)
+				qdisp(w,k,"")
 			}else {
 				err := qanswer(k,r.FormValue("qanswer"),o.cresp)
 				if  err != nil {
-					w.Header().Set("Content-Type", "text/html")
-					w.Write([]byte("<body>Failed "+err.Error()+"</body>\n"))
+					/*w.Header().Set("Content-Type", "text/html")
+					w.Write([]byte("<body>Failed "+err.Error()+"</body>\n"))*/
+                    qdisp(w,k, err.Error())
 				}else {
 					err := Sstore(o)
 					checkErr(err)

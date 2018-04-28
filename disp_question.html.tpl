@@ -22,12 +22,14 @@
             <a href="/home"><div id="home_button">Home</div></a>
         </div>
 
-        <div id="title">
+        <div id="title" style="{{.A}};">
             <h1>Answer Question</h1>
         </div>
 
+        <div id="error_msg">{{.M}}</div>
+
         {{if .B}}
-        <form id="form" method="post">
+        <form id="form" method="post" style="{{.A}};">
             <div>{{.Q.Pprompt}}</div>
             <br>
             <select style="width: 75px;" name="qanswer" required>
@@ -40,7 +42,7 @@
         </form>
         {{else}}
         {{if .N}}
-        <form id="form" method="post">
+        <form id="form" method="post" style="{{.A}};">
             <div>{{.Q.Pprompt}}</div>
             <br>
             <input name="qanswer" type="number" value="" spellcheck="true" required>
@@ -48,7 +50,7 @@
             <input id="submit_button" type=submit value="Submit">
         </form>
         {{else}}
-        <form id="form" method="post">
+        <form id="form" method="post" style="{{.A}};">
             <div>{{.Q.Pprompt}}</div>
             <br>
             <input name="qanswer" type="text" value="" spellcheck="true" required>

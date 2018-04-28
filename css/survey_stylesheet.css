@@ -269,6 +269,12 @@ textarea:focus
     color: green;
 }
 
+#error_msg
+{
+    text-align: center;
+    color: red;
+}
+
 hr
 {
     width: 70%;
