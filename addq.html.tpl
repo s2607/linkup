@@ -13,6 +13,7 @@
 
     <!-- Stylesheet -->
     <link href="css/survey_stylesheet.css" rel="stylesheet">
+    <link href="css/add_stylesheet.css" rel="stylesheet">
 
 </head>
 <body>
@@ -54,24 +55,19 @@
             <!-- The last input (with name editing) is only used for deciding which message to display by what the title is -->
             <input name="editing" type="hidden" value="{{.T}}"><br>
             <input id="submit_button" value="Submit" type=submit>
-        </form><hr>
+        </form>
 
         {{if .E}}<!-- Show if editing a question -->
 
+        {{if not .B}}<!-- If its a bool, there is no adding criteria option -->
+        <hr>
         <div id="title" style="{{.A}};">
             <h2>Validation Criteria</h2>
         </div>
 
         <form id="form" action="/newq" method="post" style="{{.A}};">
             <h3>Add Possible Answer</h3>
-            {{if .B}}
-            <p>Yes/No Questions <br><select name="lval">
-                <option></option>
-                <option value="true">Yes</option>
-                <option value="false">No</option>
-            </select></p>
-            {{else}}
-                {{if .N}}
+            {{if .N}}
                 <p>Lower Limit</p>
                 <input type="number" name="aval" required>
                 <p>Upper Limit</p>
@@ -85,8 +81,8 @@
                 {{else}}
                 <p>Text Answers</p>
                 <input name="regex" spellcheck="true">
-                {{end}}
             {{end}}
+
 
             <br>
             <p>Conjunctive</p>
@@ -96,6 +92,9 @@
             <input type="hidden" name="nqkey" value="{{.O.Pkey}}"><br>
             <input id="submit_button" value="Submit" type=submit>
         </form>
+
+
+        {{if .CList}}
         <hr>
 
         <div id="title" style="{{.A}}">
@@ -114,7 +113,11 @@
            <input name="nckey" type="hidden" value="{{.Pkey}}"><br>
            <input id="submit_button" value="Delete" type="submit">
         </form><hr>
-        {{end}}
+        {{end}}<!-- End Range -->
+
+        {{end}}<!-- End .CList -->
+
+        {{end}}<!-- End .B -->
 
         {{end}}<!--End .E -->
 

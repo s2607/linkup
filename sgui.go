@@ -223,6 +223,7 @@ func questioncreate_handler(w http.ResponseWriter, r *http.Request) {
         editing := false
         numQ := false
         boolQ := false
+        nonEmptyCriterion := false
 
         if o == nil {
                 outpage("auth.html.tpl",w,map[string]string{"err":"Bad Session"})
@@ -280,6 +281,10 @@ func questioncreate_handler(w http.ResponseWriter, r *http.Request) {
             }
 		}
 
+        if nq.clist != nil {
+            nonEmptyCriterion = true
+        }
+
         if r.FormValue("nckey") != "" {
             msg = "Criterion Removed"
             anim = "animation: none"
@@ -304,6 +309,7 @@ func questioncreate_handler(w http.ResponseWriter, r *http.Request) {
             Back bool
             N bool
             B bool
+            CList bool
         }{
             anim,
             msg,
@@ -314,6 +320,7 @@ func questioncreate_handler(w http.ResponseWriter, r *http.Request) {
             backToServe,
             numQ,
             boolQ,
+            nonEmptyCriterion,
         }
 
 	   t.Execute(w,data)
