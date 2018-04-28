@@ -6,24 +6,28 @@ import (
     "database/sql"
     "errors"
     "regexp"
+    "strings"
 )
 
 type criterion struct {
 	key int64
-	aval int
-	bval int
+	aval float64
+	bval float64
 	regex string
 	lval bool
 	isnl bool
 	inv bool//not redundant.
 	conj bool
+    allowreal bool
+    allowneg bool
 	q *question
 	nchan chan bool
 }
 
 func (o *criterion) checkstr(v string) bool{
+    v = strings.ToLower(v)
 	fmt.Println("check str:"+v+" "+o.regex)
-	regex,_ := regexp.Compile(o.regex)
+	regex,_ := regexp.Compile(strings.ToLower(o.regex))
 	//return o.checkbool(v==o.regex)//regex sans the +,*and () operators
 	return o.checkbool(regex.MatchString(v))
 }
@@ -31,7 +35,9 @@ func (o *criterion) checkint(x string) bool{
 	fmt.Print("check int:"+x+" ")
 	fmt.Print(o.aval)
 	fmt.Println(o.bval)
-	v,err := strconv.Atoi(x)
+    v,err := strconv.ParseFloat(x,64)
+    if !o.allowneg && v<=0 {return o.checkbool(false)}
+	if !o.allowreal && v!=float64(int64(v)) {return o.checkbool(false)}
 	if err != nil { return o.checkbool(false)}
 	return o.checkbool(v>o.aval&&v<o.bval)
 }
@@ -169,9 +175,9 @@ func (o *criterion) Pvalue() string{
         switch o.q.qtype {
             case 0: s = o.regex
             case 1: if o.inv {
-                    s = "Less Than " + strconv.Itoa(o.aval) + " And Greater Than " + strconv.Itoa(o.bval)
+                    s = "Less Than " +  strconv.FormatFloat(o.aval, 'f', 0, 64) + " And Greater Than " + strconv.FormatFloat(o.bval, 'f', 0, 64)
                     }else{
-                        s = strconv.Itoa(o.aval) + " - " + strconv.Itoa(o.bval)
+                        s =  strconv.FormatFloat(o.aval, 'f', 0, 64) + " - " + strconv.FormatFloat(o.bval, 'f', 0, 64)
                     }
             case 2: if o.lval {
                         s = "Yes"

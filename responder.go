@@ -11,7 +11,7 @@ type responder struct {
 	responses []*response
 	fname string
 	lname string
-	dob int//TODO: time
+	dob string
 	zip string
 	suggestions []service
 	nchan chan bool
@@ -36,7 +36,7 @@ func (r *responder) update_suggestions() error {
 }
 
 //DB stuff
-func Getallmatch (fname string,lname string,dob int,zip string) (error, []*responder){
+func Getallmatch (fname string,lname string,dob string,zip string) (error, []*responder){
 	nchan := make(chan error)
 	var r []*responder
 	DBchan <- func(Db *sql.DB)func() {

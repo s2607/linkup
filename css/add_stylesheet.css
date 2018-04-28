@@ -40,7 +40,7 @@ h3
     animation-timing-function: ease-in-out;
 }
 
-#submit_button_qid, #submit_button_assoc, #submit_button_newq
+#submit_button_qid, #submit_button_assoc, #submit_button_newq, #submit_button_serv
 {
     height: 35px;
     width: 180px;
@@ -51,7 +51,7 @@ h3
     font-size: 15px;
 }
 
-#submit_button_qid:hover, #submit_button_assoc:hover, #submit_button_newq:hover
+#submit_button_qid:hover, #submit_button_assoc:hover, #submit_button_newq:hover, #submit_button_serv:hover
 {
     color: #00AFF0;
     background: white;

@@ -39,6 +39,7 @@ func main() {//main always feels ugly and hacky
 	http.HandleFunc("/newserv", servicecreate_handler)
 	http.HandleFunc("/newq", questioncreate_handler)
 	http.HandleFunc("/delc", delc_handler)
+    http.HandleFunc("/delqc", delqc_handler)
 	http.HandleFunc("/delq", delq_handler)
 	http.HandleFunc("/searchq", searchq_handler)
 	http.HandleFunc("/searchs", searchs_handler)

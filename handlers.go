@@ -79,8 +79,7 @@ func initdb () *sql.DB{
 		"lname":"string",
 		"zip":"string",
 		"pwhash":"string",
-		"dob":"int",//TODO: time
-		//"iqkey":"int",//???
+		"dob":"string",
 	})
 	mktab(d,"response",map[string]string{
 		"key":"int",
@@ -128,11 +127,6 @@ func initdb () *sql.DB{
     mktab(d,"servicescriterion",map[string]string{
 		"okey":"int",
 		"ikey":"int",
-	})
-	mktab(d,"servicesquestioncriterion",map[string]string{
-		"okey":"int",
-		"iqkey":"int",
-		"ickey":"int",
 	})
 	return d
 }
@@ -235,7 +229,7 @@ func qanswer(k int64, s string, ur *responder) error {//TODO: error checking thi
 	q.key = k
 	err := Sget(q)//TODO: check errors
 	checkErr(err)
-	r:=q.New_response()
+	r:=q.New_response(ur)
 	r.value=s//TODO:validate
 	ur.responses=append(ur.responses,r)
 	return nil
@@ -352,8 +346,7 @@ func Ursession_handler(w http.ResponseWriter, r *http.Request) {
             return
         }
 
-        dob,_:=strconv.Atoi(r.FormValue("dob"))
-		err,rs :=Getallmatch(r.FormValue("fname"),r.FormValue("lname"),dob,r.FormValue("zip"))
+        err,rs := Getallmatch(r.FormValue("fname"),r.FormValue("lname"),r.FormValue("dob"),r.FormValue("zip"))
 		checkErr(err)
 
 		w.Header().Set("Content-Type", "text/html")
@@ -385,7 +378,7 @@ func Ursession_handler(w http.ResponseWriter, r *http.Request) {
 			Init(o.cresp)
 			o.cresp.fname=r.FormValue("fname")
 			o.cresp.lname=r.FormValue("lname")
-			o.cresp.dob,_=strconv.Atoi(r.FormValue("dob"))
+			o.cresp.dob=r.FormValue("dob")
 			o.cresp.zip=r.FormValue("zip")
 			Sstore(o)
             qprompt_handler(w,r) //NOTE: this works because /newr has a length shorter than 9

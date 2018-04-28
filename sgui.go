@@ -82,7 +82,6 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
 
         //if coming back from question set the message and put id in associate question box
         if r.FormValue("nqkey") != "" {
-            msg = "Question Created With ID: " + r.FormValue("nqkey")
             qid = r.FormValue("nqkey")
             associateQuestion = true
         }
@@ -120,13 +119,14 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
             switch q.qtype {
                 case 0: //Do nothing as form will default to text
 		        case 1: numQ = true
-            case 2: boolQ = true
+                case 2: boolQ = true
             }
         }
 
         if r.FormValue("qid") !="" {
 			c:= new (criterion)
 			createc(c,r)
+            Sstore(c)
 			ns.criteria = append(ns.criteria,c)
             msg = "Criterion Created"
             anim = "animation: none"
@@ -215,10 +215,13 @@ func questioncreate_handler(w http.ResponseWriter, r *http.Request) {
         msg := ""
         anim := ""
         title := "Add"
+        backToServe := false
         servKey := r.FormValue("nskey") //used to send back to editing service if came from there
 
         //bools to show/hide forms
         editing := false
+        numQ := false
+        boolQ := false
 
         if o == nil {
                 outpage("auth.html.tpl",w,map[string]string{"err":"Bad Session"})
@@ -229,6 +232,12 @@ func questioncreate_handler(w http.ResponseWriter, r *http.Request) {
 			Sget(nq)
             title = "Edit"
             editing = true
+
+            switch nq.qtype {
+                case 0: //Do nothing as form will default to text
+		        case 1: numQ = true
+                case 2: boolQ = true
+            }
 
 		}else {
             Init(nq)
@@ -245,14 +254,20 @@ func questioncreate_handler(w http.ResponseWriter, r *http.Request) {
 
             anim = "animation: none"
             title = "Edit"
-            //If they came directly from selecting a service, go back to it
+
+            switch nq.qtype {
+                case 0: //Do nothing as form will default to text
+		        case 1: numQ = true
+                case 2: boolQ = true
+            }
+
+            //If they came directly from selecting a service, go back to it. Note: this must only appear after the question is created or they will return to the service with a question id for a nil question
             if r.FormValue("nskey") != ""{
-                Sstore(nq)
-                servicecreate_handler(w,r)
-                return
+                backToServe = true
             }
         }
-		if r.FormValue("inv") !="" {
+
+		if r.FormValue("qkey") !="" {
 			c:= new (criterion)
 			createc(c,r)
 			nq.clist = append(nq.clist,c) //NOTE: questions being updated will not create multiple entries
@@ -260,6 +275,11 @@ func questioncreate_handler(w http.ResponseWriter, r *http.Request) {
             anim = "animation: none"
             title = "Edit"
 		}
+
+        if r.FormValue("nckey") != "" {
+            msg = "Criterion Removed"
+            anim = "animation: none"
+        }
 
         if nq.key != 0 {
             Sstore(nq)
@@ -274,6 +294,9 @@ func questioncreate_handler(w http.ResponseWriter, r *http.Request) {
             T string
             S string
             E bool
+            Back bool
+            N bool
+            B bool
         }{
             anim,
             msg,
@@ -281,6 +304,9 @@ func questioncreate_handler(w http.ResponseWriter, r *http.Request) {
             title,
             servKey,
             editing,
+            backToServe,
+            numQ,
+            boolQ,
         }
 
 	   t.Execute(w,data)
@@ -290,19 +316,42 @@ func ist(s string) bool{
 	return s=="true"
 }
 func createc(nc *criterion,r *http.Request)error{
+        Init(nc)
 		nc.regex=r.FormValue("regex")//The one string
-		nc.aval,_=strconv.Atoi(r.FormValue("aval"))
-		nc.bval,_=strconv.Atoi(r.FormValue("bval"))
+		nc.aval,_=strconv.ParseFloat(r.FormValue("aval"),64)
+		nc.bval,_=strconv.ParseFloat(r.FormValue("bval"),64)
 		nc.lval=ist(r.FormValue("lval"))
 		nc.isnl=ist(r.FormValue("isnil"))
 		nc.inv=ist(r.FormValue("inv"))
 		nc.conj=ist(r.FormValue("conj"))
+        nc.allowreal=ist(r.FormValue("dec"))
+        nc.allowneg=ist(r.FormValue("neg"))
         q := new (question)
         q.key,_ = strconv.ParseInt(r.FormValue("qid"),10,64)
         Sget(q)
         nc.q = q
 		return nil
 }
+
+func delqc_handler(w http.ResponseWriter, r *http.Request) {
+	nchan := make (chan error)
+	DBchan <- func(DB *sql.DB) func() {
+		stmt,err := DB.Prepare("delete from questionscriterion where okey = ? and ikey = ?")
+		if err != nil { nchan <- err }
+		okey, _ := strconv.Atoi(r.FormValue("nqkey"))
+        ikey, _ := strconv.Atoi(r.FormValue("nckey"))
+        _,err = stmt.Exec(okey, ikey)
+		if err != nil { nchan <- err }
+		return func() {
+			nchan <- err
+		}
+	}
+	checkErr(<-nchan)
+
+    //go to addserv page again
+    questioncreate_handler(w,r)
+}
+
 
 func delc_handler(w http.ResponseWriter, r *http.Request) {
 	nchan := make (chan error)

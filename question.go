@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+    "strconv"
 	"fmt"
 )
 
@@ -13,9 +14,10 @@ type question struct {
 	nchan chan bool
 }
 
-func (q *question) New_response ()  *response {
+func (q *question) New_response (rr *responder)  *response {
 	r := new (response)
 	Init(r)//TODO: check if there's already a response for that responder
+    q.delold(rr)
 	r.q=q
 	return r
 }
@@ -28,6 +30,25 @@ func (o *question)Pprompt() string {
 func (q *question)Ptype() int {return q.qtype}
 func (q *question)Pclist() []*criterion {return q.clist}
 func (q *question)Ptext() string {return q.prompt}
+func (q *question) Pvalue(c *criterion) string{
+    s := ""
+
+    switch q.qtype {
+        case 0: s = c.regex
+        case 1: if c.inv {
+                s = "Less Than " + strconv.FormatFloat(c.aval, 'f', 0, 64) + " And Greater Than " + strconv.FormatFloat(c.bval, 'f', 0, 64)
+            }else{
+                s = strconv.FormatFloat(c.aval, 'f', 0, 64) + " - " + strconv.FormatFloat(c.bval, 'f', 0, 64)
+            }
+        case 2: if c.lval {
+                s = "Yes"
+            }else{
+                s = "No"
+            }
+    }
+
+    return s
+}
 //DB stuff
 
 func Getallqbyname (p string) (error, []*question){
@@ -198,6 +219,23 @@ func (o *question) getclist(Db *sql.DB) error {
 	}
 	return nil
 }
+
+func (o *question) delold(rr *responder) {
+	for _,r :=range rr.responses {
+		if r.q.key == o.key {
+			o.Readynchan()
+			DBchan <- func (Db *sql.DB) func() {
+				stmt,err := Db.Prepare("delete from respondersresponses where ikey = ? and okey = ?")
+				checkErr(err)
+				_,err = stmt.Exec(rr.key,r.key)
+				checkErr(err)
+				return o.Notify
+			}
+			o.Wait()
+		}
+	}
+}
+
 //DB Sync stuff
 func (o *question) Wait() {//NOTE: multiple threads cannot use this on the same object
 	fmt.Println("waiting...")
@@ -210,6 +248,7 @@ func (o *question) Notify() {
 func (o *question) Readynchan() {
 	o.nchan = make(chan bool)
 }
+
 //old stuff
 /*func (o *operator) Sstore() error{
 	o.nchan = make(chan bool)
