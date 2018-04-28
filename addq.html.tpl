@@ -34,7 +34,7 @@
         <form id="form" action="/newserv" method="post" style="animation: none; margin-top: 10px;">
             <input name="nskey" type="hidden" value="{{.S}}">
             <input name="nqkey" type="hidden" value="{{.O.Pkey}}">
-            <input id="submit_button_s" value="Back To Service Program" type=submit>
+            <input id="submit_button_serv" value="Back To Service Program" type=submit>
         </form>
         {{end}}
 
