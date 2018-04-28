@@ -6,7 +6,7 @@ import (
     "database/sql"
     "strconv"
     "html/template"
-//    "errors"
+    "errors"
     "unicode"
     "time"
     "strings"
@@ -231,9 +231,15 @@ func qanswer(k int64, s string, ur *responder) error {//TODO: error checking thi
 	err := Sget(q)//TODO: check errors
 	checkErr(err)
 	r:=q.New_response(ur)
-	r.value=s//TODO:validate
-	ur.responses=append(ur.responses,r)
-	return nil
+	r.value=s
+	if Validate([]*response{r},q.clist) {
+		q.delold(ur)
+		fmt.Println("validate pass")
+		ur.responses=append(ur.responses,r)
+		return nil
+	}
+	fmt.Println("validate fail")
+	return errors.New("bad input data")
 }
 func showsug(w http.ResponseWriter, r responder){
 	/*t,err := template.New("dispt").Parse(`
@@ -442,13 +448,14 @@ func qprompt_handler(w http.ResponseWriter, r *http.Request) {
 			if r.FormValue("qanswer") == "" {
 				qdisp(w,k)
 			}else {
-				if qanswer(k,r.FormValue("qanswer"),o.cresp) != nil {
+				err := qanswer(k,r.FormValue("qanswer"),o.cresp)
+				if  err != nil {
 					w.Header().Set("Content-Type", "text/html")
-					w.Write([]byte("<body>Failed (bad input?)</body>\n"))
+					w.Write([]byte("<body>Failed "+err.Error()+"</body>\n"))
 				}else {
 					err := Sstore(o)
 					checkErr(err)
-                    qlist(w,r,"../")
+				    qlist(w,r,"../")
 				}
 			}
 		}
