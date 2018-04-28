@@ -75,8 +75,8 @@
                 <input type="number" name="bval" required>
                 <p>Invert Range<a href="#popup-four"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
                 <input type="checkbox" class="checkbox" value="true" name="inv">
-                <p>Allow Negatives</p>
-                <input type="checkbox" class="checkbox" value="true" name="neg">
+                <p>Only Positive</p>
+                <input type="checkbox" class="checkbox" value="true" name="pos">
                 <p>Allow Decimals</p>
                 <input type="checkbox" class="checkbox" value="true" name="dec">
                 {{else}}

@@ -158,6 +158,10 @@
                         <input type="number" name="bval" required>
                         <p>Invert Range<a href="#popup-eight"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
                         <input type="checkbox" class="checkbox" value="true" name="inv">
+                        <p>Only Positive</p>
+                        <input type="checkbox" class="checkbox" value="true" name="pos">
+                        <p>Allow Decimals</p>
+                        <input type="checkbox" class="checkbox" value="true" name="dec">
 
                         {{else}} <!--Would then have to be a text type -->
                         <p>Text Answer<a href="#popup-eleven"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
@@ -166,7 +170,7 @@
                     {{end}}<!--End .BoolQ -->
 
                     <br>
-                    <p>Conjunctive<a href="#popup-nine"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
+                    <p>Make Non-Optional<a href="#popup-nine"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
                     <input type="checkbox" name="conj" value="true" class="checkbox" checked>
                     <input name="nskey" type="hidden" value="{{.O.Pkey}}"><br>
                     <input id="submit_button" value="Submit" type=submit>
@@ -335,7 +339,7 @@
     <div class="popup" id="popup-nine" aria-hidden="true">
         <div class="popup-dialog">
             <div class="popup-header">
-                <h2>Conjunctive</h2>
+                <h2>Non-Optional</h2>
                 <a href="#close" class="btn-close" aria-hidden="true">×</a>
             </div>
             <div class="popup-body">
