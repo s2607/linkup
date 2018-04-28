@@ -8,6 +8,9 @@
     text-align: center;
     margin-top: 50px;
     font-size: 20px;
+    animation: fade_content;
+    animation-duration: 1.3s;
+    animation-timing-function: ease-in-out;
 }
 
 #icon
@@ -28,6 +31,9 @@
     height: auto;
     overflow: auto;
     margin-bottom: 50px;
+    animation: fade_content;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
 }
 
 .heading
@@ -41,4 +47,19 @@
 {
     padding-left: 10%;
     padding-right: 10%;
+}
+
+
+@keyframes fade_content{
+
+    from
+    {
+        opacity: 0;
+    }
+
+    to
+    {
+        opacity: 1;
+    }
+
 }
