@@ -44,10 +44,9 @@
 
                 <div id="right_container">
                     <h2>Search To Edit<a href="#popup-two"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h2>
-				    <a href="/searchq">Search For A Question</a><br /><br />
-				    <a href="/searcho">Search For An Interviewer</a><br /><br />
-				    <a href="/searchs">Search For A Service Program</a><br /><br />
-
+                    <a href="/searcho">Search For An Interviewer</a><br /><br />
+				     <a href="/searchs">Search For A Service Program</a><br /><br />
+                    <a href="/searchq">Search For A Question</a><br /><br />
                 </div>
             </div>
         </div><!--End container -->
