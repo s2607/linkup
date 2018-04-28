@@ -78,21 +78,22 @@
                         <input id="submit_button_qid" type='submit' value="Search For Question ID">
                 </form>
                 {{else}}
-                <form id="form" action="/newserv" style="{{.A}}; margin-top: 20px;">
+                <form id="form" action="/newserv" style="{{.A}};">
                     <input type="hidden" name="nskey" value="{{.O.Pkey}}">
                     <input type="hidden" name="createq" value="true">
                     <input type="submit" id="submit_button_newq" value="Create A New Question">
                 </form>
 
-                <form id="form" action="/newserv" style="{{.A}}; margin-top: 20px;">
+                <form id="form" action="/newserv" style="{{.A}}; margin-top: 0px;">
                     <input type="hidden" name="nskey" value="{{.O.Pkey}}">
                     <input type="hidden" name="assoc" value="true">
                     <input type="submit" id="submit_button_assoc" value="Associate A Question">
                 </form>
                 {{end}}
-                <hr>
+
 
                 {{if .QList}} <!--If there ARE associated questions, show them -->
+                <hr>
                 <h3>Question List<a href="#popup-three"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h3>
                 <div id="question_list" class="remove">
                     {{$Animation := .A}}
