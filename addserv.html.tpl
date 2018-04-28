@@ -373,7 +373,7 @@
             </div>
             <div class="popup-body">
                 <p class="popup-content">Enter all valid answers into this text box. Answers are case <em>insensitive</em>. If there are multiple options for answers, separate them with a | character.</p><br>
-                <p class="popup-content">Ex: male|female|other is valid input for having options for answers of male, female, or other and this includes any variations of capitalization.</p><br>
+                <p class="popup-content">Ex: male|female|other is valid input for having options for answers of male, female, or other with any capitalizations.</p><br>
             </div>
             <div class="popup-footer">
                 <a href="#close" class="btn">Close</a>

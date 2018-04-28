@@ -14,6 +14,7 @@
     <!-- Stylesheet -->
     <link href="css/survey_stylesheet.css" rel="stylesheet">
     <link href="css/add_stylesheet.css" rel="stylesheet">
+    <link href="css/popup_stylesheet.css" rel="stylesheet">
 
 </head>
 <body>
@@ -68,25 +69,24 @@
         <form id="form" action="/newq" method="post" style="{{.A}};">
             <h3>Add Possible Answer</h3>
             {{if .N}}
-                <p>Lower Limit</p>
+                <p>Lower Limit<a href="#popup-two"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
                 <input type="number" name="aval" required>
-                <p>Upper Limit</p>
+                <p>Upper Limit<a href="#popup-three"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
                 <input type="number" name="bval" required>
-                <p>Invert Range</p>
+                <p>Invert Range<a href="#popup-four"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
                 <input type="checkbox" class="checkbox" value="true" name="inv">
                 <p>Allow Negatives</p>
                 <input type="checkbox" class="checkbox" value="true" name="neg">
                 <p>Allow Decimals</p>
                 <input type="checkbox" class="checkbox" value="true" name="dec">
                 {{else}}
-                <p>Text Answers</p>
+                <p>Text Answers<a href="#popup-one"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
                 <input name="regex" spellcheck="true">
             {{end}}
 
 
             <br>
-            <p>Conjunctive</p>
-            <input type="checkbox" name="conj" value="true" class="checkbox">
+
             <input name="nskey" type="hidden" value="{{.S}}">
             <input type="hidden" name="qkey" value="{{.O.Pkey}}"><!-- used to add criterion -->
             <input type="hidden" name="nqkey" value="{{.O.Pkey}}"><br>
@@ -98,7 +98,7 @@
         <hr>
 
         <div id="title" style="{{.A}}">
-            <h3>Delete A Criterion</h3>
+            <h3>Delete A Criterion<a href="#popup-five"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h3>
         </div>
 
         {{$Animation := .A}}
@@ -122,7 +122,91 @@
         {{end}}<!--End .E -->
 
 
+    </div><!--End container -->
+
+    <!-- Pop up 1 Text Answer-->
+    <div class="popup" id="popup-one" aria-hidden="true">
+        <div class="popup-dialog">
+            <div class="popup-header">
+                <h2>Text Answers</h2>
+                <a href="#close" class="btn-close" aria-hidden="true">×</a>
+            </div>
+            <div class="popup-body">
+                <p class="popup-content">Enter all valid answers into this text box. Answers are case <em>insensitive</em>. If there are multiple options for answers, separate them with a | character.</p><br>
+                <p class="popup-content">Ex: male|female|other is valid input for having options for answers of male, female, or other with any capitalizations.</p><br>
+            </div>
+            <div class="popup-footer">
+                <a href="#close" class="btn">Close</a>
+            </div>
+        </div>
     </div>
+    <!-- End Pop up 1 -->
+    <!-- Pop up 2 Lower Limit-->
+    <div class="popup" id="popup-two" aria-hidden="true">
+        <div class="popup-dialog">
+            <div class="popup-header">
+                <h2>Lower Limit</h2>
+                <a href="#close" class="btn-close" aria-hidden="true">×</a>
+            </div>
+            <div class="popup-body">
+                <p class="popup-content">Enter the lowest value that is allowed as response for this question. If the answer must be an exact value. Enter the same number in the <b><em>Upper Limit</em></b>.</p><br>
+            </div>
+            <div class="popup-footer">
+                <a href="#close" class="btn">Close</a>
+            </div>
+        </div>
+    </div>
+    <!-- End Pop up 2 -->
+    <!-- Pop up 3 Upper Limit-->
+    <div class="popup" id="popup-three" aria-hidden="true">
+        <div class="popup-dialog">
+            <div class="popup-header">
+                <h2>Upper Limit</h2>
+                <a href="#close" class="btn-close" aria-hidden="true">×</a>
+            </div>
+            <div class="popup-body">
+                <p class="popup-content">Enter the highest value that is allowed as response for this question. If the answer must be an exact value. Enter the same number as the <b><em>Lower Limit</em></b>.</p><br>
+            </div>
+            <div class="popup-footer">
+                <a href="#close" class="btn">Close</a>
+            </div>
+        </div>
+    </div>
+    <!-- End Pop up 3 -->
+    <!-- Pop up 4 Invert Range-->
+    <div class="popup" id="popup-four" aria-hidden="true">
+        <div class="popup-dialog">
+            <div class="popup-header">
+                <h2>Invert Range</h2>
+                <a href="#close" class="btn-close" aria-hidden="true">×</a>
+            </div>
+            <div class="popup-body">
+                <p class="popup-content">Check this box to make the valid values to be everything outside the given range.</p><br>
+                <p class="popup-content">Ex: A range of 5-10 would become anything less than 5 or greater than 10.</p><br>
+            </div>
+            <div class="popup-footer">
+                <a href="#close" class="btn">Close</a>
+            </div>
+        </div>
+    </div>
+    <!-- End Pop up 4 -->
+    <!-- Pop up 5 Remove A Criterion-->
+    <div class="popup" id="popup-five" aria-hidden="true">
+        <div class="popup-dialog">
+            <div class="popup-header">
+                <h2>Delete A Validation Criterion</h2>
+                <a href="#close" class="btn-close" aria-hidden="true">×</a>
+            </div>
+            <div class="popup-body">
+                <p class="popup-content">Click the <b><em>Delete</em></b> button to delete the valid response from this question.</p><br>
+            </div>
+            <div class="popup-footer">
+                <a href="#close" class="btn">Close</a>
+            </div>
+        </div>
+    </div>
+    <!-- End Pop up 5 -->
+
 
 </body>
 </html>

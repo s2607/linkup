@@ -249,7 +249,7 @@ func qanswer(k int64, s string, ur *responder) error {//TODO: error checking thi
 		return nil
 	}
 	fmt.Println("validate fail")
-	return errors.New("Invalid Response")
+	return errors.New("Invalid Response Pattern")
 }
 func showsug(w http.ResponseWriter, r responder){
 	/*t,err := template.New("dispt").Parse(`
