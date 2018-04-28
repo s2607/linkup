@@ -1,0 +1,44 @@
+*
+{
+    box-sizing: border-box;
+}
+
+#general
+{
+    text-align: center;
+    margin-top: 50px;
+    font-size: 20px;
+}
+
+#icon
+{
+    width: 16px;
+    height: 16px;
+}
+
+#container
+{
+    height: auto;
+    overflow: auto;
+}
+
+#interview_container, #service_container
+{
+    width: 100%;
+    height: auto;
+    overflow: auto;
+    margin-bottom: 50px;
+}
+
+.heading
+{
+    padding-left: 10%;
+    margin-top: 35px;
+    margin-bottom: 15px;
+}
+
+.content
+{
+    padding-left: 10%;
+    padding-right: 10%;
+}
