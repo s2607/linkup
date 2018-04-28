@@ -221,7 +221,7 @@ func (o *question) getclist(Db *sql.DB) error {
 }
 
 func (o *question) delold(rr *responder) {
-	for _,r :=range rr.responses {
+	for i,r :=range rr.responses {
 		if r.q.key == o.key {
 			o.Readynchan()
 			DBchan <- func (Db *sql.DB) func() {
@@ -229,11 +229,18 @@ func (o *question) delold(rr *responder) {
 				checkErr(err)
 				_,err = stmt.Exec(rr.key,r.key)
 				checkErr(err)
+                stmt,err = Db.Prepare("delete from response where key = ?")
+				checkErr(err)
+				_,err = stmt.Exec(r.key)
+				checkErr(err)
 				return o.Notify
 			}
 			o.Wait()
+            rr.responses = append(rr.responses[:i],rr.responses[:i+1]...)
 		}
 	}
+
+    Sstore(rr)
 }
 
 //DB Sync stuff

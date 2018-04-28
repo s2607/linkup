@@ -55,6 +55,7 @@ func Validate(re []*response, cr []*criterion) bool {
 	//this checks the user's responses to questions it depends on.
 	//the dependancy can be checked by q.something
 	vals := make(map[int64] int)//yes, for the conjunctive critria
+    conjs :=make(map[int64] bool)
 	for _,c := range cr {
 		vals[c.key] = -1
 	}
@@ -72,12 +73,14 @@ func Validate(re []*response, cr []*criterion) bool {
 					default: panic("nope")
 				}
 				if c.conj&&(vals[c.key]!=0) {
+                    conjs[c.key] = true
 					if xj {
 						vals[c.key]= 1
 					}else {
 						vals[c.key]=0
 					}
 				} else if !c.conj&&vals[c.key] != 1{
+                    conjs[c.key] =false
 					if xj {
 						vals[c.key]= 1
 					} else {
@@ -92,11 +95,19 @@ func Validate(re []*response, cr []*criterion) bool {
 		}
 	}
 	for _,c := range cr {
-		if vals[c.key]<1 {
+		if vals[c.key]<1&&conjs[c.key] {
 			return false
 		}
 	}
-	return true
+
+	hasdis := false
+	for _,c := range cr {
+        if !conjs[c.key]{hasdis = true}
+		if vals[c.key]>0&&!conjs[c.key] {
+			return true
+		}
+	}
+	return !hasdis
 }
 
 //DB stuff
