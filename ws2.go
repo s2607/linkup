@@ -20,6 +20,7 @@ func sometestdata() {
 		Init(o)
 		o.uname = "swiley"
 		o.setpss("abc123")
+        o.setAdmin("true")
 		Sstore(o)
 	}
 	op = o

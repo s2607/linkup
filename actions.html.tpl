@@ -26,12 +26,13 @@
 
             <div id="title">
                 <h1>Select An Action</h1>
-                <h3 id="user">{{.wel}}</h3>
+                <h3 id="user">{{.Wel}}</h3>
                 <a id="new_login" href="/oplogin.html">Login As Different User</a>
                 <br /><br /><br />
                 <a href="/addresponder.html" id="start_interview">Start An Interview</a>
             </div>
 
+            {{if .Admin}}
             <div id="content_container">
 
                 <div id="left_container">
@@ -49,6 +50,7 @@
                     <a href="/searchq">Search For A Question</a><br /><br />
                 </div>
             </div>
+            {{end}} <!-- End .Admin -->
         </div><!--End container -->
 
         <!-- Pop up 1 -->

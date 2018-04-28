@@ -9,6 +9,7 @@ import (
 //TODO: edit
 func opcreate_handler(w http.ResponseWriter, r *http.Request) {
         o := curop(r)
+        if !o.admin{return}
 	    no := new(operator)
         msg := ""
         title := "Add"
@@ -30,6 +31,7 @@ func opcreate_handler(w http.ResponseWriter, r *http.Request) {
 		no.cser.key,_ = strconv.ParseInt(r.FormValue("skey"),10,64)
 		Sget(no.cser)
 		no.setpss(r.FormValue("pw"))
+        no.setAdmin(r.FormValue("admin"))
 		Sstore(no)
         //This if statement updates the cookie uname if the interviewer edited themself to keep session good and update name on home page
         if o.key == no.key {
@@ -52,6 +54,7 @@ func opcreate_handler(w http.ResponseWriter, r *http.Request) {
 }
 func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
         o := curop(r)
+    if !o.admin{return}
 	ns := new(service)
     q := new(question)
     qid := r.FormValue("nqkey") //gets qid to put in nprompt when add is clicked on searchqid
@@ -212,6 +215,7 @@ func cquestion(nq *question, r *http.Request) {
 }
 func questioncreate_handler(w http.ResponseWriter, r *http.Request) {
         o := curop(r)
+    if !o.admin{return}
 	   nq := new(question)
         msg := ""
         anim := ""
@@ -408,6 +412,7 @@ func delq_handler(w http.ResponseWriter, r *http.Request) {
 func searchq_handler(w http.ResponseWriter, r *http.Request) {
 
     if curop(r) != nil {
+        if !curop(r).admin{return}
         fmt.Println("searchq"+r.FormValue("q"))
 		err,s := Getallqbynamefuzz(r.FormValue("q"))
 		fmt.Println(s)
@@ -420,6 +425,7 @@ func searchq_handler(w http.ResponseWriter, r *http.Request) {
 }
 func searchs_handler(w http.ResponseWriter, r *http.Request) {
     if curop(r) != nil {
+        if !curop(r).admin{return}
         fmt.Println("searchs"+r.FormValue("q"))
 		err,s := Getallsbynamefuzz(r.FormValue("q"))
 		fmt.Println(s)
@@ -433,6 +439,7 @@ func searchs_handler(w http.ResponseWriter, r *http.Request) {
 }
 func searcho_handler(w http.ResponseWriter, r *http.Request) {
     if curop(r) != nil {
+        if !curop(r).admin{return}
         fmt.Println("searcho"+r.FormValue("q"))
 		err,s := Getallobynamefuzz(r.FormValue("q"))
 		fmt.Println(s)
@@ -446,6 +453,7 @@ func searcho_handler(w http.ResponseWriter, r *http.Request) {
 
 func searchqid_handler(w http.ResponseWriter, r *http.Request) {
     if curop(r) != nil {
+        if !curop(r).admin{return}
         fmt.Println("searchq"+r.FormValue("q"))
         fmt.Println("Service Key is: " + r.FormValue("skey"))
 		err,q := Getallqbynamefuzz(r.FormValue("q"))
@@ -468,6 +476,7 @@ func searchqid_handler(w http.ResponseWriter, r *http.Request) {
 //SQL Command Interface
 func sql_handler(w http.ResponseWriter, r *http.Request) {
     if curop(r) != nil {
+        if !curop(r).admin{return}
         msg := ""
         anim := ""
         color := ""

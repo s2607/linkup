@@ -13,6 +13,7 @@
 
     <!-- Stylesheet -->
     <link href="css/survey_stylesheet.css" rel="stylesheet">
+    <link href="css/add_stylesheet.css" rel="stylesheet">
     <link href="css/popup_stylesheet.css" rel="stylesheet">
 
 </head>
@@ -35,6 +36,8 @@
             <input name="uname" value="{{.I.Puname}}" required>
             <p>New Password</p>
             <input type="password" name="pw" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 6 or more characters" required>
+            <p>Administrator</p>
+            <input type="checkbox" value="true" name="admin" {{if .I.Padmin}}checked{{end}}>
             <input type="hidden" name="nokey" value="{{.I.Pkey}}">
             <br>
             <input id="submit_button" value="Submit" type=submit>

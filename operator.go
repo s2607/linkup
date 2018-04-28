@@ -18,8 +18,14 @@ type operator struct {
 	nchan chan bool
 	cresp *responder
 	cser *service
-	interviewonly bool
+	admin bool
 }
+
+func (o *operator) setAdmin (a string) error {
+    o.admin =  a=="true"
+    return nil
+}
+
 func (o *operator) setpss(pw string) error {
 	o.pwhash=md5.Sum([]byte(pw))
 	return nil
@@ -126,7 +132,7 @@ func (o *operator) Store(Db *sql.DB) error{
 		o.key, err = res.LastInsertId()
 		checkErr(err)
 	} else  { //store
-		stmt, err := Db.Prepare("update operator set(pwhash, uname, cursessionid, cresp, cser) = (?,?,?,?,?) where key = ?")
+		stmt, err := Db.Prepare("update operator set(pwhash, uname, cursessionid, cresp, cser, admin) = (?,?,?,?,?,?) where key = ?")
 		checkErr(err)
 		var rk int64
 		if(o.cresp != nil) {
@@ -140,7 +146,7 @@ func (o *operator) Store(Db *sql.DB) error{
 		}else {
 			sk = 0
 		}
-		res, err := stmt.Exec(hex.EncodeToString(o.pwhash[:]),o.uname,o.cursessionid,rk,sk,o.key)
+		res, err := stmt.Exec(hex.EncodeToString(o.pwhash[:]),o.uname,o.cursessionid,rk,sk,o.admin,o.key)
 		checkErr(err)
 		if res == nil {//XXX
 			panic(err)//never happens?
@@ -162,13 +168,13 @@ func (o *operator) Get(Db *sql.DB) error{
 	var phh string
 	if o.key == 0 {
 		fmt.Println("Getting "+o.uname)
-		err :=  Db.QueryRow("select key, uname, cursessionid, pwhash, cresp,cser from operator where uname = ?", o.uname).Scan(&o.key,  &o.uname, &o.cursessionid, &phh,&rkey,&ckey)
+		err :=  Db.QueryRow("select key, uname, cursessionid, pwhash, cresp,cser,admin from operator where uname = ?", o.uname).Scan(&o.key,  &o.uname, &o.cursessionid, &phh,&rkey,&ckey, &o.admin)
 		fmt.Print("Got key: ")
 		fmt.Println(o.key)
 		if err !=nil {return err}
 	} else {
-		err := Db.QueryRow("select key, uname, cursessionid, pwhash, cresp,cser from operator where key = ?", o.key).Scan(&o.key,  &o.uname, &o.cursessionid, &phh, &rkey,&ckey)
-		if err !=nil {o.key=0;return err}
+		err := Db.QueryRow("select key, uname, cursessionid, pwhash, cresp,cser,admin from operator where key = ?", o.key).Scan(&o.key,  &o.uname, &o.cursessionid, &phh, &rkey,&ckey,&o.admin)
+        if err !=nil {o.key=0; fmt.Println(err);return err}
 	}
 	ph, err := hex.DecodeString(phh)
 	copy(o.pwhash[:],ph)
@@ -206,6 +212,9 @@ func (o *operator) Pkey() int64{
 }
 func (o *operator) Puname() string{
     return o.uname
+}
+func (o *operator) Padmin() bool{
+    return o.admin
 }
 func (o *operator) Zkey(){
 	o.key=0

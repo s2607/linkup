@@ -72,6 +72,7 @@ func initdb () *sql.DB{
 		"cursessionid":"int",
 		"cresp":"int",
 		"cser":"int",
+        "admin":"bool",
 	})
 	mktab(d,"responder",map[string]string{
 		"key":"int",
@@ -266,7 +267,20 @@ func showsug(w http.ResponseWriter, r responder){
 func home_handler(w http.ResponseWriter, r *http.Request) {
     uc, err := r.Cookie("uname")
     checkErr(err)
-    outpage("actions.html.tpl",w,map[string]string{"wel":"Welcome " + uc.Value})
+    welMsg := "Welcome " + uc.Value
+    o := curop(r)
+    t := template.Must(template.ParseFiles("actions.html.tpl"))
+
+    data := struct {
+        Wel string
+        Admin bool
+    }{
+        welMsg,
+        o.admin,
+    }
+
+    t.Execute(w,data)
+
 }
 
 func Authhandler(w http.ResponseWriter, r *http.Request) {
@@ -289,7 +303,17 @@ func Authhandler(w http.ResponseWriter, r *http.Request) {
 			http.SetCookie(w, &uc)
 			http.SetCookie(w, &sc)
 
-			outpage("actions.html.tpl",w,map[string]string{"wel":"Welcome " + uc.Value})
+			t := template.Must(template.ParseFiles("actions.html.tpl"))
+
+            data := struct {
+                Wel string
+                Admin bool
+            }{
+                "Welcome " + uc.Value,
+                o.admin,
+            }
+
+            t.Execute(w,data)
 			Sstore(o)
 		}else {
 			outpage("auth.html.tpl",w,map[string]string{"err":"Invalid Password",})
