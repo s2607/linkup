@@ -160,7 +160,7 @@
                         <input type="checkbox" class="checkbox" value="true" name="inv">
 
                         {{else}} <!--Would then have to be a text type -->
-                        <p>Text Answer</p>
+                        <p>Text Answer<a href="#popup-eleven"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
                         <input name="regex" spellcheck="true" required>
                         {{end}}<!--End .NumQ-->
                     {{end}}<!--End .BoolQ -->
@@ -364,6 +364,23 @@
         </div>
     </div>
     <!-- End Pop up 10 -->
+    <!-- Pop up 11 Text Answer-->
+    <div class="popup" id="popup-ten" aria-hidden="true">
+        <div class="popup-dialog">
+            <div class="popup-header">
+                <h2>Text Answers</h2>
+                <a href="#close" class="btn-close" aria-hidden="true">×</a>
+            </div>
+            <div class="popup-body">
+                <p class="popup-content">Enter all valid answers into this text box. Answers are case insensitive. If there are multiple options for answers, separate them with a | character.</p><br>
+                <p class="popup-content">Ex: male|female|other is valid input for having options for answers of male, female, or other and this includes any variations of capitalization.</p><br>
+            </div>
+            <div class="popup-footer">
+                <a href="#close" class="btn">Close</a>
+            </div>
+        </div>
+    </div>
+    <!-- End Pop up 11 -->
 
 
 </body>
