@@ -225,7 +225,7 @@ func (o *question) delold(rr *responder) {
 		if r.q.key == o.key {
 			o.Readynchan()
 			DBchan <- func (Db *sql.DB) func() {
-				stmt,err := Db.Prepare("delete from respondersresponses where ikey = ? and okey = ?")
+				stmt,err := Db.Prepare("delete from respondersresponse where ikey = ? and okey = ?")
 				checkErr(err)
 				_,err = stmt.Exec(rr.key,r.key)
 				checkErr(err)

@@ -89,6 +89,7 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
         //takes to page to create new question if that button was clicked
         if r.FormValue("createq") == "true" {
             questioncreate_handler(w,r)
+            return
         }
 
         //shows form to associate questions if that button was clicked
@@ -274,11 +275,17 @@ func questioncreate_handler(w http.ResponseWriter, r *http.Request) {
             msg = "Criterion Created"
             anim = "animation: none"
             title = "Edit"
+            if r.FormValue("nskey") != ""{
+                backToServe = true
+            }
 		}
 
         if r.FormValue("nckey") != "" {
             msg = "Criterion Removed"
             anim = "animation: none"
+            if r.FormValue("nskey") != ""{
+                backToServe = true
+            }
         }
 
         if nq.key != 0 {
