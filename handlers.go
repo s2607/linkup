@@ -141,7 +141,7 @@ func outpage(f string , w http.ResponseWriter, d map[string]string){
 	t.Execute(w,d)
 }
 func qlist(w http.ResponseWriter, r *http.Request, path string){
-
+     o := curop(r)
     empty := false
     err, servArr := Getallservices()
     var serv *service
@@ -157,6 +157,13 @@ func qlist(w http.ResponseWriter, r *http.Request, path string){
                 serv = n
             }
         }
+        o.cser = serv
+        Sstore(o)
+    }
+
+    /*if coming back from answering a question the path variable will be ../ to get the css file. This is a really cheap way to get the questions that were just showing to display again. */
+    if path == "../" {
+        serv = o.cser
     }
 
     //if no questions
@@ -164,17 +171,28 @@ func qlist(w http.ResponseWriter, r *http.Request, path string){
         empty = true
     }
 
+    //used to put service back into drop down after answering a question
+    var x int64
+    if o.cser != nil {
+        x = o.cser.key
+    }
+    fmt.Print("cser key: ")
+    fmt.Println(x)
+
+
     //pack data to pass to template
     data := struct{
         Empty bool
         Q []question
         S []*service
+        O int64
         Name string
         P string    //Used to indicate whether to move up a directory in HTML file
     }{
         empty,
         serv.qlist,
         servArr,
+        x,
         serv.name,
         path,
     }

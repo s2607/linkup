@@ -33,8 +33,9 @@
                 <p>Select Service Program</p>
                 <select name="service" value="select">
                     <option value=""></option>
+                    {{$service := .O}}
                     {{range .S}}
-                    <option value="{{.Pkey}}">{{.Pname}}</option>
+                    <option value="{{.Pkey}}" {{if eq .Pkey $service}}selected{{end}}>{{.Pname}}</option>
                     {{end}}
                 </select><br />
                 <input id="find_button" value="Find Questions" type="submit">
