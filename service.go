@@ -73,7 +73,7 @@ func Getallsbynamefuzz (p string) (error, []*service){
 	search := "%" + p + "%"
 	nchan := make(chan error)
 	DBchan <- func(Db *sql.DB)func() {
-		rows, err := Db.Query("select key from service where name or description like ?", search)
+		rows, err := Db.Query("select key from service where name like ? or description like ?", search, search)
 		checkErr(err)
 		defer rows.Close()
 		for i := 0; rows.Next(); i++ {
