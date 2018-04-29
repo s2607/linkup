@@ -36,6 +36,7 @@ func (o *criterion) checkint(x string) bool{
 	fmt.Print(o.aval)
 	fmt.Println(o.bval)
     v,err := strconv.ParseFloat(x,64)
+    //next two lines are for allowreal and allowneg which are not impleted yet to get from the forms
     if !o.allowneg && v<=0 {return o.checkbool(false)}
 	if !o.allowreal && v!=float64(int64(v)) {return o.checkbool(false)}
 	if err != nil { return o.checkbool(false)}
