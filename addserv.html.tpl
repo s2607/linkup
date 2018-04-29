@@ -158,10 +158,11 @@
                         <input type="number" name="bval" required>
                         <p>Invert Range<a href="#popup-eight"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
                         <input type="checkbox" class="checkbox" value="true" name="inv">
+                        <!-- THESE BOXES ARE NOT IMPLEMENTED YET BUT SHOULD BE
                         <p>Only Positive</p>
                         <input type="checkbox" class="checkbox" value="true" name="pos">
                         <p>Allow Decimals</p>
-                        <input type="checkbox" class="checkbox" value="true" name="dec">
+                        <input type="checkbox" class="checkbox" value="true" name="dec"> -->
 
                         {{else}} <!--Would then have to be a text type -->
                         <p>Text Answer<a href="#popup-eleven"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>

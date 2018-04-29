@@ -18,8 +18,8 @@ type criterion struct {
 	isnl bool
 	inv bool//not redundant.
 	conj bool
-    allowreal bool
-    allowneg bool
+    allowreal bool //not implemented yet
+    allowneg bool //not implmented yet
 	q *question
 	nchan chan bool
 }
