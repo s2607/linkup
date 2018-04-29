@@ -163,7 +163,7 @@ func qlist(w http.ResponseWriter, r *http.Request, path string){
 
     /*if coming back from answering a question the path variable will be ../ to get the css file. This is a really cheap way to get the questions that were just showing to display again. */
     if path == "../" {
-        serv = o.cser
+        serv = o.cser //NOTE: To help understanding, o.cser is the current service
     }
 
     //if no questions
