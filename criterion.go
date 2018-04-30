@@ -213,6 +213,12 @@ func (o *criterion) Pvalue() string{
                         s = "No"
                     }
         }
+
+        //adds conjunctive attribute
+        if o.conj {
+            s += " | Non-Optional"
+        }
+
     }
 
     return s
