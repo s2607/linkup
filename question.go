@@ -17,6 +17,7 @@ type question struct {
 func (q *question) New_response (rr *responder)  *response {
 	nr := new (response)
 	fmt.Println("newresponse")
+    q.delold(rr)
 	for i,r :=range rr.responses {
 		fmt.Print("checking")
 		fmt.Println(i)
