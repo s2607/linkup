@@ -61,6 +61,7 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
     title := "Add" //Sets default title to add
     msg := "" //Success message
     anim := "" //to stop animation
+    alreadyCriterion := false //prevents two criterion to one question in service
 
     //bools to show/hide forms
     editing := false
@@ -70,6 +71,7 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
     nonemptyQList := false
     numQ := false
     boolQ := false
+    errMsg := false
 
     fmt.Println(r.FormValue("name"))
         if o == nil {
@@ -115,27 +117,42 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
 		}
         fmt.Println(ns)
 
-        //Shows add a criterion form
+        //Shows add a criterion form if not already a criterion for the question
         if r.FormValue("questionid") != "" {
 
-            anim = "animation: none"
-            addCriterion = true
-
-            //get question and output the specific form for its type
-			q.key,_=strconv.ParseInt(r.FormValue("questionid"),10,64)
-			Sget(q)
-            switch q.qtype {
-                case 0: //Do nothing as form will default to text
-		        case 1: numQ = true
-                case 2: boolQ = true
+            x,_ := strconv.ParseInt(r.FormValue("questionid"),10,64)
+            for _, cq := range ns.criteria{
+                if cq.q.key == x{
+                    alreadyCriterion = true
+                }
             }
+
+            if !alreadyCriterion{
+                addCriterion = true
+
+                //get question and output the specific form for its type
+			     q.key,_=strconv.ParseInt(r.FormValue("questionid"),10,64)
+			     Sget(q)
+                switch q.qtype {
+                    case 0: //Do nothing as form will default to text
+                    case 1: numQ = true
+                    case 2: boolQ = true
+                }
+            }else{
+                msg = "Question Already Has A Criterion"
+                errMsg = true
+            }
+
+            anim = "animation: none"
+
         }
 
+        //creates criteria
         if r.FormValue("qid") !="" {
 			c:= new (criterion)
 			createc(c,r)
             Sstore(c)
-			ns.criteria = append(ns.criteria,c)
+            ns.criteria = append(ns.criteria,c)
             msg = "Criterion Created"
             anim = "animation: none"
 		}
@@ -193,6 +210,7 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
             QList bool
             NumQ bool
             BoolQ bool
+            Err bool
         }{
             msg,
             title,
@@ -207,6 +225,7 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
             nonemptyQList,
             numQ,
             boolQ,
+            errMsg,
         }
 
 		t.Execute(w,data)
