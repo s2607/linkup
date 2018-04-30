@@ -153,9 +153,9 @@
                     {{else}}
                         {{if .NumQ}} <!-- if number type -->
                         <p>Minimum<a href="#popup-six"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
-                        <input type="number" name="aval" step="any" required>
+                        <input type="number" name="aval" step="any">
                         <p>Maximum<a href="#popup-seven"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
-                        <input type="number" name="bval" step="any" required>
+                        <input type="number" name="bval" step="any">
                         <p>Invert Range<a href="#popup-eight"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
                         <input type="checkbox" class="checkbox" value="true" name="inv">
                         <p>Exclusive Range<a href="#popup-twelve"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
