@@ -188,9 +188,24 @@ func (o *criterion) Pvalue() string{
         switch o.q.qtype {
             case 0: s = o.regex
             case 1: if o.inv {
-                    s = "Less Than Or Equal To " +  strconv.FormatFloat(o.aval, 'f', 0, 64) + " And Greater Than Or Equal To " + strconv.FormatFloat(o.bval, 'f', 0, 64)
+                        if o.exclusive{
+                            s = "Less Than Or Equal To " +  strconv.FormatFloat(o.aval, 'f', 0, 64) + " And Greater Than Or Equal To " + strconv.FormatFloat(o.bval, 'f', 0, 64)
+                        }else{
+                            s = "Less Than " +  strconv.FormatFloat(o.aval, 'f', 0, 64) + " And Greater Than " + strconv.FormatFloat(o.bval, 'f', 0, 64)
+                        }
+
                     }else{
-                        s =  strconv.FormatFloat(o.aval, 'f', 0, 64) + " - " + strconv.FormatFloat(o.bval, 'f', 0, 64)
+                        if o.exclusive{
+                            s =  strconv.FormatFloat(o.aval, 'f', 0, 64) + " to " + strconv.FormatFloat(o.bval, 'f', 0, 64) + " | Exclusive"
+                        }else{
+                            s =  strconv.FormatFloat(o.aval, 'f', 0, 64) + " to " + strconv.FormatFloat(o.bval, 'f', 0, 64)
+                        }
+                    }
+                    if o.onlyint{
+                        s += " | No Decimals"
+                    }
+                    if o.onlypos{
+                        s += " | Only Positives"
                     }
             case 2: if o.lval {
                         s = "Yes"

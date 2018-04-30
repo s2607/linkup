@@ -187,7 +187,7 @@
                     {{range .O.Pclist}}
                     <form id="form" action="delc" method="post" style="{{$Animation2}};">
                         <div id="criterion">Criterion For Question With ID: {{.Qkey}}</div>
-                        <div id="value">Value: {{.Pvalue}}</div>
+                        <div id="value"><b>Value:</b> {{.Pvalue}}</div>
                         <input name="nckey" type="hidden" value="{{.Pkey}}">
                         <input name="nskey" type="hidden" value="{{$ServiceKey2}}"><br>
                         <input id="submit_button" value="Remove" type=submit>
