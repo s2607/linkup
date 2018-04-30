@@ -152,7 +152,7 @@ p > a > .popup_icon:hover
     margin-left: -180px;
     position: fixed;
     left: 50%;
-    top: -100vh;
+    top: -1000px;
     z-index: 11;
     width: 360px;
     -webkit-transform: scale(2);
