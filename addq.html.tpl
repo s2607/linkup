@@ -87,14 +87,18 @@
                     <input type="number" name="aval" step="any">
                     <p>Maximum<a href="#popup-three"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
                     <input type="number" name="bval" step="any">
-                    <p>Invert Range<a href="#popup-four"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
-                    <input type="checkbox" class="checkbox" value="true" name="inv">
-                    <p>Exclusive Range<a href="#popup-six"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
-                    <input type="checkbox" class="checkbox" value="true" name="exc">
                     <p>Only Allow Positives</p>
                     <input type="checkbox" class="checkbox" value="true" name="pos">
                     <p>No Decimals</p>
                     <input type="checkbox" class="checkbox" value="true" name="dec">
+
+                <!-- ********** THESE FIELDS ARE FULLY IMPLEMENTED AND WORKING BUT ARE NOT BEING
+                    *********** SHOWN FOR SIMPLICITY OF USE AT THIS TIME
+                    <p>Invert Range<a href="#popup-four"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
+                    <input type="checkbox" class="checkbox" value="true" name="inv">
+                    <p>Exclusive Range<a href="#popup-six"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
+                    <input type="checkbox" class="checkbox" value="true" name="exc">
+                -->
                     {{else}}
                     <p>Text Answers<a href="#popup-one"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
                     <input name="regex" spellcheck="true">
@@ -170,11 +174,11 @@
     <div class="popup" id="popup-two" aria-hidden="true">
         <div class="popup-dialog">
             <div class="popup-header">
-                <h2>Lower Limit</h2>
+                <h2>Minimum</h2>
                 <a href="#close" class="btn-close" aria-hidden="true">×</a>
             </div>
             <div class="popup-body">
-                <p class="popup-content">Enter the lowest value that is allowed as response for this question. If the answer must be an exact value. Enter the same number in the <b><em>Upper Limit</em></b>.</p><br>
+                <p class="popup-content">Enter the lowest value that is allowed as response for this question. If the answer must be an exact value. Enter the same number in the <b><em>Maximum</em></b>. Leave the maximum blank if the valid range is to be the minimum value or higher.</p><br>
             </div>
             <div class="popup-footer">
                 <a href="#close" class="btn">Close</a>
@@ -186,11 +190,11 @@
     <div class="popup" id="popup-three" aria-hidden="true">
         <div class="popup-dialog">
             <div class="popup-header">
-                <h2>Upper Limit</h2>
+                <h2>Maximum</h2>
                 <a href="#close" class="btn-close" aria-hidden="true">×</a>
             </div>
             <div class="popup-body">
-                <p class="popup-content">Enter the highest value that is allowed as response for this question. If the answer must be an exact value. Enter the same number as the <b><em>Lower Limit</em></b>.</p><br>
+                <p class="popup-content">Enter the highest value that is allowed as response for this question. If the answer must be an exact value. Enter the same number as the <b><em>Maximum</em></b>. Leave the minimum blank if the valid range is to be the maximum value or lower.</p><br>
             </div>
             <div class="popup-footer">
                 <a href="#close" class="btn">Close</a>
