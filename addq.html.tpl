@@ -61,61 +61,81 @@
         {{if .E}}<!-- Show if editing a question -->
 
         {{if not .B}}<!-- If its a bool, there is no adding criteria option -->
-        <hr>
-        <div id="title" style="{{.A}};">
-            <h2>Validation Criteria</h2>
-        </div>
+        <!-- Make single column layout appear -->
+        <style>
+            #left_container
+            {
+                width: 100%;
+            }
+        </style>
 
-        <form id="form" action="/newq" method="post" style="{{.A}};">
-            <h3>Add Possible Answer</h3>
-            {{if .N}}
-                <p>Lower Limit<a href="#popup-two"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
-                <input type="number" name="aval" required>
-                <p>Upper Limit<a href="#popup-three"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
-                <input type="number" name="bval" required>
-                <p>Invert Range<a href="#popup-four"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
-                <input type="checkbox" class="checkbox" value="true" name="inv">
-                <p>Only Allow Positives</p>
-                <input type="checkbox" class="checkbox" value="true" name="pos">
-                <p>No Decimals</p>
-                <input type="checkbox" class="checkbox" value="true" name="dec">
-                {{else}}
-                <p>Text Answers<a href="#popup-one"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
-                <input name="regex" spellcheck="true">
-            {{end}}
+        <div id="sub_container">
+
+            <div id="left_container">
+
+                <div id="title" style="{{.A}};">
+                    <h2>Validation Criteria</h2>
+                </div>
+
+                <form id="form" action="/newq" method="post" style="{{.A}};">
+                <h3>Add Possible Answer</h3>
+                {{if .N}}
+                    <p>Lower Limit<a href="#popup-two"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
+                    <input type="number" name="aval" required>
+                    <p>Upper Limit<a href="#popup-three"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
+                    <input type="number" name="bval" required>
+                    <p>Invert Range<a href="#popup-four"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
+                    <input type="checkbox" class="checkbox" value="true" name="inv">
+                    <p>Only Allow Positives</p>
+                    <input type="checkbox" class="checkbox" value="true" name="pos">
+                    <p>No Decimals</p>
+                    <input type="checkbox" class="checkbox" value="true" name="dec">
+                    {{else}}
+                    <p>Text Answers<a href="#popup-one"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
+                    <input name="regex" spellcheck="true">
+                {{end}}
 
 
-            <br>
+                <br>
 
-            <input name="nskey" type="hidden" value="{{.S}}">
-            <input type="hidden" name="qkey" value="{{.O.Pkey}}"><!-- used to add criterion -->
-            <input type="hidden" name="nqkey" value="{{.O.Pkey}}"><br>
-            <input id="submit_button" value="Submit" type=submit>
-        </form>
-
+                <input name="nskey" type="hidden" value="{{.S}}">
+                <input type="hidden" name="qkey" value="{{.O.Pkey}}"><!-- used to add criterion -->
+                <input type="hidden" name="nqkey" value="{{.O.Pkey}}"><br>
+                <input id="submit_button" value="Submit" type=submit>
+                </form>
+            </div>
 
         {{if .CList}}
-        <hr>
+            <!-- Make single column layout appear -->
+        <style>
+            #left_container
+            {
+                width: 50%;
+            }
+        </style>
+            <div id="right_container">
 
-        <div id="title" style="{{.A}}">
-            <h3>Delete A Criterion<a href="#popup-five"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h3>
-        </div>
+                <div id="title" style="{{.A}}">
+                    <h3>Delete A Criterion<a href="#popup-five"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h3>
+                </div>
 
-        {{$Animation := .A}}
-        {{$QKey := .O.Pkey}}
-        {{$Question := .O}}
-        {{$SKey := .S}}
-        {{range .O.Pclist}}
-	   <form id="form" action="delqc" method="post" style="{{$Animation}};">
-           <p style="margin-bottom: 0px;">Criterion Value: {{$Question.Pvalue .}}</p>
-           <input name="nskey" type="hidden" value="{{$SKey}}">
-           <input name="nqkey" type="hidden" value="{{$QKey}}">
-           <input name="nckey" type="hidden" value="{{.Pkey}}"><br>
-           <input id="submit_button" value="Delete" type="submit">
-        </form><hr>
-        {{end}}<!-- End Range -->
-
+                {{$Animation := .A}}
+                {{$QKey := .O.Pkey}}
+                {{$Question := .O}}
+                {{$SKey := .S}}
+                {{range .O.Pclist}}
+	           <form id="form" action="delqc" method="post" style="{{$Animation}};">
+                   <p style="margin-bottom: 0px;">Criterion Value: {{$Question.Pvalue .}}</p>
+                   <input name="nskey" type="hidden" value="{{$SKey}}">
+                   <input name="nqkey" type="hidden" value="{{$QKey}}">
+                   <input name="nckey" type="hidden" value="{{.Pkey}}"><br>
+                   <input id="submit_button" value="Delete" type="submit">
+                </form><hr>
+                {{end}}<!-- End Range -->
+            </div>
         {{end}}<!-- End .CList -->
+
+        </div>
 
         {{end}}<!-- End .B -->
 
