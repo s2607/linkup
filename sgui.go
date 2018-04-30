@@ -62,6 +62,7 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
     msg := "" //Success message
     anim := "" //to stop animation
     alreadyCriterion := false //prevents two criterion to one question in service
+    alreadyQuestion := false //prevents two of same question being added
 
     //bools to show/hide forms
     editing := false
@@ -177,12 +178,25 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
         //if associating a question to the service, add it to the services qlist
 		if r.FormValue("nprompt") != "" {
 			q.key,_=strconv.ParseInt(r.FormValue("nprompt"),10,64)
-			Sget(q)
-			//q :=Get1q(r.FormValue("nprompt"))
-			if q != nil && q.key != 0 {
-				ns.qlist= append(ns.qlist,*q)
-			}
-            msg = "Question Associated"
+
+            for _, sq := range ns.qlist{
+                if sq.key == q.key{
+                    alreadyQuestion = true
+                }
+            }
+
+            if !alreadyQuestion{
+                Sget(q)
+			     //q :=Get1q(r.FormValue("nprompt"))
+			     if q != nil && q.key != 0 {
+				    ns.qlist= append(ns.qlist,*q)
+			     }
+                msg = "Question Associated"
+            }else{
+                msg = "Question Already Associated"
+                errMsg = true
+            }
+
             anim = "animation: none"
 		}
 
