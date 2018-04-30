@@ -95,13 +95,13 @@ func (o *responder) sresponces(Db *sql.DB) error {
 		if err != nil {
 			return err
 		}
-		stmt, err := Db.Prepare("replace into respondersresponse(okey,ikey) values(?,?)")
+		{stmt, err := Db.Prepare("replace into respondersresponse(okey,ikey) values(?,?)")
 		checkErr(err)
 		res, err := stmt.Exec(o.key,r.key)
 		checkErr(err)
 		if res == nil {
 			fmt.Println("TODO: nothing")
-		}
+        }}
 	}
 	return nil
 }
@@ -111,15 +111,22 @@ func (o *responder) getresponses(Db *sql.DB) error {
 	defer rows.Close()
 	i :=0
 	for rows.Next() {
+        fmt.Println("retrieving response")
 		var k int64
 		r := new(response)
 		err := rows.Scan(&k)
 		checkErr(err)
 		r.key = k
+        fmt.Print(k)
 		err = r.Get(Db)
-		o.responses = append(o.responses,r)
-		checkErr(err)
-		i=i+1
+        if err == nil {
+			fmt.Println(r)
+		      o.responses = append(o.responses,r)
+		      i=i+1
+        }else {
+			//fmt.Println("bad response "+err.Error())
+			fmt.Println("bad response ")
+        }
 	}
 	return nil
 }

@@ -254,18 +254,21 @@ func qdisp(w http.ResponseWriter, k int64, msg string) {
 
 }
 func qanswer(k int64, s string, ur *responder) error {//TODO: error checking this whole function
-	q := new(question)
+	fmt.Println(len(ur.responses))
+    fmt.Println(ur)
+    q := new(question)
 	q.key = k
 	err := Sget(q)//TODO: check errors
 	checkErr(err)
 	r:=q.New_response(ur)
+    fmt.Println(r)
 	r.value=s
+    Sstore(r)
 	if Validate([]*response{r},q.clist) {
-		q.delold(ur)
 		fmt.Println("validate pass")
-		ur.responses=append(ur.responses,r)
 		return nil
 	}
+    q.delold(ur)
 	fmt.Println("validate fail")
 	return errors.New("Invalid Response Pattern")
 }
@@ -482,7 +485,7 @@ func qprompt_handler(w http.ResponseWriter, r *http.Request) {
 					w.Write([]byte("<body>Failed "+err.Error()+"</body>\n"))*/
                     qdisp(w,k, err.Error())
 				}else {
-					err := Sstore(o)
+					//err := Sstore(o)
 					checkErr(err)
 				    qlist(w,r,"../")
 				}

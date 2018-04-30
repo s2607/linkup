@@ -54,7 +54,11 @@ func (o *response) Get(Db *sql.DB) error{
 	//var pwhash string
 	var rkey int64
 	err := Db.QueryRow("select key, value, qkey from response where key = ?", o.key).Scan(&o.key,  &o.value, &rkey)
-//	if err !=nil {o.key=0;return err}
+    if err !=nil {
+        o.key=0
+        fmt.Print(err.Error())
+        return err
+    }
 	checkErr(err)
 	if rkey != 0 {
 		o.q= new(question)

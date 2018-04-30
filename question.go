@@ -15,11 +15,25 @@ type question struct {
 }
 
 func (q *question) New_response (rr *responder)  *response {
-	r := new (response)
-	Init(r)//TODO: check if there's already a response for that responder
-    q.delold(rr)
-	r.q=q
-	return r
+	nr := new (response)
+	fmt.Println("newresponse")
+	for i,r :=range rr.responses {
+		fmt.Print("checking")
+		fmt.Println(i)
+		if r.q.key == q.key { nr.key = r.q.key }
+	}
+	if nr.key == 0 {
+		Init(nr)
+		nr.q=q
+		rr.responses=append(rr.responses,nr)
+		Sstore(nr)
+	}
+	nr.q = q
+	Sstore(nr)
+	Sstore(rr)
+	fmt.Print("newresponsekey")
+	fmt.Println(nr.key)
+	return nr
 }
 //Should have been better with visibility...
 //template getters
@@ -221,6 +235,8 @@ func (o *question) getclist(Db *sql.DB) error {
 }
 
 func (o *question) delold(rr *responder) {
+    fmt.Print("delold")
+    fmt.Println(len(rr.responses))
 	for i,r :=range rr.responses {
 		if r.q.key == o.key {
 			o.Readynchan()
@@ -236,7 +252,12 @@ func (o *question) delold(rr *responder) {
 				return o.Notify
 			}
 			o.Wait()
-            rr.responses = append(rr.responses[:i],rr.responses[:i+1]...)
+            fmt.Println(rr.responses)
+            if i==len(rr.responses) {rr.responses = rr.responses[:i];
+			} else {
+				rr.responses = append(rr.responses[:i],rr.responses[i+1:]...)
+			}
+            fmt.Println(rr.responses)
 		}
 	}
 
