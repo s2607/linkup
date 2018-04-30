@@ -229,7 +229,7 @@
         </div>
     </div>
     <!-- End Pop up 5 -->
-    <!-- Pop up 6 Inclusive Range-->
+    <!-- Pop up 6 Exclusive Range-->
     <div class="popup" id="popup-six" aria-hidden="true">
         <div class="popup-dialog">
             <div class="popup-header">
