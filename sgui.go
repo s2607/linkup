@@ -106,7 +106,11 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
 			ns.name=r.FormValue("name")
 			ns.url=r.FormValue("url")
 			ns.description=r.FormValue("description")
-            msg = "Service Created"
+            if title == "Edit" {
+                msg = "Service Updated"
+            }else{
+                msg = "Service Created"
+            }
             anim = "animation: none"
 		}
         fmt.Println(ns)
@@ -342,8 +346,8 @@ func createc(nc *criterion,r *http.Request)error{
 		nc.isnl=ist(r.FormValue("isnil"))
 		nc.inv=ist(r.FormValue("inv"))
 		nc.conj=ist(r.FormValue("conj"))
-        nc.allowreal=ist(r.FormValue("dec"))
-        nc.allowneg=ist(r.FormValue("neg"))
+        nc.onlyint=ist(r.FormValue("dec"))
+        nc.onlypos=ist(r.FormValue("pos"))
         q := new (question)
         q.key,_ = strconv.ParseInt(r.FormValue("qid"),10,64)
         Sget(q)

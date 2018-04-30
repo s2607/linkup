@@ -45,7 +45,7 @@
         <form id="form" method="post" style="{{.A}};">
             <div>{{.Q.Pprompt}}</div>
             <br>
-            <input name="qanswer" type="number" value="" spellcheck="true" required>
+            <input name="qanswer" type="number" value="" step="any" required>
             <br>
             <input id="submit_button" type=submit value="Submit">
         </form>

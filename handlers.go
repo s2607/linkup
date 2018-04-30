@@ -99,6 +99,8 @@ func initdb () *sql.DB{
 		"lval":"bool",
 		"isnil":"bool",
 		"inv":"bool",
+        "pos":"bool",
+        "dec":"bool",
 		"conj":"bool",
 		"regex":"string",
 		"qtype":"int",

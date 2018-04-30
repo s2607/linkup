@@ -75,11 +75,10 @@
                 <input type="number" name="bval" required>
                 <p>Invert Range<a href="#popup-four"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
                 <input type="checkbox" class="checkbox" value="true" name="inv">
-                <!-- THESE BOXES ARE NOT IMPLEMETNED YET BUT SHOULD BE IN THE FUTURE
-                <p>Only Positive</p>
+                <p>Only Allow Positives</p>
                 <input type="checkbox" class="checkbox" value="true" name="pos">
-                <p>Allow Decimals</p>
-                <input type="checkbox" class="checkbox" value="true" name="dec"> -->
+                <p>No Decimals</p>
+                <input type="checkbox" class="checkbox" value="true" name="dec">
                 {{else}}
                 <p>Text Answers<a href="#popup-one"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
                 <input name="regex" spellcheck="true">
