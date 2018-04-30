@@ -84,9 +84,9 @@
                 <h3>Add Possible Answer</h3>
                 {{if .N}}
                     <p>Lower Limit<a href="#popup-two"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
-                    <input type="number" name="aval" required>
+                    <input type="number" name="aval" step="any" required>
                     <p>Upper Limit<a href="#popup-three"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
-                    <input type="number" name="bval" required>
+                    <input type="number" name="bval" step="any" required>
                     <p>Invert Range<a href="#popup-four"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
                     <input type="checkbox" class="checkbox" value="true" name="inv">
                     <p>Exclusive Range<a href="#popup-six"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
