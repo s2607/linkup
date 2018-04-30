@@ -149,7 +149,7 @@ p > a > .popup_icon:hover
     background: #AAA;
     border: #111 solid 2px;
     border-radius: 10px;
-    margin-left: -200px;
+    margin-left: -180px;
     position: fixed;
     left: 50%;
     top: -100vh;
