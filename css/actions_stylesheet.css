@@ -90,6 +90,24 @@
 
 }
 
+@keyframes small_screen_list_fade_in
+{
+    from
+    {
+        opacity: 0;
+        padding-top: 0;
+    }
+
+    to
+    {
+        opacity: 1;
+        padding-top: 20px;
+    }
+
+}
+
+
+
 /** FOR SMALL SCREEN SIZES **/
 
 @media only screen and (max-width: 800px){
@@ -99,19 +117,21 @@
         width: 100%;
     }
 
-    #left_container
+    #left_container, #right_container
     {
+        padding-top: 20px;
+        padding-bottom: 30px;
         float: none;
         width: 100%;
         height: auto;
+        animation: small_screen_list_fade_in;
+        animation-duration: 1s;
+        animation-timing-function: ease-in-out;
     }
 
-
-    #right_container
+    #left_container
     {
-        float: none;
-        width: 100%;
-        height: auto;
+        background: #888;
     }
 
 }
