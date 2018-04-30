@@ -161,23 +161,19 @@ func qlist(w http.ResponseWriter, r *http.Request, path string){
         Sstore(o)
     }
 
-    /*if coming back from answering a question the path variable will be ../ to get the css file. This is a really cheap way to get the questions that were just showing to display again. */
-    if path == "../" {
-        serv = o.cser //NOTE: To help understanding, o.cser is the current service
+    //used to put service back into drop down after answering a question
+    var x int64
+    if o.cser != nil {
+        x = o.cser.key
+        serv = o.cser
     }
+    fmt.Print("cser key: ")
+    fmt.Println(x)
 
     //if no questions
     if len(serv.qlist) == 0 {
         empty = true
     }
-
-    //used to put service back into drop down after answering a question
-    var x int64
-    if o.cser != nil {
-        x = o.cser.key
-    }
-    fmt.Print("cser key: ")
-    fmt.Println(x)
 
 
     //pack data to pass to template
@@ -306,6 +302,7 @@ func home_handler(w http.ResponseWriter, r *http.Request) {
     checkErr(err)
     welMsg := "Welcome " + uc.Value
     o := curop(r)
+    o.cser = nil
     t := template.Must(template.ParseFiles("actions.html.tpl"))
 
     data := struct {
