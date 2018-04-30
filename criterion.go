@@ -20,6 +20,7 @@ type criterion struct {
 	conj bool
     onlyint bool
     onlypos bool
+    exclusive bool
 	q *question
 	nchan chan bool
 }
@@ -38,6 +39,7 @@ func (o *criterion) checkint(x string) bool{
     v,err := strconv.ParseFloat(x,64)
     if o.onlypos && v < 0 {return o.checkbool(false)}
 	if o.onlyint && v!=float64(int64(v)) {return o.checkbool(false)}
+    if o.exclusive && (v<=o.aval || v>=o.bval) {return o.checkbool(false)}
 	if err != nil { return o.checkbool(false)}
 	return o.checkbool(v>=o.aval&&v<=o.bval)
 }
@@ -121,7 +123,7 @@ func (o *criterion) Store(Db *sql.DB) error{
 		o.key, err = res.LastInsertId()
 		checkErr(err)
 	} else  { //store
-		stmt, err := Db.Prepare("update criterion set(key , aval, bval, regex, lval, isnil, inv, pos, dec, conj, qkey) = (?,?,?,?,?,?,?,?,?,?,?) where key = ?")
+		stmt, err := Db.Prepare("update criterion set(key , aval, bval, regex, lval, isnil, inv, exc, pos, dec, conj, qkey) = (?,?,?,?,?,?,?,?,?,?,?,?) where key = ?")
 
 		checkErr(err)
 		var qk int64
@@ -130,7 +132,7 @@ func (o *criterion) Store(Db *sql.DB) error{
 		} else {
 			qk = 0
 		}
-		res, err := stmt.Exec(o.key, o.aval, o.bval, o.regex, o.lval, o.isnl, o.inv, o.onlypos, o.onlyint, o.conj, qk, o.key)
+		res, err := stmt.Exec(o.key, o.aval, o.bval, o.regex, o.lval, o.isnl, o.inv, o.exclusive, o.onlypos, o.onlyint, o.conj, qk, o.key)
 		checkErr(err)
 		if res == nil {//XXX
 			panic(err)//never happens?
@@ -145,7 +147,7 @@ func (o *criterion) Get(Db *sql.DB) error{
 		//if err !=nil {return err}
 		return errors.New("not implemented")
 	} else {
-		err := Db.QueryRow("select key , aval, bval, regex, lval, isnil, inv, pos, dec, conj, qkey from criterion where key = ?", o.key).Scan(&o.key,&o.aval,&o.bval,&o.regex,&o.lval,&o.isnl,&o.inv,&o.onlypos,&o.onlyint,&o.conj,&qkey)
+		err := Db.QueryRow("select key , aval, bval, regex, lval, isnil, inv, exc, pos, dec, conj, qkey from criterion where key = ?", o.key).Scan(&o.key,&o.aval,&o.bval,&o.regex,&o.lval,&o.isnl,&o.inv,&o.exclusive,&o.onlypos,&o.onlyint,&o.conj,&qkey)
 		fmt.Print("retrived ")
 		fmt.Println(o)
 		if err !=nil {o.key = 0; return err}

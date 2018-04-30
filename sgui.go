@@ -348,6 +348,7 @@ func createc(nc *criterion,r *http.Request)error{
 		nc.conj=ist(r.FormValue("conj"))
         nc.onlyint=ist(r.FormValue("dec"))
         nc.onlypos=ist(r.FormValue("pos"))
+        nc.exclusive=ist(r.FormValue("exc"))
         q := new (question)
         q.key,_ = strconv.ParseInt(r.FormValue("qid"),10,64)
         Sget(q)
