@@ -40,7 +40,15 @@
 				    <a href="/newop">Add An Interviewer</a><br /><br />
 				    <a href="/newserv">Add A Service Program</a><br /><br />
 				    <a href="/newq">Add A Question</a><br /><br />
+
+                <!-- ******** THIS LINK IS FOR USE OF INTERACTING WITH THE DATABASE.
+                    ********* ONCE DEPLOYED IN DOCKER, THERE IS NO SHELL. UNCOMMENTING THIS
+                    ********* THIS LINK ALLOWS FOR INTERACTION WITH THE DB VIA SQL COMMANDS
+
                     <a href="/sql">Add A Database Entry</a>
+
+                -->
+
                 </div>
 
                 <div id="right_container">
