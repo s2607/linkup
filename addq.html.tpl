@@ -51,6 +51,9 @@
                 <option value="2">Yes/No</option>
             </select>
             {{end}}
+            {{if .E}}<!-- retains type when editing question -->
+            <input name="qtype" type="hidden" value="{{.O.Ptype}}">
+            {{end}}
             <input name="nqkey" type="hidden" value="{{.O.Pkey}}">
             <input name="nskey" type="hidden" value="{{.S}}">
             <!-- The last input (with name editing) is only used for deciding which message to display by what the title is -->
