@@ -116,3 +116,15 @@
 
 }
 
+@media only screen and (max-width: 470px)
+{
+    #help_button
+    {
+        width: 100%;
+        padding-left: 45%;
+        margin-top: 5px;
+        margin-bottom: 20px;
+        position: relative;
+    }
+}
+
