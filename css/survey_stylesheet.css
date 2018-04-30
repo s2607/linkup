@@ -248,9 +248,21 @@ a:hover
     font-size: 28px;
 }
 
-#sql_text
+#sql_form
 {
     width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    text-align: center;
+    animation: form_fade_in;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+}
+
+#sql_text
+{
+    width: inherit;
     height: 150px;
     resize: none;
     background: #DDD;
@@ -334,6 +346,14 @@ hr
 }
 
 /*For Small Screens*/
+
+@media only screen and (max-width: 600px)
+{
+    #sql_form
+    {
+        width: 90%;
+    }
+}
 
 @media only screen and (max-width: 470px)
 {
