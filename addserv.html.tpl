@@ -158,6 +158,8 @@
                         <input type="number" name="bval" required>
                         <p>Invert Range<a href="#popup-eight"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
                         <input type="checkbox" class="checkbox" value="true" name="inv">
+                        <p>Exclusive Range<a href="#popup-twelve"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
+                        <input type="checkbox" class="checkbox" value="true" name="exc">
                         <p>Only Allow Positives</p>
                         <input type="checkbox" class="checkbox" value="true" name="pos">
                         <p>No Decimals</p>
@@ -328,6 +330,7 @@
             <div class="popup-body">
                 <p class="popup-content">Check this box to make the qualifying values to be everything outside the given range.</p><br>
                 <p class="popup-content">Ex: A range of 5-10 would become anything less than 5 or greater than 10.</p><br>
+                <p class="popup-content"><em>Special Note:</em> An <b>inverted range</b> that is also an <b>exclusive range</b> would have a valid range of anything 5 or less or anything 10 or more. An entry of 5 would be valid.</p><br>
             </div>
             <div class="popup-footer">
                 <a href="#close" class="btn">Close</a>
@@ -385,6 +388,23 @@
         </div>
     </div>
     <!-- End Pop up 11 -->
+    <!-- Pop up 12 Exclusive Range-->
+    <div class="popup" id="popup-twelve" aria-hidden="true">
+        <div class="popup-dialog">
+            <div class="popup-header">
+                <h2>Exclusive Range</h2>
+                <a href="#close" class="btn-close" aria-hidden="true">×</a>
+            </div>
+            <div class="popup-body">
+                <p class="popup-content">Check this box to make the valid values exclude the upper and lower limits of the range. </p><br>
+                <p class="popup-content">Ex: A range of 5-10 would not include 5 nor 10 but be anything in between them. An entry of 5 would be considered invalid.</p><br>
+            </div>
+            <div class="popup-footer">
+                <a href="#close" class="btn">Close</a>
+            </div>
+        </div>
+    </div>
+    <!-- End Pop up 12 -->
 
 
 </body>
