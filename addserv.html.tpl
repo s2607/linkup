@@ -29,7 +29,7 @@
             <h1>{{.T}} Service Program<a href="#popup-one"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h1>
         </div>
 
-        <div id="succ_msg">{{.M}}</div>
+        <div id="succ_msg" {{if .Err}}style="color: red;"{{end}}>{{.M}}</div>
 
         <form id="form" action="/newserv" method="post" style="{{.A}};">
             <p>Name</p>
@@ -67,7 +67,7 @@
                     }
                 </script>
                 <form id="form" action="/newserv" style="{{.A}};">
-                    <h3>Associate Question To Service<a href="#popup-two"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h3>
+                    <h3 style="{{.A}};">Associate Question To Service<a href="#popup-two"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h3>
                     <p>Question ID</p>
                     <input name="nskey" type="hidden" value="{{.O.Pkey}}">
                     <input name="nprompt" type="number" value="{{.Qid}}" required><br>
@@ -94,7 +94,7 @@
 
                 {{if .QList}} <!--If there ARE associated questions, show them -->
                 <hr>
-                <h3>Question List<a href="#popup-three"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h3>
+                <h3 style="{{.A}};">Question List<a href="#popup-three"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h3>
                 <div id="question_list" class="remove">
                     {{$Animation := .A}}
                     {{$ServiceKey := .O.Pkey}}
@@ -140,7 +140,7 @@
                     }
                 </script>
                 <form id="form" action="/newserv" method="post" style="{{.A}};">
-                    <h3>Add Criterion To Question: <br>
+                    <h3 style="{{.A}};">Add Criterion To Question: <br>
                         {{.Q.Pprompt}}<a href="#popup-five"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h3>
                     <input name="qid" value="{{.Q.Pkey}}" type="hidden">
 
@@ -180,7 +180,7 @@
                 {{end}} <!--End .C -->
 
                 {{if .Nec}} <!--if there ARE criterion show this form-->
-                <h3>Remove Criterion From Service<a href="#popup-ten"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h3>
+                <h3 style="{{.A}};">Remove Criterion From Service<a href="#popup-ten"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h3>
                 {{$Animation2 := .A}}
                 {{$ServiceKey2 := .O.Pkey}}
                 <div class="remove">
