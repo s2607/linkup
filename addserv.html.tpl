@@ -84,7 +84,7 @@
                     <input type="submit" id="submit_button_newq" value="Create A New Question">
                 </form>
 
-                <form id="form" action="/newserv" style="{{.A}}; margin-top: 0px;">
+                <form class="form_button" action="/newserv" style="{{.A}}; margin-top: 0px;">
                     <input type="hidden" name="nskey" value="{{.O.Pkey}}">
                     <input type="hidden" name="assoc" value="true">
                     <input type="submit" id="submit_button_assoc" value="Associate A Question">
@@ -106,7 +106,7 @@
                         <input name="nskey" type="hidden" value="{{$ServiceKey}}">
                         <input id="submit_button" value="Remove" type=submit>
                     </form>
-                    <form id="form" action="/newserv" method="post" style="{{$Animation}}; margin-top: 0px;">
+                    <form class="form_button" action="/newserv" method="post" style="{{$Animation}}; margin-top: 0px;">
                         <input name="questionid" value="{{.Pkey}}" type="hidden">
                         <input name="nskey" type="hidden" value="{{$ServiceKey}}">
                         <input id="submit_button_assoc" value="Add A Criterion" type="submit">
