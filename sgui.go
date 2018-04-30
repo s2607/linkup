@@ -404,7 +404,7 @@ func delqc_handler(w http.ResponseWriter, r *http.Request) {
 	}
 	checkErr(<-nchan)
 
-    //go to addserv page again
+    //go to addq page again
     questioncreate_handler(w,r)
 }
 
