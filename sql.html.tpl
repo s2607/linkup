@@ -30,7 +30,7 @@
 
         <div id="succ_msg" style="{{.C}};">{{.M}}</div>
 
-        <form id="form" action="/sql" method="post" style="width: 600px; {{.A}};">
+        <form id="sql_form" action="/sql" method="post" style="{{.A}};">
             <p>Enter SQL Command</p>
             <textarea id="sql_text" name="q"></textarea><br>
             <input id="submit_button" value="Submit" type=submit>
