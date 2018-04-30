@@ -152,9 +152,9 @@
                     </select></p>
                     {{else}}
                         {{if .NumQ}} <!-- if number type -->
-                        <p>Lower Limit<a href="#popup-six"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
+                        <p>Minimum<a href="#popup-six"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
                         <input type="number" name="aval" step="any" required>
-                        <p>Upper Limit<a href="#popup-seven"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
+                        <p>Maximum<a href="#popup-seven"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
                         <input type="number" name="bval" step="any" required>
                         <p>Invert Range<a href="#popup-eight"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
                         <input type="checkbox" class="checkbox" value="true" name="inv">
