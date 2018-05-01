@@ -63,6 +63,7 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
     anim := "" //to stop animation
     alreadyCriterion := false //prevents two criterion to one question in service
     alreadyQuestion := false //prevents two of same question being added
+    questionExists := false //prevents associating a question that doesn't exist
 
     //bools to show/hide forms
     editing := false
@@ -125,6 +126,7 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
             for _, cq := range ns.criteria{
                 if cq.q.key == x{
                     alreadyCriterion = true
+                    break
                 }
             }
 
@@ -179,13 +181,26 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
 		if r.FormValue("nprompt") != "" {
 			q.key,_=strconv.ParseInt(r.FormValue("nprompt"),10,64)
 
-            for _, sq := range ns.qlist{
-                if sq.key == q.key{
-                    alreadyQuestion = true
+            _, questArr := Getallquestions()
+
+            //check if question exists
+            for _, qk := range questArr {
+                if q.key == qk.key {
+                    questionExists = true
+                    break
                 }
             }
 
-            if !alreadyQuestion{
+            //check for if it is already associated
+            for _, sq := range ns.qlist{
+                if sq.key == q.key{
+                    alreadyQuestion = true
+                    break
+                }
+            }
+
+            //associate the question or print the proper error message
+            if !alreadyQuestion && questionExists{
                 Sget(q)
 			     //q :=Get1q(r.FormValue("nprompt"))
 			     if q != nil && q.key != 0 {
@@ -193,7 +208,11 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
 			     }
                 msg = "Question Associated"
             }else{
-                msg = "Question Already Associated"
+                if !questionExists {
+                    msg = "Question ID Does Not Exist"
+                }else{
+                    msg = "Question Already Associated"
+                }
                 errMsg = true
             }
 

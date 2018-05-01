@@ -80,6 +80,33 @@ func (q *question) Pvalue(c *criterion) string{
 }
 //DB stuff
 
+func Getallquestions() (error, []*question){
+	nchan := make(chan error)
+	var r []*question
+	DBchan <- func(Db *sql.DB)func() {
+		rows, err := Db.Query("select key from question")
+		checkErr(err)
+		defer rows.Close()
+		i :=0
+		for rows.Next() {
+			var k int64
+			q := new(question)
+			rows.Scan(&k)
+			//checkErr(err)
+			if k == 0 {continue}
+			r=append(r,q)
+			r[i].key = k
+			r[i].Get(Db)
+			//checkErr(err)
+			i=i+1
+		}
+		return func() {
+			nchan <-nil
+		}
+	}
+	return <-nchan,r
+}
+
 func Getallqbyname (p string) (error, []*question){
 	fmt.Println("got:"+p)
 	if p=="" {return nil,nil}
