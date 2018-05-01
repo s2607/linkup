@@ -106,7 +106,7 @@
                         <div id="qid">ID: {{.Pkey}}</div>
                         <input name="ikey" type="hidden" value="{{.Pkey}}">
                         <input name="nskey" type="hidden" value="{{$ServiceKey}}">
-                        <input id="submit_button" value="Unassociate" type=submit>
+                        <input id="submit_button" value="Unassociate" type="submit" style="width: 100px;">
                     </form>
                     <form class="form_button" action="/newserv" method="post" style="{{$Animation}}; margin-top: 0px;">
                         <input name="questionid" value="{{.Pkey}}" type="hidden">
@@ -252,7 +252,7 @@
                 <a href="#close" class="btn-close" aria-hidden="true">×</a>
             </div>
             <div class="popup-body">
-                <p class="popup-content">Click the <b><em>Unassociate</em></b> button to unassociate the question with this service.</p><br>
+                <p class="popup-content">Click the <b><em>Unassociate</em></b> button to detach the question with this service.</p><br>
                 <p class="popup-content">Click the <b><em>Add A Criterion</em></b> button to create the criteria for this question in order to qualify for this service.</p>
             </div>
             <div class="popup-footer">
