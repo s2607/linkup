@@ -325,7 +325,7 @@ func help_handler(w http.ResponseWriter, r *http.Request){
     data := struct{
         Admin bool
     }{
-        o.admin
+        o.admin,
     }
 
     t := template.Must(template.ParseFiles("help.html.tpl"))
