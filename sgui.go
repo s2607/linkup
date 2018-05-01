@@ -109,7 +109,7 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
 			ns.name=r.FormValue("name")
 			ns.url=r.FormValue("url")
 			ns.description=r.FormValue("description")
-            if title == "Edit" {
+            if r.FormValue("editing") == "Edit" {
                 msg = "Service Updated"
             }else{
                 msg = "Service Created"

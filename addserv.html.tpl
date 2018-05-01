@@ -38,7 +38,9 @@
             <input name="description" value="{{.O.Pdescription}}" spellcheck="true" required>
             <p>Website URL <span id="url_format">(http://)</span></p>
             <input name="url" type="url" value="{{.O.Purl}}">
-            <input name="nskey" type="hidden" value="{{.O.Pkey}}"><br>
+            <input name="nskey" type="hidden" value="{{.O.Pkey}}">
+             <!-- The last input (with name editing) is only used for deciding which message to display by what the title is -->
+            <input name="editing" type="hidden" value="{{.T}}"<br>
             <input id="submit_button" value="Submit" type=submit>
         </form>
 
