@@ -447,19 +447,42 @@ func delc_handler(w http.ResponseWriter, r *http.Request) {
     servicecreate_handler(w,r)
 }
 func delq_handler(w http.ResponseWriter, r *http.Request) {
-	nchan := make (chan error)
+    nchan := make (chan error)
 	DBchan <- func(DB *sql.DB) func() {
 		stmt,err := DB.Prepare("delete from servicesquestion where okey = ? and ikey = ?")
 		if err != nil { nchan <- err }
-        okey, _ := strconv.Atoi(r.FormValue("nskey"))
-        ikey, _ := strconv.Atoi(r.FormValue("ikey"))
-        _,err = stmt.Exec(okey, ikey)
+        servkey, _ := strconv.Atoi(r.FormValue("nskey"))
+        queskey, _ := strconv.Atoi(r.FormValue("ikey"))
+        _,err = stmt.Exec(servkey, queskey)
 		if err != nil { nchan <- err }
+
 		return func() {
 			nchan <- err
 		}
 	}
 	checkErr(<-nchan)
+
+    //remove the question's criterion from service if it exists
+        s := new (service)
+        s.key,_ = strconv.ParseInt(r.FormValue("nskey"),10,64)
+        qkey,_ := strconv.ParseInt(r.FormValue("ikey"),10,64)
+        Sget(s)
+        for _,c := range s.criteria {
+            if c.q.key == qkey{
+                DBchan <- func(DB *sql.DB) func() {
+                    stmt,err := DB.Prepare("delete from servicescriterion where okey = ? and ikey = ?")
+                    if err != nil { nchan <- err }
+                    _,err = stmt.Exec(s.key, c.key)
+                    if err != nil { nchan <- err }
+
+                    return func() {
+			             nchan <- err
+                    }
+	           }
+                checkErr(<-nchan)
+                break //can break because there can only be one eligibility criterion per question
+            }//end if
+        } //end for loop
 
     //go to addserv page again
     servicecreate_handler(w,r)
