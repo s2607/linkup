@@ -305,7 +305,6 @@ func home_handler(w http.ResponseWriter, r *http.Request) {
     checkErr(err)
     welMsg := "Welcome " + uc.Value
     o := curop(r)
-    o.cser = nil
     t := template.Must(template.ParseFiles("actions.html.tpl"))
 
     data := struct {
@@ -316,6 +315,20 @@ func home_handler(w http.ResponseWriter, r *http.Request) {
         o.admin,
     }
 
+    t.Execute(w,data)
+
+}
+
+func help_handler(w http.ResponseWriter, r *http.Request){
+    o := curop(r)
+
+    data := struct{
+        Admin bool
+    }{
+        o.admin
+    }
+
+    t := template.Must(template.ParseFiles("help.html.tpl"))
     t.Execute(w,data)
 
 }

@@ -47,8 +47,9 @@ func main() {//main always feels ugly and hacky
 	http.HandleFunc("/searcho", searcho_handler)
     http.HandleFunc("/searchqid", searchqid_handler)
 	http.HandleFunc("/sql", sql_handler)
-	//Home Button
+	//Home and Help Button
 	http.HandleFunc("/home", home_handler)
+    http.HandleFunc("/help", help_handler)
 	rand.Seed(4)//a random number
 	fmt.Println("start")
 	go Dbwriter()

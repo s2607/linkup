@@ -46,8 +46,9 @@
 
                 <div class="content">Once satisfied with the number of questions ansswered, click the 'Suggest Services' button. The services that the person qualifies for will be displayed. Many of the services are clickable and will go to the program's website for more information.</div>
 
-            </div><!-- End left_container -->
+            </div><!-- End interview_container -->
 
+            {{if .Admin}}
             <hr>
 
             <div id="service_container">
@@ -83,7 +84,9 @@
 
                 <div class="content">Select ‘Add A Database Entry’ on the home page. This allows you to use SQL commands to interact with the database. Only use this interface if you know SQL commands and the schema of the database.</div>
 
-            </div><!-- End right container -->
+            </div><!-- End service_container -->
+            {{end}}
+
 
         </div>
 
