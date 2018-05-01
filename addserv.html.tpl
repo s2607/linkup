@@ -252,7 +252,7 @@
                 <a href="#close" class="btn-close" aria-hidden="true">×</a>
             </div>
             <div class="popup-body">
-                <p class="popup-content">Click the <b><em>Unassociate</em></b> button to detach the question with this service.</p><br>
+                <p class="popup-content">Click the <b><em>Unassociate</em></b> button to detach the question from this service.</p><br>
                 <p class="popup-content">Click the <b><em>Add A Criterion</em></b> button to create the criteria for this question in order to qualify for this service.</p>
             </div>
             <div class="popup-footer">
