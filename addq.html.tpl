@@ -77,7 +77,7 @@
             <div id="left_container">
 
                 <div id="title" style="{{.A}};">
-                    <h2>Validation Criteria</h2>
+                    <h2>Validation Criteria<a href="#popup-seven"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h2>
                 </div>
 
                 <form id="form" action="/newq" method="post" style="{{.A}};">
@@ -124,8 +124,8 @@
         </style>
             <div id="right_container">
 
-                <div id="title" style="{{.A}}">
-                    <h3>Delete A Criterion<a href="#popup-five"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h3>
+                <div id="title" style="{{.A}};">
+                    <h2>Delete A Criterion<a href="#popup-five"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h2>
                 </div>
 
                 {{$Animation := .A}}
@@ -246,6 +246,22 @@
             <div class="popup-body">
                 <p class="popup-content">Check this box to make the valid values exclude the upper and lower limits of the range. </p><br>
                 <p class="popup-content">Ex: A range of 5-10 would not include 5 nor 10 but be anything in between them. An entry of 5 would be considered invalid.</p><br>
+            </div>
+            <div class="popup-footer">
+                <a href="#close" class="btn">Close</a>
+            </div>
+        </div>
+    </div>
+    <!-- End Pop up 6 -->
+    <!-- Pop up 7 Validation Criteria-->
+    <div class="popup" id="popup-seven" aria-hidden="true">
+        <div class="popup-dialog">
+            <div class="popup-header">
+                <h2>Validation Criteria</h2>
+                <a href="#close" class="btn-close" aria-hidden="true">×</a>
+            </div>
+            <div class="popup-body">
+                <p class="popup-content">Add validation criteria to allow a specific set of values as possible answers to this question. Do not add validation criteria if this question is to be a free response question.</p><br>
             </div>
             <div class="popup-footer">
                 <a href="#close" class="btn">Close</a>
