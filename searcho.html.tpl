@@ -54,6 +54,10 @@
 
             <div id="horiz_bar"></div>
 
+            {{else}}
+                <div id="title">
+                    <div id="id">No Results</div>
+                </div>
             {{end}}
         </div>
 
