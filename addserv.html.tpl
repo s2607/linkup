@@ -75,21 +75,11 @@
                     <input name="nprompt" type="number" value="{{.Qid}}" required><br>
                     <input id="submit_button" value="Submit" type=submit>
                 </form>
+
+                {{else}}
                 <form id="qid_form" action="/searchqid" method="post" style="{{.A}};">
                         <input name="skey" type="hidden" value="{{.O.Pkey}}">
-                        <input id="submit_button_qid" type='submit' value="Search For Question ID">
-                </form>
-                {{else}}
-                <form id="form" action="/newserv" style="{{.A}};">
-                    <input type="hidden" name="nskey" value="{{.O.Pkey}}">
-                    <input type="hidden" name="createq" value="true">
-                    <input type="submit" id="submit_button_newq" value="Create A New Question">
-                </form>
-
-                <form class="form_button" action="/newserv" style="{{.A}}; margin-top: 0px;">
-                    <input type="hidden" name="nskey" value="{{.O.Pkey}}">
-                    <input type="hidden" name="assoc" value="true">
-                    <input type="submit" id="submit_button_assoc" value="Associate A Question">
+                        <input id="submit_button_qid" type='submit' value="Search For Question">
                 </form>
                 {{end}}
 
