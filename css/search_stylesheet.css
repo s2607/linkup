@@ -81,6 +81,18 @@
     animation-timing-function: ease-in-out;
 }
 
+#newq_form
+{
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    padding: 10px;
+    text-align: center;
+    box-sizing: border-box;
+    border: 1px solid black;
+}
+
 /** FOR SMALL SCREEN SIZES **/
 
 @media only screen and (max-width: 800px){

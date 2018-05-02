@@ -36,6 +36,12 @@
                 <input id="submit_button" value="Search" type=submit>
             </form>
 
+            <form id="newq_form" action="/newq" method="post" style="animation: none;">
+                <p>Did Not Find The Question You Were Looking For?</p>
+                <input type="hidden" name="nskey" value="{{.K}}">
+                <input type="submit" id="submit_button" value="Add A Question" style="width: 150px;">
+            </form>
+
         </div>
 
         <div id="right_container">
