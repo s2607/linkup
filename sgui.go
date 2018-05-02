@@ -2,6 +2,7 @@ package main
 import (
 	"net/http"
 	"strconv"
+    "strings"
 	"html/template"
 	"database/sql"
 	"fmt"
@@ -64,6 +65,9 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
     alreadyCriterion := false //prevents two criterion to one question in service
     alreadyQuestion := false //prevents two of same question being added
     questionExists := false //prevents associating a question that doesn't exist
+    var sArr []string       //These two arrays are for creating the dropdown menu for text criteria
+    var possAns []string
+
 
     //bools to show/hide forms
     editing := false
@@ -74,6 +78,7 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
     numQ := false
     boolQ := false
     errMsg := false
+    emptyList := false
 
     fmt.Println(r.FormValue("name"))
         if o == nil {
@@ -137,7 +142,16 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
 			     q.key,_=strconv.ParseInt(r.FormValue("questionid"),10,64)
 			     Sget(q)
                 switch q.qtype {
-                    case 0: //Do nothing as form will default to text
+                    case 0: if q.clist != nil{
+                                for _, c := range q.clist {
+                                    sArr = strings.Split(c.regex, "|")
+                                    for _, s := range sArr{
+                                        possAns = append(possAns, s)
+                                    }
+                                }
+                            }else{
+                                emptyList = true
+                            }
                     case 1: numQ = true
                     case 2: boolQ = true
                 }
@@ -244,6 +258,8 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
             NumQ bool
             BoolQ bool
             Err bool
+            List []string
+            EmptyL bool
         }{
             msg,
             title,
@@ -259,6 +275,8 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
             numQ,
             boolQ,
             errMsg,
+            possAns,
+            emptyList,
         }
 
 		t.Execute(w,data)
@@ -391,7 +409,14 @@ func ist(s string) bool{
 }
 func createc(nc *criterion,r *http.Request)error{
         Init(nc)
-		nc.regex=r.FormValue("regex")//The one string
+        regValue := ""
+        r.ParseForm()
+        regexArr := r.Form["regex"]
+        for _,r := range regexArr {
+            regValue += r + "|"
+        }
+        regValue = strings.TrimSuffix(regValue, "|") //removes the last "|" character
+		nc.regex= regValue
 		nc.aval,_=strconv.ParseFloat(r.FormValue("aval"),64)
 		nc.bval,_=strconv.ParseFloat(r.FormValue("bval"),64)
 		nc.lval=ist(r.FormValue("lval"))

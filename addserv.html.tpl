@@ -172,8 +172,19 @@
                     -->
 
                         {{else}} <!--Would then have to be a text type -->
-                        <p>Text Answer<a href="#popup-eleven"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
-                        <input name="regex" spellcheck="true" required>
+                        <p>Select All Eligible Answers<a href="#popup-eleven"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
+
+                        {{if .EmptyL}}<!--If there is no validation criteria display this -->
+                        <br>
+                        <p id="error_msg">Add Validation Criteria To This Question Before Adding Eligibility Criteria.</p><br>
+                        {{end}}<!-- End .EmptyList -->
+                        <select style="min-width: 150px; height: 100px;" name="regex"  multiple required>
+                            <option></option>
+                            {{range .List}}
+                            <option value="{{.}}">{{.}}</option>
+                            {{end}}
+                        </select>
+                        <br>
                         {{end}}<!--End .NumQ-->
                     {{end}}<!--End .BoolQ -->
 
@@ -381,12 +392,12 @@
     <div class="popup" id="popup-eleven" aria-hidden="true">
         <div class="popup-dialog">
             <div class="popup-header">
-                <h2>Text Answers</h2>
+                <h2>Select Answers</h2>
                 <a href="#close" class="btn-close" aria-hidden="true">×</a>
             </div>
             <div class="popup-body">
-                <p class="popup-content">Enter all valid answers into this text box. Answers are case <em>insensitive</em>. If there are multiple options for answers, separate them with a | character.</p><br>
-                <p class="popup-content">Ex: male|female|other is valid input for having options for answers of male, female, or other with any capitalizations.</p><br>
+                <p class="popup-content">Select all answers from the options that would allow a person to qualify for this service. If the option does not appear in the list, edit the question and add it as validation criteria first.</p><br>
+                <p class="popup-content">To select multiple options:  Press ctrl + click for Windows or command + click for Mac.</p><br>
             </div>
             <div class="popup-footer">
                 <a href="#close" class="btn">Close</a>
