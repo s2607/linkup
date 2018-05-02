@@ -218,7 +218,7 @@ func qdisp(w http.ResponseWriter, k int64, msg string) {
     anim := ""
     var sArr []string
     var possAns []string
-
+    emptyList := false
 
 	q.key = k
 	err := Sget(q)//TODO: check errors
@@ -226,12 +226,16 @@ func qdisp(w http.ResponseWriter, k int64, msg string) {
 
     switch q.qtype {
         //case 0: puts all possible text answers in a drop down list
-        case 0: for _, c := range q.clist {
+        case 0: if q.clist != nil{
+        for _, c := range q.clist {
                     sArr = strings.Split(c.regex, "|")
                     for _, s := range sArr{
                         possAns = append(possAns, s)
                     }
                 }
+        }else{
+            emptyList = true
+        }
 		case 1: numAnswer = true
         case 2: boolAnswer = true
     }
@@ -250,6 +254,7 @@ func qdisp(w http.ResponseWriter, k int64, msg string) {
         M string
         A string
         S []string
+        EmptyL bool
     }{
         q,
         numAnswer,
@@ -257,6 +262,7 @@ func qdisp(w http.ResponseWriter, k int64, msg string) {
         msg,
         anim,
         possAns,
+        emptyList,
     }
 
 	err = t.Execute(w,data)

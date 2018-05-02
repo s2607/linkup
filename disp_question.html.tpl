@@ -46,21 +46,24 @@
             <div>{{.Q.Pprompt}}</div>
             <br>
             <input name="qanswer" type="number" value="" step="any" required>
-            <br>
+            <br><br>
             <input id="submit_button" type=submit value="Submit">
         </form>
         {{else}}
         <form id="form" method="post" style="{{.A}};">
             <div>{{.Q.Pprompt}}</div>
             <br>
-            <!--<input name="qanswer" type="text" value="" spellcheck="true" required>-->
-            <select name="qanswer" required>
+            {{if .EmptyL}}
+            <input name="qanswer" type="text" value="" spellcheck="true" required>
+            {{else}}
+            <select style="min-width: 120px;" name="qanswer" required>
                 <option></option>
                 {{range .S}}
                 <option value="{{.}}">{{.}}</option>
                 {{end}}
             </select>
-            <br>
+            {{end}}
+            <br><br>
             <input id="submit_button" type=submit value="Submit">
         </form>
         {{end}}
