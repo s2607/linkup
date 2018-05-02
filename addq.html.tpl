@@ -81,7 +81,7 @@
                 </div>
 
                 <form id="form" action="/newq" method="post" style="{{.A}};">
-                <h3 style="{{.A}};">Add Possible Answer</h3>
+                <h3 style="{{.A}};">Add All Possible Answers</h3>
                 {{if .N}}
                     <p>Minimum<a href="#popup-two"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
                     <input type="number" name="aval" step="any">
