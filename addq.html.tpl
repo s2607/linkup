@@ -31,15 +31,7 @@
 
         <div id="succ_msg">{{.M}}</div>
 
-        {{if .Back}} <!-- if they came directly from the service, show this -->
-        <form id="form" action="/newserv" method="post" style="animation: none; margin-top: 10px;">
-            <input name="nskey" type="hidden" value="{{.S}}">
-            <input name="nqkey" type="hidden" value="{{.O.Pkey}}">
-            <input id="submit_button_serv" value="Back To Service Program" type=submit>
-        </form>
-        {{end}}
-
-        <form id="form" action="/newq" method="post" style="{{.A}};">
+        <form id="form" class="prompt_form" action="/newq" method="post" style="{{.A}};">
             <p>Question Prompt</p>
             <input name="prompt" value="{{.O.Pprompt}}" spellcheck="true" required>
             {{if not .E}}<!-- hide type editing-->
@@ -55,13 +47,34 @@
             <input name="qtype" type="hidden" value="{{.O.Ptype}}">
             {{end}}
             <input name="nqkey" type="hidden" value="{{.O.Pkey}}">
-            <input name="nskey" type="hidden" value="{{.S}}">
+            <input name="nskey" type="hidden" value="{{.S.Pkey}}">
             <!-- The last input (with name editing) is only used for deciding which message to display by what the title is -->
             <input name="editing" type="hidden" value="{{.T}}"><br>
             <input id="submit_button" value="Submit" type=submit>
         </form>
 
+        {{if .Back}} <!-- if they came directly from the service, show this -->
+        <form id="back_form" action="/newserv" method="post">
+            <p><b>Finished Adding This Question?</b></p><br>
+            <p>Go back and associate it to <br><b><em>{{.S.Pname}}</em></b></p><br>
+            <input name="nskey" type="hidden" value="{{.S.Pkey}}">
+            <input name="nqkey" type="hidden" value="{{.O.Pkey}}">
+            <input id="submit_button_serv" value="Back To Service Program" type=submit>
+        </form>
+        {{end}}
+
         {{if .E}}<!-- Show if editing a question -->
+
+        {{if .B}}<!-- Make back to service form appear under the prompt form only if type is yes/no -->
+        <style>
+            #back_form
+            {
+                position: relative;
+                top: 0;
+                right: 0;
+            }
+        </style>
+        {{end}}
 
         {{if not .B}}<!-- If its a bool, there is no adding criteria option -->
         <!-- Make single column layout appear -->
@@ -107,7 +120,7 @@
 
                 <br>
 
-                <input name="nskey" type="hidden" value="{{.S}}">
+                <input name="nskey" type="hidden" value="{{.S.Pkey}}">
                 <input type="hidden" name="qkey" value="{{.O.Pkey}}"><!-- used to add criterion -->
                 <input type="hidden" name="nqkey" value="{{.O.Pkey}}"><br>
                 <input id="submit_button" value="Submit" type=submit>
@@ -131,7 +144,7 @@
                 {{$Animation := .A}}
                 {{$QKey := .O.Pkey}}
                 {{$Question := .O}}
-                {{$SKey := .S}}
+                {{$SKey := .S.Pkey}}
                 {{range .O.Pclist}}
 	           <form id="form" action="delqc" method="post" style="{{$Animation}};">
                    <div id="value"><b>Value:</b> {{$Question.Pvalue .}}</div>

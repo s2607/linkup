@@ -58,7 +58,7 @@
 
             <div id="left_container">
                 <div id="title" style="{{.A}};">
-                    <h2>Questions<a href="#popup-four"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h2>
+                    <h2>Questions For Service<a href="#popup-four"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h2>
                 </div>
 
                 {{if .Assoc}}<!--Show associate a question form if button clicked -->
@@ -72,7 +72,7 @@
                     <h3 style="{{.A}};">Associate Question To Service<a href="#popup-two"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h3>
                     <p>Question ID</p>
                     <input name="nskey" type="hidden" value="{{.O.Pkey}}">
-                    <input name="nprompt" type="number" value="{{.Qid}}" required><br>
+                    <input name="nprompt" type="number" value="{{.Qid}}" readonly required><br>
                     <input id="submit_button" value="Submit" type=submit>
                 </form>
 
@@ -86,7 +86,7 @@
 
                 {{if .QList}} <!--If there ARE associated questions, show them -->
                 <hr>
-                <h3 style="{{.A}};">Question List<a href="#popup-three"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h3>
+                <h3 style="{{.A}};">Associated Questions<a href="#popup-three"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h3>
                 <div id="question_list" class="remove">
                     {{$Animation := .A}}
                     {{$ServiceKey := .O.Pkey}}
@@ -162,12 +162,14 @@
                     -->
 
                         {{else}} <!--Would then have to be a text type -->
-                        <p>Select All Eligible Answers<a href="#popup-eleven"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
 
                         {{if .EmptyL}}<!--If there is no validation criteria display this -->
                         <br>
                         <p id="error_msg">Add Validation Criteria To This Question Before Adding Eligibility Criteria.</p><br>
                         {{end}}<!-- End .EmptyList -->
+
+                        <p>Select All Eligible Answers<a href="#popup-eleven"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
+
                         <select style="min-width: 150px; height: 100px;" name="regex"  multiple required>
                             <option></option>
                             {{range .List}}

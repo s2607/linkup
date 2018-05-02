@@ -73,6 +73,21 @@ body
     animation-timing-function: ease-in-out;
 }
 
+#back_form
+{
+    position: absolute;
+    top: 170px;
+    right: 12%;
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    padding: 10px;
+    text-align: center;
+    box-sizing: border-box;
+    border: 1px solid black;
+}
+
 h3
 {
     color: black;
@@ -346,6 +361,24 @@ hr
 }
 
 /*For Small Screens*/
+
+@media only screen and (max-width: 1300px)
+{
+    #back_form
+    {
+        right: 5%;
+    }
+}
+
+@media only screen and (max-width: 1000px)
+{
+    #back_form
+    {
+        position: relative;
+        top: 0;
+        right: 0;
+    }
+}
 
 @media only screen and (max-width: 600px)
 {

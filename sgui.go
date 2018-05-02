@@ -289,7 +289,9 @@ func questioncreate_handler(w http.ResponseWriter, r *http.Request) {
         anim := ""
         title := "Add"
         backToServe := false
-        servKey := r.FormValue("nskey") //used to send back to editing service if came from there
+        serv := new(service)
+        serv.key,_ = strconv.ParseInt(r.FormValue("nskey"),10,64) //used to send back to editing service if came from there
+
 
         //bools to show/hide forms
         editing := false
@@ -338,6 +340,7 @@ func questioncreate_handler(w http.ResponseWriter, r *http.Request) {
             //If they came directly from selecting a service, go back to it. Note: this must only appear after the question is created or they will return to the service with a question id for a nil question
             if r.FormValue("nskey") != ""{
                 backToServe = true
+                Sget(serv)
             }
         }
 
@@ -350,6 +353,7 @@ func questioncreate_handler(w http.ResponseWriter, r *http.Request) {
             title = "Edit"
             if r.FormValue("nskey") != ""{
                 backToServe = true
+                Sget(serv)
             }
 		}
 
@@ -362,6 +366,7 @@ func questioncreate_handler(w http.ResponseWriter, r *http.Request) {
             anim = "animation: none"
             if r.FormValue("nskey") != ""{
                 backToServe = true
+                Sget(serv)
             }
         }
 
@@ -376,7 +381,7 @@ func questioncreate_handler(w http.ResponseWriter, r *http.Request) {
             M string
             O *question
             T string
-            S string
+            S *service
             E bool
             Back bool
             N bool
@@ -387,7 +392,7 @@ func questioncreate_handler(w http.ResponseWriter, r *http.Request) {
             msg,
             nq,
             title,
-            servKey,
+            serv,
             editing,
             backToServe,
             numQ,
