@@ -98,13 +98,7 @@ func servicecreate_handler(w http.ResponseWriter, r *http.Request) {
             associateQuestion = true
         }
 
-        //takes to page to create new question if that button was clicked
-        if r.FormValue("createq") == "true" {
-            questioncreate_handler(w,r)
-            return
-        }
-
-        //shows form to associate questions if that button was clicked
+        //shows form to associate questions after searching for one
         if r.FormValue("assoc") == "true" {
             associateQuestion = true
             anim = "animation: none"
