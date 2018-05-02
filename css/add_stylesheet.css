@@ -109,6 +109,11 @@ h3
     bottom: 0px;
 }
 
+#value
+{
+    white-space: pre;
+}
+
 /** ANIMATIONS **/
 
 @keyframes fade_in

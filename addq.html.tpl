@@ -134,7 +134,7 @@
                 {{$SKey := .S}}
                 {{range .O.Pclist}}
 	           <form id="form" action="delqc" method="post" style="{{$Animation}};">
-                   <p style="margin-bottom: 0px;"><b>Criterion Value:</b> {{$Question.Pvalue .}}</p>
+                   <div id="value"><b>Value:</b> {{$Question.Pvalue .}}</div>
                    <input name="nskey" type="hidden" value="{{$SKey}}">
                    <input name="nqkey" type="hidden" value="{{$QKey}}">
                    <input name="nckey" type="hidden" value="{{.Pkey}}"><br>

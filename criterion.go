@@ -196,16 +196,16 @@ func (o *criterion) Pvalue() string{
 
                     }else{
                         if o.exclusive{
-                            s =  strconv.FormatFloat(o.aval, 'f', 0, 64) + " to " + strconv.FormatFloat(o.bval, 'f', 0, 64) + " | Exclusive"
+                            s =  strconv.FormatFloat(o.aval, 'f', 0, 64) + " to " + strconv.FormatFloat(o.bval, 'f', 0, 64) + "\r\n- Exclusive"
                         }else{
                             s =  strconv.FormatFloat(o.aval, 'f', 0, 64) + " to " + strconv.FormatFloat(o.bval, 'f', 0, 64)
                         }
                     }
                     if o.onlyint{
-                        s += " | No Decimals"
+                        s += "\r\n- No Decimals"
                     }
                     if o.onlypos{
-                        s += " | Only Positives"
+                        s += "\r\n- Only Positives"
                     }
             case 2: if o.lval {
                         s = "Yes"
@@ -216,7 +216,7 @@ func (o *criterion) Pvalue() string{
 
         //adds conjunctive attribute
         if o.conj {
-            s += " | Non-Optional"
+            s += "\r\n- Non-Optional"
         }
 
     }

@@ -58,16 +58,16 @@ func (q *question) Pvalue(c *criterion) string{
                     }
                 }else{
                     if c.exclusive {
-                        s = strconv.FormatFloat(c.aval, 'f', 0, 64) + " to " + strconv.FormatFloat(c.bval, 'f', 0, 64) + " | Exclusive"
+                        s = strconv.FormatFloat(c.aval, 'f', 0, 64) + " to " + strconv.FormatFloat(c.bval, 'f', 0, 64) + "\r\n- Exclusive"
                     }else{
                         s = strconv.FormatFloat(c.aval, 'f', 0, 64) + " to " + strconv.FormatFloat(c.bval, 'f', 0, 64)
                     }
                 }
                 if c.onlyint{
-                        s += " | No Decimals"
+                        s += "\r\n- No Decimals"
                 }
                 if c.onlypos{
-                    s += " | Only Positives"
+                    s += "\r\n- Only Positives"
                 }
         case 2: if c.lval {
                 s = "Yes"
