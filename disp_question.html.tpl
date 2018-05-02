@@ -53,7 +53,13 @@
         <form id="form" method="post" style="{{.A}};">
             <div>{{.Q.Pprompt}}</div>
             <br>
-            <input name="qanswer" type="text" value="" spellcheck="true" required>
+            <!--<input name="qanswer" type="text" value="" spellcheck="true" required>-->
+            <select name="qanswer" required>
+                <option></option>
+                {{range .S}}
+                <option value="{{.}}">{{.}}</option>
+                {{end}}
+            </select>
             <br>
             <input id="submit_button" type=submit value="Submit">
         </form>

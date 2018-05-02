@@ -216,13 +216,22 @@ func qdisp(w http.ResponseWriter, k int64, msg string) {
     numAnswer := false
     boolAnswer := false
     anim := ""
+    var sArr []string
+    var possAns []string
+
 
 	q.key = k
 	err := Sget(q)//TODO: check errors
 	checkErr(err)
 
     switch q.qtype {
-        case 0: //Do nothing as it defaults to text
+        //case 0: puts all possible text answers in a drop down list
+        case 0: for _, c := range q.clist {
+                    sArr = strings.Split(c.regex, "|")
+                    for _, s := range sArr{
+                        possAns = append(possAns, s)
+                    }
+                }
 		case 1: numAnswer = true
         case 2: boolAnswer = true
     }
@@ -240,12 +249,14 @@ func qdisp(w http.ResponseWriter, k int64, msg string) {
         B bool
         M string
         A string
+        S []string
     }{
         q,
         numAnswer,
         boolAnswer,
         msg,
         anim,
+        possAns,
     }
 
 	err = t.Execute(w,data)
@@ -494,8 +505,6 @@ func qprompt_handler(w http.ResponseWriter, r *http.Request) {
 			}else {
 				err := qanswer(k,r.FormValue("qanswer"),o.cresp)
 				if  err != nil {
-					/*w.Header().Set("Content-Type", "text/html")
-					w.Write([]byte("<body>Failed "+err.Error()+"</body>\n"))*/
                     qdisp(w,k, err.Error())
 				}else {
 					//err := Sstore(o)
