@@ -428,6 +428,10 @@ func Ursession_handler(w http.ResponseWriter, r *http.Request) {
         return
 	}
 
+    //resets the current service of the operator(aka interviewer) for the new responder
+    o.cser = nil
+    Sstore(o)
+
 
 
     if r.FormValue("rkey") =="" {
