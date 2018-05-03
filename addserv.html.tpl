@@ -111,7 +111,7 @@
                         <input name="nskey" type="hidden" value="{{$ServiceKey}}">
                         <input id="submit_button_assoc" value="Add A Criterion" type="submit">
                     </form>
-                        </div>
+                    </div><!-- End action div -->
                     </div><!-- End shown div-->
                     {{end}}<!--End Range-->
                 </div>
