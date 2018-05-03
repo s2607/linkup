@@ -190,8 +190,8 @@
                 <a href="#close" class="btn-close" aria-hidden="true">×</a>
             </div>
             <div class="popup-body">
-                <p class="popup-content">Enter all valid answers into this text box. Answers are case <em>insensitive</em>. If there are multiple options for answers, separate them with a | character.</p><br>
-                <p class="popup-content">Ex: male|female|other is valid input for having options for answers of male, female, or other with any capitalizations.</p><br>
+                <p class="popup-content">Enter all valid answers into this text box. If there are multiple options for answers, separate them with a | character. Each answer will appear exactly as they are entered.</p><br>
+                <p class="popup-content">Ex: Male|Female|Other will set options for answers of Male, Female, and Other when answering the question in an interview.</p><br>
             </div>
             <div class="popup-footer">
                 <a href="#close" class="btn">Close</a>
@@ -290,7 +290,7 @@
                 <a href="#close" class="btn-close" aria-hidden="true">×</a>
             </div>
             <div class="popup-body">
-                <p class="popup-content">Add validation criteria to allow a specific set of values as possible answers to this question. Do not add validation criteria if this question is to be a free response question.</p><br>
+                <p class="popup-content">Add validation criteria to allow a specific set of values as possible answers to this question. You may add multiple criteria entries for a question. Do not add validation criteria if this question is to be a free response question.</p><br>
             </div>
             <div class="popup-footer">
                 <a href="#close" class="btn">Close</a>
