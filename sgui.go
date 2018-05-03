@@ -339,7 +339,7 @@ func questioncreate_handler(w http.ResponseWriter, r *http.Request) {
             }
 
             //If they came from adding a question to a service, go back to it.
-            if r.FormValue("nskey") != ""{
+            if r.FormValue("nskey") != "" && r.FormValue("nskey") != "0"{
                 backToServ = true
                 Sget(serv)
             }
@@ -352,7 +352,7 @@ func questioncreate_handler(w http.ResponseWriter, r *http.Request) {
             msg = "Criterion Created"
             anim = "animation: none"
             title = "Edit"
-            if r.FormValue("nskey") != ""{
+            if r.FormValue("nskey") != "" && r.FormValue("nskey") != "0"{
                 backToServ = true
                 Sget(serv)
             }
@@ -371,7 +371,7 @@ func questioncreate_handler(w http.ResponseWriter, r *http.Request) {
         if r.FormValue("nckey") != "" {
             msg = "Criterion Removed"
             anim = "animation: none"
-            if r.FormValue("nskey") != ""{
+            if r.FormValue("nskey") != "" && r.FormValue("nskey") != "0"{
                 backToServ = true
                 Sget(serv)
             }
