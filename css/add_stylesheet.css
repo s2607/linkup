@@ -70,11 +70,18 @@ h3
 #prompt, #criterion
 {
     font-size: 20px;
+    text-align: center;
+}
+
+#prompt
+{
+    margin-top: 50px;
 }
 
 #qid
 {
     color: black;
+    text-align: center;
 }
 
 .form_button
@@ -112,6 +119,67 @@ h3
 #value
 {
     white-space: pre;
+}
+
+/*For "Select An Action" dropdown in addserv.html*/
+.action
+{
+    text-align: center;
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 10px;
+
+}
+
+.action:hover{
+    cursor: pointer;
+}
+
+.shown
+{
+    text-align: center;
+    margin-top: -80px;
+    background: #555;
+    border-radius: 10px;
+    height: 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: opacity .5s ease, transform .5s ease;
+    -webkit-transform: scaleY(0);
+    -webkit-transform-origin: top;
+    -webkit-transition: opacity .5s ease, transform .5s ease;
+    -ms-transform: scaleY(0);
+    -ms-transform-origin: top;
+    -moz-transform: scaleY(0);
+    -moz-transform-origin: top;
+    -moz-transition: opacity .5s ease, transform .5s ease;
+}
+
+.action:focus-within
+{
+    outline: none;
+}
+
+.action:focus-within > .shown
+{
+    height: auto;
+    opacity: 1;
+    visibility: visible;
+    transform: scaleY(1);
+    -webkit-transform: scaleY(1);
+    -ms-transform: scaleY(1);
+    -moz-transform: scaleY(1);
+}
+
+.arrow
+{
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
 }
 
 /** ANIMATIONS **/
