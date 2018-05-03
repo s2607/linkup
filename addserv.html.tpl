@@ -95,10 +95,10 @@
                     <div id="qid">ID: {{.Pkey}}</div>
                     <div class="action" tabindex="1">Select An Action <span><img class="arrow" src="imgs/chevron.png"></span>
                     <div class="shown"><!-- This div appears with click of .action div right above -->
-                    <form id="form" action="delq" method="post" style="{{$Animation}};">
-                        <input name="ikey" type="hidden" value="{{.Pkey}}">
+                    <form class="form_button" action="/newserv" method="post" style="{{$Animation}};">
+                        <input name="questionid" value="{{.Pkey}}" type="hidden">
                         <input name="nskey" type="hidden" value="{{$ServiceKey}}">
-                        <input id="submit_button_assoc" value="Disassociate" type="submit" style="margin-top: 20px;">
+                        <input id="submit_button_assoc" value="Add A Criterion" type="submit" style="margin-top: 20px;">
                     </form>
                     <form class="form_button" action="/newq" method="post" style="{{$Animation}}; margin-top: 0px;">
                         <input name="nqkey" value="{{.Pkey}}" type="hidden">
@@ -106,11 +106,12 @@
                         <input name="editfromserv" type="hidden" value="true">
                         <input id="submit_button_assoc" value="Edit Question" type="submit">
                     </form>
-                    <form class="form_button" action="/newserv" method="post" style="{{$Animation}}; margin-top: 0px;">
-                        <input name="questionid" value="{{.Pkey}}" type="hidden">
+                    <form id="form_button" action="delq" method="post" style="{{$Animation}}; margin-top: 0px;">
+                        <input name="ikey" type="hidden" value="{{.Pkey}}">
                         <input name="nskey" type="hidden" value="{{$ServiceKey}}">
-                        <input id="submit_button_assoc" value="Add A Criterion" type="submit">
+                        <input id="submit_button_assoc" value="Disassociate" type="submit">
                     </form>
+
                     </div><!-- End action div -->
                     </div><!-- End shown div-->
                     {{end}}<!--End Range-->
