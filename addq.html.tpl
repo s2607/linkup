@@ -46,6 +46,9 @@
             {{if .E}}<!-- retains type when editing question -->
             <input name="qtype" type="hidden" value="{{.O.Ptype}}">
             {{end}}
+            {{if .EFS}}<!--Retain value if edit question button clicked on addserve page -->
+            <input name="editfromserv" type="hidden" value="true">
+            {{end}}
             <input name="nqkey" type="hidden" value="{{.O.Pkey}}">
             <input name="nskey" type="hidden" value="{{.S.Pkey}}">
             <!-- The last input (with name editing) is only used for deciding which message to display by what the title is -->
@@ -54,12 +57,14 @@
         </form>
 
         {{if .Back}} <!-- if they came directly from the service, show this -->
-        <form id="back_form" action="/newserv" method="post">
-            <p><b>Finished Adding This Question?</b></p><br>
+        <form id="back_form" action="/newserv" method="post" style="{{.A}};">
+            <p><b>Finished With This Question?</b></p><br>
             <p>Go back and associate it to <br><b><em>{{.S.Pname}}</em></b></p><br>
             <input name="nskey" type="hidden" value="{{.S.Pkey}}">
+            {{if not .EFS}}<!-- do not include the nqkey if coming from service to edit question so the assoc form does not show -->
             <input name="nqkey" type="hidden" value="{{.O.Pkey}}">
-            <input id="submit_button_serv" value="Back To Service Program" type=submit>
+            {{end}}
+            <input id="submit_button_serv" value="Back To Service Program" type="submit">
         </form>
         {{end}}
 
@@ -120,6 +125,9 @@
 
                 <br>
 
+                {{if .EFS}}<!--Retain value if edit question button clicked on addserve page -->
+                <input name="editfromserv" type="hidden" value="true">
+                {{end}}
                 <input name="nskey" type="hidden" value="{{.S.Pkey}}">
                 <input type="hidden" name="qkey" value="{{.O.Pkey}}"><!-- used to add criterion -->
                 <input type="hidden" name="nqkey" value="{{.O.Pkey}}"><br>
@@ -141,16 +149,24 @@
                     <h2>Delete A Criterion<a href="#popup-five"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h2>
                 </div>
 
+                <!--Variables for use in the range .O.Pclist -->
                 {{$Animation := .A}}
                 {{$QKey := .O.Pkey}}
                 {{$Question := .O}}
                 {{$SKey := .S.Pkey}}
+                {{$EditFromServ := .EFS}}
+
+
                 {{range .O.Pclist}}
 	           <form id="form" action="delqc" method="post" style="{{$Animation}};">
                    <div id="value"><b>Value:</b> {{$Question.Pvalue .}}</div>
                    <input name="nskey" type="hidden" value="{{$SKey}}">
                    <input name="nqkey" type="hidden" value="{{$QKey}}">
-                   <input name="nckey" type="hidden" value="{{.Pkey}}"><br>
+                   <input name="nckey" type="hidden" value="{{.Pkey}}">
+                   {{if $EditFromServ}}<!--Retain value if edit question button clicked on addserve page -->
+                   <input name="editfromserv" type="hidden" value="true">
+                   {{end}}
+                   <br>
                    <input id="submit_button" value="Delete" type="submit">
                 </form><hr>
                 {{end}}<!-- End Range -->

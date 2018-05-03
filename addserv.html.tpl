@@ -98,12 +98,18 @@
                         <input name="nskey" type="hidden" value="{{$ServiceKey}}">
                         <input id="submit_button" value="Disassociate" type="submit" style="width: 120px;">
                     </form>
+                    <form class="form_button" action="/newq" method="post" style="{{$Animation}}; margin-top: 0px;">
+                        <input name="nqkey" value="{{.Pkey}}" type="hidden">
+                        <input name="nskey" type="hidden" value="{{$ServiceKey}}">
+                        <input name="editfromserv" type="hidden" value="true">
+                        <input id="submit_button_assoc" value="Edit Question" type="submit">
+                    </form>
                     <form class="form_button" action="/newserv" method="post" style="{{$Animation}}; margin-top: 0px;">
                         <input name="questionid" value="{{.Pkey}}" type="hidden">
                         <input name="nskey" type="hidden" value="{{$ServiceKey}}">
                         <input id="submit_button_assoc" value="Add A Criterion" type="submit">
                     </form>
-                    {{end}}
+                    {{end}}<!--End Range-->
                 </div>
                 {{end}}<!--End .Qlist -->
 
@@ -165,7 +171,7 @@
 
                         {{if .EmptyL}}<!--If there is no validation criteria display this -->
                         <br>
-                        <p id="error_msg">Add Validation Criteria To This Question Before Adding Eligibility Criteria.</p><br>
+                        <p id="error_msg">Edit This Question To Add Validation Criteria Before Adding Eligibility Criteria.</p><br>
                         {{end}}<!-- End .EmptyList -->
 
                         <p>Select All Eligible Answers<a href="#popup-eleven"><img class="popup_icon" src="imgs/popup_icon.png"/></a></p>
@@ -200,7 +206,7 @@
                         <input name="nckey" type="hidden" value="{{.Pkey}}">
                         <input name="nskey" type="hidden" value="{{$ServiceKey2}}"><br>
                         <input id="submit_button" value="Remove" type=submit>
-                    </form>
+                    </form><hr>
                     {{end}}
                 </div>
                 {{end}}<!--End .Nec -->

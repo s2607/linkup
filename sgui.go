@@ -288,7 +288,7 @@ func questioncreate_handler(w http.ResponseWriter, r *http.Request) {
         msg := ""
         anim := ""
         title := "Add"
-        backToServe := false
+        backToServ := false
         serv := new(service)
         serv.key,_ = strconv.ParseInt(r.FormValue("nskey"),10,64) //used to send back to editing service if came from there
 
@@ -298,6 +298,7 @@ func questioncreate_handler(w http.ResponseWriter, r *http.Request) {
         numQ := false
         boolQ := false
         nonEmptyCriterion := false
+        editingFromServ := false
 
         if o == nil {
                 outpage("auth.html.tpl",w,map[string]string{"err":"Bad Session"})
@@ -337,9 +338,9 @@ func questioncreate_handler(w http.ResponseWriter, r *http.Request) {
                 case 2: boolQ = true
             }
 
-            //If they came directly from selecting a service, go back to it. Note: this must only appear after the question is created or they will return to the service with a question id for a nil question
+            //If they came from adding a question to a service, go back to it.
             if r.FormValue("nskey") != ""{
-                backToServe = true
+                backToServ = true
                 Sget(serv)
             }
         }
@@ -352,10 +353,16 @@ func questioncreate_handler(w http.ResponseWriter, r *http.Request) {
             anim = "animation: none"
             title = "Edit"
             if r.FormValue("nskey") != ""{
-                backToServe = true
+                backToServ = true
                 Sget(serv)
             }
 		}
+
+        if r.FormValue("editfromserv") == "true"{
+            backToServ = true
+            editingFromServ = true
+            Sget(serv)
+        }
 
         if nq.clist != nil {
             nonEmptyCriterion = true
@@ -365,7 +372,7 @@ func questioncreate_handler(w http.ResponseWriter, r *http.Request) {
             msg = "Criterion Removed"
             anim = "animation: none"
             if r.FormValue("nskey") != ""{
-                backToServe = true
+                backToServ = true
                 Sget(serv)
             }
         }
@@ -387,6 +394,7 @@ func questioncreate_handler(w http.ResponseWriter, r *http.Request) {
             N bool
             B bool
             CList bool
+            EFS bool
         }{
             anim,
             msg,
@@ -394,10 +402,11 @@ func questioncreate_handler(w http.ResponseWriter, r *http.Request) {
             title,
             serv,
             editing,
-            backToServe,
+            backToServ,
             numQ,
             boolQ,
             nonEmptyCriterion,
+            editingFromServ,
         }
 
 	   t.Execute(w,data)
