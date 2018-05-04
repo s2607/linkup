@@ -227,7 +227,7 @@ func qdisp(w http.ResponseWriter, k int64, msg string) {
     switch q.qtype {
         //case 0: puts all possible text answers in a drop down list
         case 0: if q.clist != nil{
-        for _, c := range q.clist {
+            for _, c := range q.clist {
                     sArr = strings.Split(c.regex, "|")
                     for _, s := range sArr{
                         possAns = append(possAns, s)
