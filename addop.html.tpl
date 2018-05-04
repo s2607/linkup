@@ -54,9 +54,9 @@
             </div>
             <div class="popup-body">
                 {{if .E}}
-                <p class="popup-content">Change either the username and/or the password.</p>
+                <p class="popup-content">Change the username, password, and/or administrative privileges.</p>
                 {{else}}
-                <p class="popup-content">Create a new account for a person to interview other people.</p>
+                <p class="popup-content">Create a new account for a person to be an interviewer or administrator.</p>
                 {{end}}
             </div>
             <div class="popup-footer">
