@@ -262,12 +262,14 @@
     <div class="popup" id="popup-three" aria-hidden="true">
         <div class="popup-dialog">
             <div class="popup-header">
-                <h2>Question List</h2>
+                <h2>Associated Questions</h2>
                 <a href="#close" class="btn-close" aria-hidden="true">×</a>
             </div>
             <div class="popup-body">
-                <p class="popup-content">Click the <b><em>Disassociate</em></b> button to detach the question from this service.</p><br>
-                <p class="popup-content">Click the <b><em>Add A Criterion</em></b> button to create the criteria for this question in order to qualify for this service.</p>
+                <p class="popup-content">Using the <b><em>Select An Action</em></b> menu: </p><br />
+                <p class="popup-content">Click the <b><em>Add A Criterion</em></b> button to create the criteria for this question in order to qualify for this service.</p><br />
+                <p class="popup-content">Click the <b><em>Edit Question</em></b> button to add validation criteria for this question which will serve as all the possibilities that this question could be answered.</p><br />
+                <p class="popup-content">Click the <b><em>Disassociate</em></b> button to detach the question from this service.</p><br />
             </div>
             <div class="popup-footer">
                 <a href="#close" class="btn">Close</a>
@@ -283,8 +285,7 @@
                 <a href="#close" class="btn-close" aria-hidden="true">×</a>
             </div>
             <div class="popup-body">
-                <p class="popup-content">Click the <b><em>Create A New Question</em></b> button to add a brand new question to the system. You then must go back and search for your service to return here.</p><br>
-                <p class="popup-content">Click the <b><em>Associate A Question</em></b> button to associate an existing question to this service.</p>
+                <p class="popup-content">Click the <b><em>Search For Question</em></b> button to associate questions to this service.</p><br>
             </div>
             <div class="popup-footer">
                 <a href="#close" class="btn">Close</a>
