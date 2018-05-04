@@ -26,7 +26,17 @@
             <h1>Answer Question</h1>
         </div>
 
-        <div id="error_msg">{{.M}}</div>
+        <div id="error_msg">
+            {{.M}}
+            <br />
+            {{$Question := .Q}}
+            {{if ne .M ""}}<!-- show criterion for question if there is an error -->
+                Valid Responses Are: <br />
+                {{range .Q.Pclist}}
+                    {{$Question.Pvalue .}}<br />
+                {{end}}
+            {{end}}
+        </div>
 
         {{if .B}}
         <form id="form" method="post" style="{{.A}};">
