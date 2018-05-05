@@ -19,6 +19,7 @@ func sometestdata() {
 		fmt.Println("Creating default user")
 		Init(o)
 		o.uname = "swiley"
+		o.admin = true
 		o.setpss("abc123")
         o.setAdmin("true")
 		Sstore(o)

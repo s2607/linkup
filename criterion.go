@@ -30,7 +30,7 @@ type criterion struct {
 func (o *criterion) checkstr(v string) bool{
     v = strings.ToLower(v)
 	fmt.Println("check str:"+v+" "+o.regex)
-	regex,_ := regexp.Compile(strings.ToLower(o.regex))
+	regex,_ := regexp.Compile(strings.ToLower("^("+o.regex+")$"))
 	//return o.checkbool(v==o.regex)//regex sans the +,*and () operators
 	return o.checkbool(regex.MatchString(v))
 }
