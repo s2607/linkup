@@ -106,6 +106,8 @@ func initdb () *sql.DB{
 		"regex":"string",
 		"qtype":"int",
 		"qkey":"int",
+        "apresent":"bool",
+		"bpresent":"bool",
 	})
 	//relation tables
 	mktab(d,"respondersresponse",map[string]string{

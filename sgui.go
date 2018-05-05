@@ -425,8 +425,14 @@ func createc(nc *criterion,r *http.Request)error{
         }
         regValue = strings.TrimSuffix(regValue, "|") //removes the last "|" character
 		nc.regex= regValue
-		nc.aval,_=strconv.ParseFloat(r.FormValue("aval"),64)
-		nc.bval,_=strconv.ParseFloat(r.FormValue("bval"),64)
+		if r.FormValue("aval")!=""{
+			nc.aval,_=strconv.ParseFloat(r.FormValue("aval"),64)
+			nc.apresent=true
+		}else {nc.apresent=false}
+		if r.FormValue("bval")!=""{
+			nc.bval,_=strconv.ParseFloat(r.FormValue("bval"),64)
+			nc.bpresent=true
+		}else {nc.bpresent=false}
 		nc.lval=ist(r.FormValue("lval"))
 		nc.isnl=ist(r.FormValue("isnil"))
 		nc.inv=ist(r.FormValue("inv"))

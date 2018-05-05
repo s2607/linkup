@@ -21,6 +21,8 @@ type criterion struct {
     onlyint bool
     onlypos bool
     exclusive bool
+    apresent bool
+    bpresent bool
 	q *question
 	nchan chan bool
 }
@@ -41,7 +43,7 @@ func (o *criterion) checkint(x string) bool{
 	if o.onlyint && v!=float64(int64(v)) {return o.checkbool(false)}
     if o.exclusive && (v<=o.aval || v>=o.bval) {return o.checkbool(false)}
 	if err != nil { return o.checkbool(false)}
-	return o.checkbool(v>=o.aval&&v<=o.bval)
+	return o.checkbool(((!o.apresent)||v>=o.aval)&&((!o.bpresent)||v<=o.bval))
 }
 
 func (o *criterion) checkbool(v bool) bool{//other check methods call this one 
@@ -123,7 +125,7 @@ func (o *criterion) Store(Db *sql.DB) error{
 		o.key, err = res.LastInsertId()
 		checkErr(err)
 	} else  { //store
-		stmt, err := Db.Prepare("update criterion set(key , aval, bval, regex, lval, isnil, inv, exc, pos, dec, conj, qkey) = (?,?,?,?,?,?,?,?,?,?,?,?) where key = ?")
+		stmt, err := Db.Prepare("update criterion set(key , aval, bval, regex, lval, isnil, inv, exc, pos, dec, conj, qkey, apresent, bpresent) = (?,?,?,?,?,?,?,?,?,?,?,?,?,?) where key = ?")
 
 		checkErr(err)
 		var qk int64
@@ -132,7 +134,7 @@ func (o *criterion) Store(Db *sql.DB) error{
 		} else {
 			qk = 0
 		}
-		res, err := stmt.Exec(o.key, o.aval, o.bval, o.regex, o.lval, o.isnl, o.inv, o.exclusive, o.onlypos, o.onlyint, o.conj, qk, o.key)
+		res, err := stmt.Exec(o.key, o.aval, o.bval, o.regex, o.lval, o.isnl, o.inv, o.exclusive, o.onlypos, o.onlyint, o.conj, qk, o.apresent, o.bpresent, o.key)
 		checkErr(err)
 		if res == nil {//XXX
 			panic(err)//never happens?
@@ -147,7 +149,7 @@ func (o *criterion) Get(Db *sql.DB) error{
 		//if err !=nil {return err}
 		return errors.New("not implemented")
 	} else {
-		err := Db.QueryRow("select key , aval, bval, regex, lval, isnil, inv, exc, pos, dec, conj, qkey from criterion where key = ?", o.key).Scan(&o.key,&o.aval,&o.bval,&o.regex,&o.lval,&o.isnl,&o.inv,&o.exclusive,&o.onlypos,&o.onlyint,&o.conj,&qkey)
+		err := Db.QueryRow("select key , aval, bval, regex, lval, isnil, inv, exc, pos, dec, conj, qkey, apresent, bpresent from criterion where key = ?", o.key).Scan(&o.key,&o.aval,&o.bval,&o.regex,&o.lval,&o.isnl,&o.inv,&o.exclusive,&o.onlypos,&o.onlyint,&o.conj,&qkey, &o.apresent, &o.bpresent)
 		fmt.Print("retrived ")
 		fmt.Println(o)
 		if err !=nil {o.key = 0; return err}
@@ -188,17 +190,41 @@ func (o *criterion) Pvalue() string{
         switch o.q.qtype {
             case 0: s = o.regex
             case 1: if o.inv {
-                        if o.exclusive{
-                            s = "Less Than Or Equal To " +  strconv.FormatFloat(o.aval, 'f', 0, 64) + " And Greater Than Or Equal To " + strconv.FormatFloat(o.bval, 'f', 0, 64)
+                        if !o.apresent && !o.bpresent{
+                            s = "Any Value"
                         }else{
-                            s = "Less Than " +  strconv.FormatFloat(o.aval, 'f', 0, 64) + " And Greater Than " + strconv.FormatFloat(o.bval, 'f', 0, 64)
+                            if !o.apresent && o.bpresent{
+                                s = "Greater Than Or Equal To " + strconv.FormatFloat(o.bval, 'f', 0, 64)
+                            } else {
+                                if o.apresent && !o.bpresent{
+                                    s = "Less Than Or Equal To " + strconv.FormatFloat(o.aval, 'f', 0, 64)
+                                } else {
+                                    if o.exclusive{
+                                        //TODO: add checks for apresent and bpresent again
+                                        s = "Less Than Or Equal To " +  strconv.FormatFloat(o.aval, 'f', 0, 64) + " And Greater Than Or Equal To " + strconv.FormatFloat(o.bval, 'f', 0, 64)
+                                    }else{
+                                        s = "Less Than " +  strconv.FormatFloat(o.aval, 'f', 0, 64) + " And Greater Than " + strconv.FormatFloat(o.bval, 'f', 0, 64)
+                                    }
+                                }
+                            }
                         }
-
                     }else{
-                        if o.exclusive{
-                            s =  strconv.FormatFloat(o.aval, 'f', 0, 64) + " to " + strconv.FormatFloat(o.bval, 'f', 0, 64) + "\r\n- Exclusive"
+                         if !o.apresent && !o.bpresent{
+                            s = "Any Value"
                         }else{
-                            s =  strconv.FormatFloat(o.aval, 'f', 0, 64) + " to " + strconv.FormatFloat(o.bval, 'f', 0, 64)
+                            if !o.apresent && o.bpresent{
+                                s = "Less Than Or Equal To " + strconv.FormatFloat(o.bval, 'f', 0, 64)
+                            } else {
+                                if o.apresent && !o.bpresent{
+                                    s = "Greater Than Or Equal To " + strconv.FormatFloat(o.aval, 'f', 0, 64)
+                                } else {
+                                    if o.exclusive{
+                                        s =  strconv.FormatFloat(o.aval, 'f', 0, 64) + " to " + strconv.FormatFloat(o.bval, 'f', 0, 64) + "\r\n- Exclusive"
+                                    }else{
+                                        s =  strconv.FormatFloat(o.aval, 'f', 0, 64) + " to " + strconv.FormatFloat(o.bval, 'f', 0, 64)
+                                    }
+                                }
+                            }
                         }
                     }
                     if o.onlyint{
