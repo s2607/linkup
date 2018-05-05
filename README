@@ -1,0 +1,9 @@
+#Linkup
+
+See other documentation for more details, the UML class diagram is now a bit out of date but should give you a good idea where everything is comming from
+
+t.sql contains the current test data, it's not indicitive of what the actuall services expect and only serves to demonstrait some of the features of the project and quickly test the UI. If you change the database schema it will no longer apply.
+
+You should change the password for the "swiley" operator if you use this in production.
+
+
