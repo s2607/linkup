@@ -35,7 +35,7 @@ CREATE TABLE question (key integer primary key asc,prompt string,qtype int);
 INSERT INTO question VALUES(2,'Are you married?',2);
 INSERT INTO question VALUES(3,'Do you own a vehical?',2);
 INSERT INTO question VALUES(4,'What is your median income?',1);
-INSERT INTO question VALUES(5,'What is your yearly household income? (please round to integer dollars)',1);
+INSERT INTO question VALUES(5,'What is your yearly household income?',1);
 INSERT INTO question VALUES(6,'Do you receive any other support from other beneficiaries?',2);
 INSERT INTO question VALUES(7,'Do you have any dependants?',2);
 INSERT INTO question VALUES(8,'How many children do you have?',1);
