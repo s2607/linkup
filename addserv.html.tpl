@@ -58,7 +58,7 @@
 
             <div id="left_container">
                 <div id="title" style="{{.A}};">
-                    <h2>Questions For Service<a href="#popup-four"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h2>
+                    <h2>Questions For {{.O.Pname}}<a href="#popup-four"><img class="popup_icon" src="imgs/popup_icon.png"/></a></h2>
                 </div>
 
                 {{if .Assoc}}<!--Show associate a question form if button clicked -->
