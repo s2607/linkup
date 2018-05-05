@@ -51,16 +51,41 @@ func (q *question) Pvalue(c *criterion) string{
     switch q.qtype {
         case 0: s = c.regex
         case 1: if c.inv {
-                    if c.exclusive{
-                        s = "Less Than Or Equal To " + strconv.FormatFloat(c.aval, 'f', 0, 64) + " And Greater Than Or Equal To " + strconv.FormatFloat(c.bval, 'f', 0, 64)
+                    if !c.apresent && !c.bpresent{
+                        s = "Any Value"
                     }else{
-                        s = "Less Than " + strconv.FormatFloat(c.aval, 'f', 0, 64) + " And Greater Than " + strconv.FormatFloat(c.bval, 'f', 0, 64)
+                        if !c.apresent && c.bpresent{
+                            s = "Greater Than Or Equal To " + strconv.FormatFloat(c.bval, 'f', 0, 64)
+                        } else {
+                            if c.apresent && !c.bpresent{
+                                s = "Less Than Or Equal To " + strconv.FormatFloat(c.aval, 'f', 0, 64)
+                            } else {
+                                if c.exclusive{
+                                    //TODO: add checks for apresent and bpresent again
+                                    s = "Less Than Or Equal To " +  strconv.FormatFloat(c.aval, 'f', 0, 64) + " And Greater Than Or Equal To " + strconv.FormatFloat(c.bval, 'f', 0, 64)
+                                }else{
+                                    s = "Less Than " +  strconv.FormatFloat(c.aval, 'f', 0, 64) + " And Greater Than " + strconv.FormatFloat(c.bval, 'f', 0, 64)
+                                }
+                            }
+                        }
                     }
                 }else{
-                    if c.exclusive {
-                        s = strconv.FormatFloat(c.aval, 'f', 0, 64) + " to " + strconv.FormatFloat(c.bval, 'f', 0, 64) + "\r\n- Exclusive"
+                    if !c.apresent && !c.bpresent{
+                        s = "Any Value"
                     }else{
-                        s = strconv.FormatFloat(c.aval, 'f', 0, 64) + " to " + strconv.FormatFloat(c.bval, 'f', 0, 64)
+                        if !c.apresent && c.bpresent{
+                            s = "Less Than Or Equal To " + strconv.FormatFloat(c.bval, 'f', 0, 64)
+                        } else {
+                            if c.apresent && !c.bpresent{
+                                s = "Greater Than Or Equal To " + strconv.FormatFloat(c.aval, 'f', 0, 64)
+                            } else {
+                                if c.exclusive{
+                                    s =  strconv.FormatFloat(c.aval, 'f', 0, 64) + " to " + strconv.FormatFloat(c.bval, 'f', 0, 64) + "\r\n- Exclusive"
+                                }else{
+                                    s =  strconv.FormatFloat(c.aval, 'f', 0, 64) + " to " + strconv.FormatFloat(c.bval, 'f', 0, 64)
+                                }
+                            }
+                        }
                     }
                 }
                 if c.onlyint{
