@@ -248,9 +248,9 @@
             </div>
             <div class="popup-body">
                 <p class="popup-content"><b>Steps:</b></p>
-                <p class="popup-content">1. Click the <b><em>Search For Question ID Button.</em></b></p>
-                <p class="popup-content">2. Search for the question and click <b><em>Add</em></b></p>
-                <p class="popup-content">3. Click <b><em>Submit</em></b></p>
+                <p class="popup-content">1. Click the <b><em>Search For Question Button.</em></b></p>
+                <p class="popup-content">2. Search for the question and click <b><em>Add</em></b> or if you don't find the question, create a new one/</p>
+                <p class="popup-content">3. Click <b><em>Submit</em></b> to associate it with this service.</p>
             </div>
             <div class="popup-footer">
                 <a href="#close" class="btn">Close</a>
