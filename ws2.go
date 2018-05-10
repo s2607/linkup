@@ -6,6 +6,8 @@ import (
 	//"database/sql"
 	_ "github.com/mattn/go-sqlite3"
 	"fmt"
+	"net"
+	"log"
 )
 func Statichandler(w http.ResponseWriter, r *http.Request) {//Should we really keep it?
 	http.ServeFile(w, r, "./"+r.URL.Path)
@@ -58,6 +60,12 @@ func main() {//main always feels ugly and hacky
 	sometestdata()
 	fmt.Println("starting web server")
 	//err := http.ListenAndServe(":8080", nil)
-	err := http.ListenAndServeTLS(":8090", "server.crt", "server.key", nil)
+//	err := http.ListenAndServeTLS("0.0.0.0:8090", "server.crt", "server.key", nil)
+	server := &http.Server{Handler: nil}
+	l, err := net.Listen("tcp4", ":8080")
+	if err != nil {
+	    log.Fatal(err)
+	}
+	err = server.Serve(l)
 	fmt.Println(err)
 }
