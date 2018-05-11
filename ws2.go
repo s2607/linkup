@@ -60,12 +60,12 @@ func main() {//main always feels ugly and hacky
 	sometestdata()
 	fmt.Println("starting web server")
 	//err := http.ListenAndServe(":8080", nil)
-//	err := http.ListenAndServeTLS("0.0.0.0:8090", "server.crt", "server.key", nil)
-	server := &http.Server{Handler: nil}
-	l, err := net.Listen("tcp4", ":8080")
-	if err != nil {
-	    log.Fatal(err)
-	}
-	err = server.Serve(l)
+	err := http.ListenAndServeTLS("0.0.0.0:8090", "server.crt", "server.key", nil)
+//	server := &http.Server{Handler: nil}
+//	l, err := net.Listen("tcp4", "0.0.0.0:8090")
+//	if err != nil {
+//	    log.Fatal(err)
+//	}
+//	err = server.Serve(l)
 	fmt.Println(err)
 }
